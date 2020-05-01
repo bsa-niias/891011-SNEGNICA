@@ -8,7 +8,6 @@
 #include<bios.h>
 #include<graphics.h>
 void *fai;
-unsigned int speed_spdlp; 
 void nach_zagruzka()
 {
 	int yt,lo;
@@ -528,8 +527,6 @@ void formula(int fu)
 	BAZ_ADR3 = read_int(fu);//считывание адреса для кнопки ОК //считывание адреса для кнопки ОК
 	BAZ_ADR4 = read_int(fu);//считывание адреса для обмена ПЭВМ
 	speed_pvm = read_int(fu);//считывание скорости для обмена ПЭВМ
-	BAZ_ADR6 = read_int(fu);//считывание адреса для СПДЛП
-	speed_spdlp = read_int(fu);//считывание скорости для СПДЛП
 	BAZ_ADR5 = read_int(fu);//считывание адреса переключателя ОСН/РЕЗ
   NB = read_int(fu);//считывание вектора прерывания
 	TEST_N = read_int(fu);//считывание признака фиксации ЛС/ЗС
@@ -776,59 +773,4 @@ void z1(int WHO)
   if(DISK==0)knopka_OK();
 	/*i3 =-1;*/
 }
-/******************************************/
-void read_spdlp(void *fai)
-{
-	//выполнение чтения файла spdlp.dat
-	int inn,in1,fu;
-#ifdef SPDLP
-	inn=fscanf(fai,"%d",&byte_spdlp[0]);//чтение адреса пункта СПДЛП
-	if(byte_spdlp[0]>255)
-	{
-		clrscr(); moveto(80,80);
-		outtext("Адрес СПДЛП превышает допустимое значение");
-		moveto(80,160);
-		outtext("Для выхода из программы нажмите любую клавишу");
-		getch();
-		exit(1);
-	}
-	else   adr_spdlp=byte_spdlp[0];
-	for(in1=0;in1<N_BIT_SCB;in1++)
-	{
-		fu=0;while(fu!='\n')fu=fgetc(fai);//поиск конца строки
-		inn=fscanf(fai,"%d%d",&byte_spdlp[in1],&bt_spdlp[in1]);//чтение массива СПДЛП
-		if(inn!=2)
-		{
-			clrscr(); moveto(80,80);
-			outtext("Нарушена структура файла с данными для СПДЛП spdlp.dat.");
-			moveto(80,160);
-			outtext("Для выхода из программы нажмите любую клавишу");
-			getch();
-			exit(1);
-		}
-	}
-		switch(speed_spdlp)
-	{
-		case 300:    ml_bas=0x80; st_bas=0x01; break;
-		case 600:    ml_bas=0xc0; st_bas=0x00; break;
-		case 1200:   ml_bas=0x60; st_bas=0x00; break;
-		case 2400:   ml_bas=0x30; st_bas=0x00; break;
-		case 4800:   ml_bas=0x18; st_bas=0x00; break;
-		case 9600:   ml_bas=0x0c; st_bas=0x00; break;
-		case 19200:  ml_bas=0x6;  st_bas=0x00; break;
-		case 38400:  ml_bas=0x3;  st_bas=0x00; break;
-		case 57600:  ml_bas=0x2;  st_bas=0x00; break;
-		case 115200: ml_bas=0x1;  st_bas=0x00; break;
-		default:  clrscr();moveto(80,80);
-							outtext("Неизвестная скорость обмена c СПДЛП");
-							getch();exit(1);
-	}
-	K64=N_BIT_SCB/64;
-	K32=0;
-	if((N_BIT_SCB-K64*64)>32)K64++;
-	else
-		if(N_BIT_SCB==K64*64)K32=0;
-		else K32=1;
-	LEN_SPD=K64*9+K32*5+5;
-#endif
-}
+

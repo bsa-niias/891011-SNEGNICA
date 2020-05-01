@@ -169,21 +169,7 @@ povtor:
 		file_arc=0;
 		read_t(0); //формирование строки текущего времени TIME
 	}
-#ifdef SPDLP
-	fai=fopen("dat\\spdlp.dat","r");
-	if(fai==NULL)
-	{
-		clrscr(); moveto(80,80);
-		outtext("Нет файла с данными для СПДЛП spdlp.dat.");
-		moveto(80,160);
-		outtext("Для выхода из программы нажмите любую клавишу");
-		getch();
-		exit(1);
-	}
-	read_spdlp(fai);
-	if(fai!=NULL)fclose(fai);
-	fai=NULL;
-#endif		
+
 	read_lex();//конвертация или открытие файла текстовых сообщений системы
   start_time_date();//получение даты и времени для ведения архива
   FIR_time=biostime(0,0L);SEC_time=FIR_time+1;
@@ -255,10 +241,13 @@ met0://---------------------начало основного цикла
 #endif
   /*  n_cikl++;*/
 	tst_zvuk();//проверка включения или выключения звука
-  if((klo==0)&&(nikuda==0)&&(help==0))what_is_new();//проверка наличия принятых данных из соседней ПЭВМ
-  //инициализация таймера-стророжа на выдержку 3 сек
-  outportb(0x443,3);
-  pauza++;
+	if(DSP_SHN != 0)
+	{
+		if((klo==0)&&(nikuda==0)&&(help==0))what_is_new();//проверка наличия принятых данных из соседней ПЭВМ
+	}
+	//инициализация таймера-стророжа на выдержку 3 сек
+	outportb(0x443,3);
+	pauza++;
   if((pauza<2)||(menu_N!=0))goto mtk;
   pauza=0;
   if(cikl_obnov>=kol_VO)cikl_obnov=0;
@@ -399,10 +388,7 @@ dalee:
 //    setcolor(8);
 //    itoa(trassa[0],lstr,10);
 //    outtextxy(100,10,lstr);
-#ifdef SPDLP
-    ZAP_BUF_SPD();
-#endif
-    ANALIZ_KOM_TUMS();
+		ANALIZ_KOM_TUMS();
 #ifdef WORK
     pust_pvm++;//##
 #endif
@@ -442,9 +428,6 @@ dalee:
 			goto povtor;
 		}
   }
-#ifdef SPDLP
-  if(STATUS==1)OUT_SPD();
-#endif
   tu_tc();
   consentr();
   FORM_BUF_PVM_OUT();

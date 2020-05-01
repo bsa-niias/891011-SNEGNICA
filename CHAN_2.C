@@ -231,7 +231,7 @@ void FORM_BUF_PVM_OUT()
   int test=0,i;
 
 	nom_func("70");
-
+	if(DSP_SHN == 0) return;
   if(DISK!=0)return;
   if((ZAGRUZKA==0)&&(TELEUP!=1))return;
   else
@@ -844,38 +844,41 @@ void proverka_svyazi()
         }
       }
     }
-  }
-  if(pust_pvm==3) // если прошло ровно 3 сек без обмена с соседней ПЭВМ
-  {
-    if(NEISPRAVEN==0)
-    {
-      slom_interf(7300);
-      pust_pvm=4;
-      NEISPRAVEN=1;
-      if(ZAGRUZKA==0)ispr_pvm(1,NEISPRAVEN);
-      add(0,'Х');
-    }
-  }
-  else
-    if(pust_pvm>3)
-    {
-      pust_pvm=4;// введение ограничения на число секунд
-      if(NEISPRAVEN==0)
-      {
-        NEISPRAVEN=1;
-        if(ZAGRUZKA==0)ispr_pvm(1,NEISPRAVEN);
-      }
-    }
-  // сброс флага неисправности канала обмена ПЭВМ-ПЭВМ
-  if(pust_pvm==0)
-  {
-    if(NEISPRAVEN==1)
-    {
-      slom_interf(7200);
-      add(0,'х');
-    }
-    NEISPRAVEN=0;
-  }
+	}
+	if(DSP_SHN!=0)
+	{
+		if(pust_pvm==3) // если прошло ровно 3 сек без обмена с соседней ПЭВМ
+		{
+			if(NEISPRAVEN==0)
+			{
+				slom_interf(7300);
+				pust_pvm=4;
+				NEISPRAVEN=1;
+				if(ZAGRUZKA==0)ispr_pvm(1,NEISPRAVEN);
+				add(0,'Х');
+			}
+		}
+		else
+			if(pust_pvm>3)
+			{
+				pust_pvm=4;// введение ограничения на число секунд
+				if(NEISPRAVEN==0)
+				{
+					NEISPRAVEN=1;
+					if(ZAGRUZKA==0)ispr_pvm(1,NEISPRAVEN);
+				}
+			}
+	// сброс флага неисправности канала обмена ПЭВМ-ПЭВМ
+		if(pust_pvm==0)
+		{
+			if(NEISPRAVEN==1)
+			{
+				slom_interf(7200);
+				add(0,'х');
+			}
+			NEISPRAVEN=0;
+		}
+	}
 }
 //****************************************************
 void start_port(int a)
@@ -1104,9 +1107,8 @@ int what_symb(unsigned char BO)
 {
 	int it;
 	char AAq[2]="";
-
 	nom_func("411");
-
+	if(DSP_SHN==0)return;
   if(DISK!=0)return;
   if(BUF_INF[2]!=BO)return(0xff);
 	if((BO&0xC0)==0xC0)goto mfr4;
@@ -1256,7 +1258,7 @@ void what_is_new()
 	int jj,qu ;
 
 	nom_func("410");
-
+	if(DSP_SHN==0)return;
 	if(DISK!=0)return;
 	// если получена квитанция на информацию
 	if((END_KVIT_INF==1)&&(BUF_IN_PVM[UKAZ_KVIT_INF]==0x11))
@@ -1406,7 +1408,7 @@ int priem_pvm(int adr)
   unsigned char simbol=0;
   
 	nom_func("233");
-          
+	if(DSP_SHN==0)return;
   // прочитать символ из порта ввода 
   if(DISK!=0)return; 
   simbol=inportb(adr);
@@ -1450,10 +1452,9 @@ int priem_pvm(int adr)
 int ischem()
 { //процедура поиска объекта, по которому получены данные из соседней ПЭВМ
   int oo=0,uu=0,n_obek=9999,nnob=9999,Zna=0,Rezik=0,POD=9999,Sdvig=0,FN=0,FIN=0;
-  int KJB=0,zapis=0;
-  
+  int KJB=0,zapis=0; 
 	nom_func("110");
-          
+  if(DSP_SHN==0)return;        
   if(DISK!=0)return;
   KJB=BUF_COM_PVM[1]&0x02;//определить для какой стойки
 #ifdef KOL_SOO2
@@ -1634,7 +1635,7 @@ void sbros_obmen_pvm()
   int i;
   
 	nom_func("292");
-          
+  if(DSP_SHN==0)return;        
   if(DISK!=0)return;
   w(160,999,"");// не выполнена передача данных соседу
   UKAZ_ZAP_OUT=0; UKAZ_VYVOD=0;

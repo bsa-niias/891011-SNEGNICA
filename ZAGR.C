@@ -88,7 +88,7 @@ void ZZagruzka()
 #ifndef WORK
   return;
 #endif
-	if(DSP_SHN == 1)
+	if(DSP_SHN != 0)
 	{
 		setcolor(8);
 		if((NEISPRAVEN==0)&&(STATUS==0)&&((NOMER_ARMA==1)||(NOMER_ARMA==2)))

@@ -52,10 +52,6 @@ int beg[2]={-1,-1};
 int bi=0;
 int bil_bil;
 int bit_pso=0;
-#ifdef SPDLP
-int bt_spdlp[N_BIT_SCB];
-int byte_spdlp[N_BIT_SCB];
-#endif
 int cha=0;
 int chita=0;
 int cikl_obnov;
@@ -236,7 +232,6 @@ int se_co1;
 int SEZON=0;
 int siv=0;
 int soob_for_oper;
-int spdlp;
 int spa=0;
 int STAT;
 int STATUS=2;
@@ -359,7 +354,6 @@ int dc_not_plus;
 
 //-------------------------------------------------------
 unsigned char password[8]="", //строковая переменная для ввода пароля
-adr_spdlp,
 str_baz[32],//строка для контроля целостности базы
 BEG_TIM[20],
 BUF_OUT_SPD[75],//буфер вывода для СПДЛП

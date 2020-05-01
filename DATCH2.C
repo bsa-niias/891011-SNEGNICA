@@ -1169,29 +1169,6 @@ void kanal_DC()
 	moveto(x1+25,y1-2);AAq[0]=16;AAq[1]=0; outtext(AAq);
 }
 //------------------------
-void kanal_SPDLP()
-{
-	int x1,y1;
-	char AAq[2];
-
-	nom_func("116");
-
-	x1=Xleft;
-	y1=Yleft;
-	AAq[0]=31;
-	AAq[1]=0;
-	if(STATUS==1)setcolor(10);
-	else setcolor(14);
-	moveto(x1-13,y1+8);outtext(AAq);
-
-  if(NEISPRAVEN==1)setcolor(8);
-  else
-    if(STATUS==1)setcolor(14);
-    else setcolor(10);
-  moveto(x1+46,y1+8);
-  outtext(AAq);
-}
-//------------------------
 void knopka(int nom) /* цвет кнопки переключения комплектов */
 {
 	int color1=0,color2=0,x1,y1,KSSk=0,kod;

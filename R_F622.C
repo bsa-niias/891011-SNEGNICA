@@ -295,44 +295,46 @@ void kanal(int kakoi)
 //-----------------------------------
 void PVM(int no,int is)
 {
-char right[2]={'\x10'}, /* ts */
-		 left[2]={'\x11'}; /* ty */
+	char right[2]={'\x10'}, /* ts */
+			left[2]={'\x11'}; /* ty */
 	int Xp = 128;
 	nom_func("258");
-if(no==0)
-{
-	 /* своя ПЭВМ */
-			if(STATUS==0) setfillstyle(SOLID_FILL,YELLOW);//если резервная
-			else
-	if(STATUS==2) setfillstyle(SOLID_FILL,8);//если ШН
-		 else setfillstyle(SOLID_FILL,GREEN);//если основная
-	 bar(Xp,88,166,132);
-}
-else
-{
-/* соседняя ПЭВМ */
-	 if(is==1) setfillstyle(SOLID_FILL,RED);//если неисправна
-	 else
-		 if(STATUS==1) setfillstyle(SOLID_FILL,YELLOW);//если резервная
+	if(no==0)
+	{
+		/* своя ПЭВМ */
+		if(STATUS==0) setfillstyle(SOLID_FILL,YELLOW);//если резервная
+		else
+			if(STATUS==2) setfillstyle(SOLID_FILL,8);//если ШН
+			else setfillstyle(SOLID_FILL,GREEN);//если основная
+				bar(Xp,88,166,132);
+	}
 	else
-		if(STATUS==2) setfillstyle(SOLID_FILL,8);//если ШН
-			 else setfillstyle(SOLID_FILL,GREEN);
-	 bar(Xp+340,88,Xp+378,132);
+	{
+		/* соседняя ПЭВМ */
+		if(is==1) setfillstyle(SOLID_FILL,RED);//если неисправна
+		else
+			if(STATUS==1) setfillstyle(SOLID_FILL,YELLOW);//если резервная
+			else
+				if(STATUS==2) setfillstyle(SOLID_FILL,8);//если ШН
+				else setfillstyle(SOLID_FILL,GREEN);
+		bar(Xp+340,88,Xp+378,132);
 
-}
-/* канал ПЭВМ-ПЭ ВМ */
+	}
+	/* канал ПЭВМ-ПЭ ВМ */
+	if(DSP_SHN != 0)
+	{	
+		setcolor(8);
+		if(is==1)  setlinestyle(3,0,0);
+		else setlinestyle(0,0,0);
+		line(Xp+39,110,Xp+336,110);
 
-setcolor(8);
-if(is==1)  setlinestyle(3,0,0);
-	else setlinestyle(0,0,0);
-	line(Xp+39,110,Xp+336,110);
-
-/* стрелки между ПЭВМ */
-if(is==1) setcolor(RED);
-	else setcolor(GREEN);
-outtextxy(Xp+122,107,left);
-setcolor(GREEN);
-outtextxy(Xp+249,107,right);
+		/* стрелки между ПЭВМ */	
+		if(is==1) setcolor(RED);
+		else setcolor(GREEN);
+		outtextxy(Xp+122,107,left);
+		setcolor(GREEN);
+		outtextxy(Xp+249,107,right);
+	}	
 }
 /***************************************************/
 void kartina()

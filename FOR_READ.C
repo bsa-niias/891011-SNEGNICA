@@ -561,22 +561,21 @@ void tu_tc(void)
     else setcolor(RED);
   else setcolor(8);
   outtextxy(Xright-3,Yright+-22,right);
-
-//канал между ПЭВМ
-  if(NEISPRAVEN==1) setcolor(RED);
-  else setcolor(LIGHTGREEN);
-  settextstyle(USER_FONT,HORIZ_DIR,0);
-  moveto(Xleft+10,Yleft-3);
-  outtext(left);
-  setcolor(LIGHTGREEN);
-  moveto(Xright-15,Yleft-3);
-  outtext(right);
+	
+	settextstyle(USER_FONT,HORIZ_DIR,0);
+	//канал между ПЭВМ
+	if(DSP_SHN != 0)
+	{
+		if(NEISPRAVEN==1) setcolor(RED);
+		else setcolor(LIGHTGREEN);
+		moveto(Xleft+10,Yleft-3);
+		outtext(left);
+		setcolor(LIGHTGREEN);
+		moveto(Xright-15,Yleft-3);
+		outtext(right);
+	}
 #ifdef DISP_UPR
   kanal_DC();
-#endif
-
-#ifdef SPDLP
-  kanal_SPDLP();
 #endif
 }
 
