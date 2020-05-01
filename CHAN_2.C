@@ -343,7 +343,7 @@ void FORM_BUF_PVM_OUT()
 exit:
       outportb(BAZ_ADR4+1,3);// открыть передачу
       PERED_PVM=2;
-      outportb(BAZ_ADR4,'*');
+			outportb(BAZ_ADR4,'*');
       return;
     }
   }
@@ -627,7 +627,7 @@ void reset_int_vect()
 //**************************************************************//
 void interrupt far reading_char()
 {
-	int de1,de11,de2,de4,d5,test;
+	int de1=0,de11=0,de2=0,de4=0,d5=0,test;
 	if(DISK!=0)return;
 	outportb(0x20,0x20);
 	de1=inportb(BAZ_ADR1+2);//читать прерывания 1-го ТУМС
@@ -659,7 +659,8 @@ b:
 	else
 	{
 		d5=de1&4;//проверить наличие приема от 1-ой стойки
-		if(d5==4) in_port(BAZ_ADR1);//если что-то пришло, то принять
+		if(d5==4)//если что-то пришло, то принять
+		in_port(BAZ_ADR1);
 		else
 		{
 			d5=de1&2; //если нечего принимать, то проверить свободность передатчика
@@ -702,8 +703,10 @@ b3:
 			else inportb(BAZ_ADR2+6);// иначе сбросить ошибку линии
 		}
 	}
-	de2=inportb(BAZ_ADR2+2);//прочитать, нет ли нового прерывания от BBKP
+	de2=inportb(BAZ_ADR2+2);
 	if(de2!=1) goto b3;// если есть, вернуться
+
+
 fin:
 	de1=inportb(BAZ_ADR1+2);//прочитать 1-ый ТУМС
 	if(BAZ_ADR11!=0) de11=inportb(BAZ_ADR11+2);//если есть, прочитать 2-ой ТУМС
@@ -718,7 +721,6 @@ fin:
 		}else goto b;// иначе вернуться
 	}
 	if((de1==1)&&( de2==1)&&( de4==1)&&( de11==1))// если по всем каналам ничего нет
-
 	{
 		outportb(0x20,0x20);// то закрыть процедуру
 		return;// и выйти
@@ -947,6 +949,7 @@ void test_otvetstv()
 
 	nom_func("345");
 
+	if(BAZ_ADR3==0)return;
 	if(DISK!=0)return;
 	if(MODE_KN==1) return;
 	cll=inportb(BAZ_ADR3+6);
@@ -997,17 +1000,16 @@ void test_otvetstv()
 void test_port_pvm()
 {
   int cl=0,cll=0,kol_poo,x=12,y=53,ij;
-  char q1[6],AAq[2]="";
-	if(DSP_SHN == 0) return;
+	char q1[6],AAq[2]="";
 	nom_func("347");
-
-  if(DISK!=0)return;
-  if(new_day==1)return;
-  cll=inportb(BAZ_ADR5+6);//прочитать порт статуса ПЭВМ
-  cl=cll&0x80;
+	if(BAZ_ADR5 == 0) return;
+	if(DISK!=0)return;
+	if(new_day==1)return;
+	cll=inportb(BAZ_ADR5+6);//прочитать порт статуса ПЭВМ
+	cl=cll&0x80;
 	if((cl==0x80)&&((cll&0x20)!=0x20))//если ПЭВМ основная
 	{ if(STATUS==1){hudoo=0;return;}// и ранее тоже была основная, то выйти
-		if((STATUS==0)||(STATUS==2))// если ПЭВМ была резервной или неопределенной
+		else
 		{ hudoo=0;
 			slom_interf(7400);// зафиксировать в протоколе УВК переход в основной
 			end_help();
@@ -1027,43 +1029,43 @@ void test_port_pvm()
 		cl=cll&0x20;
 		if((cl==0x20)&&((cll&0x80)!=0x80))
 		{ if(STATUS==0){hudoo=0;return;}
-      if((STATUS==1)||(STATUS==2))//если резервная
-      {
+			if((STATUS==1)||(STATUS==2))//если резервная
+			{
 				hudoo=0;
-        slom_interf(7500);
-        add(0,'Д');
-      }
-      if((nikuda==0)&&(klo==0)&&(help==0))
-      {setfillstyle(1,14);bar(10,45,32,50);}
-      STATUS=0;
-      menu();
-      for(ij=0;ij<kol_VO;ij++)
-      {
-      	fr3[ij][10]=0;fr3[ij][8]=0;
-        if(fr1[ij][0]==1)displaystrelka(ij,0,0);
-				if(fr1[ij][0]==3)sekci(ij,9999);
-        if(fr1[ij][0]==4)displaypathuch(ij);
-        if(fr1[ij][0]==5)displaypath(ij,10);
+				slom_interf(7500);
+				add(0,'Д');
 			}
-      for(ij=0;ij<skoko_stoek;ij++)
-      {komanda2[ij]=0;
+			if((nikuda==0)&&(klo==0)&&(help==0))
+			{setfillstyle(1,14);bar(10,45,32,50);}
+			STATUS=0;
+			menu();
+			for(ij=0;ij<kol_VO;ij++)
+			{
+				fr3[ij][10]=0;fr3[ij][8]=0;
+				if(fr1[ij][0]==1)displaystrelka(ij,0,0);
+				if(fr1[ij][0]==3)sekci(ij,9999);
+				if(fr1[ij][0]==4)displaypathuch(ij);
+				if(fr1[ij][0]==5)displaypath(ij,10);
+			}
+			for(ij=0;ij<skoko_stoek;ij++)
+			{komanda2[ij]=0;
 			marshrut[ij][0]=0;
 			marshrut[ij][1]=0;
 			marshrut[ij][2]=0;}
 
 pro:
-    }
-    else//если статус неопределен
-    { if(hudoo<1000)hudoo++;
-      else hudoo=1001;
-      if(hudoo==1000)
-      {
-        STATUS=2;
-        sound(700);
-        slom_interf(7600);
-        add(0,'Ш');
-        prorisovka=0;
-        w(169,999," СТАТУС ПЭВМ");
+		}
+		else//если статус неопределен
+		{ if(hudoo<1000)hudoo++;
+			else hudoo=1001;
+			if(hudoo==1000)
+			{
+				STATUS=2;
+				sound(700);
+				slom_interf(7600);
+				add(0,'Ш');
+				prorisovka=0;
+				w(169,999," СТАТУС ПЭВМ");
 				hudoo=1001;
 			}
 		}
