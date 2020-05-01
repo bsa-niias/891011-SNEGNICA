@@ -1,18 +1,19 @@
 #include"bla.h"
 #include <bios.h>
-obrabotka_inf(int kanal)
+void obrabotka_inf(int kanal)
 {
   int kum=0,SMEZ=0,ST=0,jj;
-#ifdef NALAD  
-  nom_func("196");
-#endif     
-  vysvv = 9999;   //------------------------------ seg015:0041
-  if((pusto&3)!=0) //---------------------------- seg015:004D 
-		return;
-  //------------------------------ seg015:0059 loc_468C9:
-	kum = bu[kanal][1] & 0x02;
   
-	if(kum != 2) //----------------------------- seg015:0076
+	nom_func("196");
+     
+	vysvv = 9999;   //-------------- seg015:0041
+
+	if(((pusto&3)!=0)&&(DISK==0)) // seg015:004D
+		return;
+	//------------------------------ seg015:0059 loc_468C9:
+	kum = bu[kanal][1] & 0x02;
+
+	if(kum != 2) //----------------- seg015:0076
 		kum=1;
 	
   if(otkaz_ts[kum-1] == 1)
@@ -121,9 +122,9 @@ int putec(unsigned char bufpu[11],int Smo, int kim,int sto)
   unsigned int tst_bit,tst;
   unsigned char kop=0;
   int iv,jv,tester=999,reza=0,FIN=0,FN=0;
-#ifdef NALAD
-  nom_func("257");
-#endif
+
+	nom_func("257");
+
   tester=999;
 #ifdef KOL_SOO2
   if(kim==2)//если стойка 2
@@ -255,9 +256,9 @@ int uchastic(unsigned char bufus[11],int Smo,int kim,int sto)
 {
 	int kh=0,Z=5,M,test_bit,iv,jv,tester=9999,reza=0,FIN=0,FN=0,l;
   unsigned char kop=0;
-#ifdef NALAD
-  nom_func("379");
-#endif
+
+	nom_func("379");
+
 #ifdef KOL_SOO2
   if(kim==2){FIN=UCH1+UCH2;FN=UCH1;}
 #endif
@@ -352,9 +353,9 @@ int strelok(unsigned char bufstr[11],int Smo,int kim,int sto)
 			sp_s,
 			zm_sp;
   unsigned char kop=0;
-#ifdef NALAD  
-  nom_func("323");
-#endif          
+  
+	nom_func("323");
+          
   tester=9999; //------------------- seg015:09AD  
 #ifdef KOL_SOO2
   if(kim==2){FIN=STR1+STR2;FN=STR1;}
@@ -448,9 +449,9 @@ int kontroler(unsigned char bufde[11],int Smo,int kim,int sto)
 {
   int vs=0,kh=0,Z=5,M,iv,jv,tester=9999,reza=0,FN=0,FIN=0,KOKS=0,l;
   unsigned char kop=0;
-#ifdef NALAD
-  nom_func("132");
-#endif
+
+	nom_func("132");
+
   vysv=0;
 #ifdef KOL_SOO2
   if(kim==2){FIN=UPR1+UPR2;FN=UPR1;}
@@ -510,7 +511,7 @@ int kontroler(unsigned char bufde[11],int Smo,int kim,int sto)
 kiv:
       if((ZAGRUZKA==0)||(DISK!=0))
       { if((fr1[kh][1]==911)&&(vysv==1))//если проблемы с памятью
-        { Pam(kh,M);
+				{ Pam(kh);
           vysv=0;
           vs=1;
         }
@@ -579,9 +580,9 @@ int signale(unsigned char bufsig[11],int Smo,int kim,int sto)
 	int 
 		FN=0,
 		FIN=0;
-#ifdef NALAD
+
 	nom_func("304");
-#endif
+
 	tester=9999;
 #ifdef KOL_SOO2
 	if(kim==2){FIN=SIG1+SIG2;FN=SIG1;}
@@ -763,11 +764,11 @@ Bre:;
   return(reza);
 }
 /*******************************************/
-fixation(int knl, int need)
+void fixation(int knl, int need)
 {
-#ifdef NALAD  
-  nom_func("67");
-#endif  
+  
+	nom_func("67");
+  
   if(DISK!=0)return;
   if((need==1)||(ZAGRUZKA==1))
   { if((prv[0]==1)&&(knl==0))
@@ -792,13 +793,13 @@ fixation(int knl, int need)
 //процедура вызывается при отсутствии изменений для текущего объекта
 //предназначена для анализа получения изменений по объектам в заданный
 //интервал времени после выдачи команды
-time20sec(int numba)
+void time20sec(int numba)
 {
   long TIME_CC,vr;
   int goj=0, vmv=0;
-#ifdef NALAD  
-  nom_func("359");
-#endif    
+  
+	nom_func("359");
+    
   if((numba==AVAch)||(numba==AVAn))
 	return;
 	
@@ -855,11 +856,11 @@ time20sec(int numba)
   }
 }
 //------------------------------------------------
-test_prigol_otm(int nemba)
+void test_prigol_otm(int nemba)
 {
-#ifdef NALAD  
-  nom_func("349");
-#endif  
+  
+	nom_func("349");
+  
   //если вспомогательная смена направления 
   if((fr1[nemba][0]==2)&&( fr1[nemba][1]>=400)&&( fr1[nemba][1]<=600))
   {
@@ -874,56 +875,56 @@ test_prigol_otm(int nemba)
   }
 }
 //--------------------------------------------------------------
-test_not_ra(int nemba)
+void test_not_ra(int nemba)
 {
-#ifdef NALAD  
-  nom_func("343");
-#endif  
-  if((fr1[nemba][0]==3)||(fr1[nemba][0]==4))
-  if((fr1[nemba][1]==301)||((fr1[nemba][1]>=200)&&(fr1[nemba][1]<=300)))
-  fr3[nemba][9]=0;//сброс флага выдачи команды
+
+	nom_func("343");
+
+	if((fr1[nemba][0]==3)||(fr1[nemba][0]==4))
+	if((fr1[nemba][1]==301)||((fr1[nemba][1]>=200)&&(fr1[nemba][1]<=300)))
+	fr3[nemba][9]=0;//сброс флага выдачи команды
 
 }
 /**********************************************************/
-test_ra_fini(int nemba)
+void test_ra_fini(int nemba)
 {
-#ifdef NALAD  
-  nom_func("351");
-#endif  
-  if((fr1[nemba][0]==3)||(fr1[nemba][0]==4))//если УП или СП
-  if((fr1[nemba][1]>=200)&&(fr1[nemba][1]<=300))//объект разделки (РИ)
-  {
-    fr3[nemba][9]=0;//сбросить метку команды
-    was[markery[fr1[nemba][5]][7]-10]=0;//сбросить флаг в массиве учета
-    if((klo==0)&&(nikuda==0)&&(help==0))//если система в обычном состоянии
-    {
-      if((otv_kom==1)&&(i3==modi)&&(fr1[nemba][5]==modi))//если ОК и маркер на объекте
-      {
-        t(0); //стереть окно интерактива
-        zalet=0;vtora=0;//сбросить флаги
-        regs.h.ah=5;
-        regs.h.ch=0x39;
-        regs.h.cl=0x20;
-        int86(0x16,&regs,&regs);
-        w(169,nemba,"09");
-        zvuk_vkl(1,9);
-      }
-    }
-  }
+
+	nom_func("351");
+
+	if((fr1[nemba][0]==3)||(fr1[nemba][0]==4))//если УП или СП
+	if((fr1[nemba][1]>=200)&&(fr1[nemba][1]<=300))//объект разделки (РИ)
+	{
+		fr3[nemba][9]=0;//сбросить метку команды
+		was[markery[fr1[nemba][5]][7]-10]=0;//сбросить флаг в массиве учета
+		if((klo==0)&&(nikuda==0)&&(help==0))//если система в обычном состоянии
+		{
+			if((otv_kom==1)&&(i3==modi)&&(fr1[nemba][5]==modi))//если ОК и маркер на объекте
+			{
+				t(0); //стереть окно интерактива
+				zalet=0;vtora=0;//сбросить флаги
+				regs.h.ah=5;
+				regs.h.ch=0x39;
+				regs.h.cl=0x20;
+				int86(0x16,&regs,&regs);
+				w(169,nemba,"09");
+				zvuk_vkl(1,9);
+			}
+		}
+	}
 }
 //------------------------------------
-test_marsh(int obj)
+void test_marsh(int obj)
 {
-  int i,j,k,tek,sled;
-  unsigned int kod[skoko_stoek];
-#ifdef NALAD
-  nom_func("340");
-#endif
-  if(STATUS!=1)return;
-  j=fr1[obj][13]-1;
-  kod[j]=0;
-  for(i=0;i<=5;i++)kod[j]=kod[j]+(fr3[obj][i]<<i);
-  kod[j]=kod[j]|0x40;
+	int i,j,k,tek,sled;
+	unsigned int kod[skoko_stoek];
+
+	nom_func("340");
+
+	if(STATUS!=1)return;
+	j=fr1[obj][13]-1;
+	kod[j]=0;
+	for(i=0;i<=5;i++)kod[j]=kod[j]+(fr3[obj][i]<<i);
+	kod[j]=kod[j]|0x40;
   if(komanda2[j]==0)return;//если не было команды - не анализировать
   //если команда выдана недавно не анализировать
   if((biostime(0,0l)-pooo[komanda2[j]])<10l)return;
@@ -980,7 +981,7 @@ test_marsh(int obj)
           end_marsh=marshrut[i][1];marshrut[i][1]=0;
           half_marsh=marshrut[i][2];marshrut[i][2]=0;
           komanda2[i]=nach_marsh;
-          for(j=0;j<5;j++)
+					for(j=0;j<5;j++)
           if(fr1[strelki[j][0]][13]!=(i+1))
           {
             strelki[j][0]=0;
@@ -995,26 +996,26 @@ test_marsh(int obj)
 }
 
 //------------------------------------------------
-krest(int ob,int BT,int param)
+void krest(int ob,int BT,int param)
 {
-  int str_l, //ыхтр  ёЄЁхыър ╤╧
-  str_p, //яЁртр  ёЄЁхыър ╤╧
-  sp_l,//ыхтр  ўрёЄ№ ╤╧
-  sp_p; //яЁртр  ўрёЄ№ ╤╧
-  str_l=(fr1[ob][3]&0xff00)>>8;//тч Є№ ыхтє■ ёЄЁхыъє
-  str_p=fr1[ob][3]&0xff;//тч Є№ яЁртє■ ёЄЁхыъє
-  sp_l=(fr1[str_l][6]&0xff00)>>8;//тч Є№ ёя фы  ыхтющ ёЄЁхыъш
-  sp_p=(fr1[str_p][6]&0xff00)>>8;//тч Є№ ёя фы  яЁртющ ёЄЁхыъш
-  if((fr3[str_l][0]==1)&&(fr3[str_l][1]==0))//хёыш ыхтр  т яы■ёх
-  {
-    if((fr3[str_p][0]==1)&&(fr3[str_p][1]==0))//хёыш яЁртр  т яы■ёх
-    {
-      fr3[sp_l][6]=0;
-      fr3[sp_p][6]=0;
-    }
-    if((fr3[str_p][0]==0)&&(fr3[str_p][1]==1))//хёыш яЁртр  т ьшэєёх
-    {
-      fr3[sp_l][6]=1;//чряЁхЄшЄ№ ЁшёютрЄ№ ыхтюх ╠╤╧
+	int str_l, //ыхтр  ёЄЁхыър ╤╧
+	str_p, //яЁртр  ёЄЁхыър ╤╧
+	sp_l,//ыхтр  ўрёЄ№ ╤╧
+	sp_p; //яЁртр  ўрёЄ№ ╤╧
+	str_l=(fr1[ob][3]&0xff00)>>8;//тч Є№ ыхтє■ ёЄЁхыъє
+	str_p=fr1[ob][3]&0xff;//тч Є№ яЁртє■ ёЄЁхыъє
+	sp_l=(fr1[str_l][6]&0xff00)>>8;//тч Є№ ёя фы  ыхтющ ёЄЁхыъш
+	sp_p=(fr1[str_p][6]&0xff00)>>8;//тч Є№ ёя фы  яЁртющ ёЄЁхыъш
+	if((fr3[str_l][0]==1)&&(fr3[str_l][1]==0))//хёыш ыхтр  т яы■ёх
+	{
+		if((fr3[str_p][0]==1)&&(fr3[str_p][1]==0))//хёыш яЁртр  т яы■ёх
+		{
+			fr3[sp_l][6]=0;
+			fr3[sp_p][6]=0;
+		}
+		if((fr3[str_p][0]==0)&&(fr3[str_p][1]==1))//хёыш яЁртр  т ьшэєёх
+		{
+			fr3[sp_l][6]=1;//чряЁхЄшЄ№ ЁшёютрЄ№ ыхтюх ╠╤╧
       fr3[sp_p][6]=0;
     }
   }
@@ -1029,7 +1030,7 @@ krest(int ob,int BT,int param)
       if((fr3[str_p][0]==0)&&(fr3[str_p][1]==1))//хёыш яЁртр  т ьшэєёх
       {
         fr3[sp_l][6]=0;
-        fr3[sp_p][6]=0;
+				fr3[sp_p][6]=0;
       }
     }
     else
@@ -1063,7 +1064,7 @@ krest(int ob,int BT,int param)
     fr3[sp_l][BT]=1;
     fr3[sp_p][BT]=1;
     goto ris;
-  }
+	}
 
   fr3[sp_l][BT]=1;
   fr3[sp_p][BT]=1;
@@ -1097,7 +1098,7 @@ krest(int ob,int BT,int param)
         if((fr3[sp_l][BT]==0)||(fr3[sp_p][BT]==1))vysv=1;
         fr3[sp_l][BT]=1;
         fr3[sp_p][BT]=0;
-      }
+			}
       else //хёыш яЁртр  эх т яы■ёх
       if((fr3[str_p][0]==0)&&(fr3[str_p][1]==1))//хёыш яЁртр  т ьшэєёх
       {

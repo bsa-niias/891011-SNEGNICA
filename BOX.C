@@ -8,13 +8,14 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <bios.h>
-add(int kk,unsigned char ob)
+void add(int kk,unsigned char ob)
 {
 	unsigned char ZAPIS[35],nom[5];
 	unsigned int ito;
-#ifdef NALAD
+
 	nom_func("1");
-#endif
+	if(notHDD==1)return;
+
 	if(DISK!=0)return;
 	file_arc=open(NAME_FILE,O_APPEND|O_RDWR,O_BINARY);
 	if(file_arc<0)
@@ -60,12 +61,12 @@ add(int kk,unsigned char ob)
 	file_arc=0;
 }
 /***********************************************************/
-out_time()
+void out_time()
 {
   char vre[10]="",chas[3]="",min[3]="";
-#ifdef NALAD
-  nom_func("213");
-#endif
+
+	nom_func("213");
+
   if(help!=0)return;
   setlinestyle(0,0,0);setcolor(MAGENTA);rectangle(2,2,48,13);
   setfillstyle(SOLID_FILL,WHITE);bar(3,3,47,12);
@@ -81,11 +82,11 @@ out_time()
   outtextxy(4,4,vre);
 }
 //---------------------
-read_t(int smena_t)
+void read_t(int smena_t)
 {
   char h_0,h_1,m_0,m_1,s_0,s_1;
   int hu;
-	// #ifdef NALAD   nom_func("275"); #endif
+	//    nom_func("275"); #endif
 	//процедура чтения текущего времени из таймера реального времени
 	hu = ho_ur;
 	rg.h.ah = 0x2c;
@@ -115,9 +116,9 @@ read_t(int smena_t)
 int test_time1(long const_)
 {
 	int i,j;
-#ifdef NALAD  
+  
 	nom_func("355");
-#endif    
+    
 	SEC_time=biostime(0,0l);
 	if(labs(SEC_time-FIR_time)>const_)
 	{
@@ -155,27 +156,30 @@ int test_time1(long const_)
       dat.day=dayy_;
       dat.month=monn_;
       dat.year=yearr_;
-      for(i=0;i<17;i++)NAME_FILE[i]=0;
-      strcpy(NAME_FILE,"RESULT//");
-      if(dayy_<10){NAME_FILE[8]=0x30;NAME_FILE[9]=dayy_|0x30;}
-      else {NAME_FILE[8]=(dayy_/10)|0x30;NAME_FILE[9]=(dayy_%10)|0x30;}
-      if(monn_<10){NAME_FILE[10]=0x30;NAME_FILE[11]=monn_|0x30;}
-      else{NAME_FILE[10]=(monn_/10)|0x30;NAME_FILE[11]=(monn_%10)|0x30;}
-      strcat(NAME_FILE,".ogo");
-      NAME_FILE[16]=0;
-			if(file_arc>0)close(file_arc);
-			file_arc=0;
-			file_arc=open(NAME_FILE,O_CREAT|O_TRUNC|O_APPEND|O_WRONLY,S_IREAD|S_IWRITE|O_BINARY);
-			if(file_arc<0)
+			if(notHDD == 0)
 			{
-				clscreen();moveto(100,100);setcolor(14);
-				outtext("Нарушение файловой структуры,работа невозможна");
-				getch();FINAL_();exit(1);
+				for(i=0;i<17;i++)NAME_FILE[i]=0;
+				strcpy(NAME_FILE,"RESULT//");
+				if(dayy_<10){NAME_FILE[8]=0x30;NAME_FILE[9]=dayy_|0x30;}
+				else {NAME_FILE[8]=(dayy_/10)|0x30;NAME_FILE[9]=(dayy_%10)|0x30;}
+				if(monn_<10){NAME_FILE[10]=0x30;NAME_FILE[11]=monn_|0x30;}
+				else{NAME_FILE[10]=(monn_/10)|0x30;NAME_FILE[11]=(monn_%10)|0x30;}
+				strcat(NAME_FILE,".ogo");
+				NAME_FILE[16]=0;
+				if(file_arc>0)close(file_arc);
+				file_arc=0;
+				file_arc=open(NAME_FILE,O_CREAT|O_TRUNC|O_APPEND|O_WRONLY,S_IREAD|S_IWRITE|O_BINARY);
+				if(file_arc<0)
+				{
+					clscreen();moveto(100,100);setcolor(14);
+					outtext("Нарушение файловой структуры,работа невозможна");
+					getch();FINAL_();exit(1);
+				}
+				if(file_arc>0)close(file_arc);
+				file_arc=0;
+				FIR_time=SEC_time;
+				return(0);
 			}
-			if(file_arc>0)close(file_arc);
-			file_arc=0;
-      FIR_time=SEC_time;
-      return(0);
     }
     else
     {
@@ -186,11 +190,11 @@ int test_time1(long const_)
   else return(0);
 }
 //--------------------------------------------------------
-disco()
+void disco()
 {
-#ifdef NALAD  
-  nom_func("36");
-#endif    
+  
+	nom_func("36");
+  if(notHDD==1)return;  
   if(DISK==0)pointer=creat("result\\ogr.fr4",O_BINARY|S_IWRITE);
   else pointer=creat("disk\\ogr.fr4",O_BINARY|S_IWRITE);
   write(pointer,fr4,len);
@@ -198,20 +202,20 @@ disco()
 	pointer=0;
 }
 //-----------------------------------------------
-clscreen()
+void clscreen()
 {
-#ifdef NALAD  
-  nom_func("26");
-#endif  
+  
+	nom_func("26");
+  
   setfillstyle(1,7);
   bar(0,0,640,480);
 }
 //--------------------------------------------------------
-zvuk_vkl(int tip1,int dlit1)
+void zvuk_vkl(int tip1,int dlit1)
 {
-#ifdef NALAD  
-  nom_func("439");
-#endif       
+  
+	nom_func("439");
+       
   if((STATUS!=1)||(TELEUP!=1)||(DU==1)){nosound();return;}
   if(prorisovka==1)return;
   zvuk_sig.time_begin=biostime(0,0L);
@@ -221,15 +225,16 @@ zvuk_vkl(int tip1,int dlit1)
   else sound(800);
 }
 //--------------------------------------------------
-nom_func(char *txt)
+void nom_func(char *txt)
 {
-//  if(atoi(txt)<100)return;
-//  if((_doserrno==0)||(_doserrno==0x57))return;
-  setcolor(7);
-  if(Y_txt>0)outtextxy(25,Y_txt-10,"█");
-  outtextxy(0,Y_txt,"███");
-  setcolor(15);
-  outtextxy(0,Y_txt,txt);outtextxy(25,Y_txt,"+");
-  Y_txt=Y_txt+10;
-  if(Y_txt==480)Y_txt=0;
+#ifdef NALAD
+	setcolor(7);
+	if(Y_txt>0)outtextxy(25,Y_txt-10,"█");
+	outtextxy(0,Y_txt,"███");
+	setcolor(15);
+	outtextxy(0,Y_txt,txt);outtextxy(25,Y_txt,"+");
+	Y_txt=Y_txt+10;
+	if(Y_txt==480)Y_txt=0;
+#endif
+	return;
 }

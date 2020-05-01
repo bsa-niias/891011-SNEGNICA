@@ -6,14 +6,14 @@
 #include<bios.h>
 int Zy=180;
 //--------------------------------------------------------
-ZZagruzka()
+void ZZagruzka()
 {
   int CXL=0,ohp,Ntu=0,zjj=0,zj=0,jj,i;
   int Zy1=350,Zy2=370,Zy3=390;
   char nn[3];
-#ifdef NALAD  
-  nom_func("440");
-#endif         
+  
+	nom_func("440");
+         
   for(i=0;i<MAX_SIZE_OUT;i++)BUF_OUT_PVM[i]=0;/* очистить буфер */
   for(i=0;i<MAX_SIZE_IN;i++)BUF_IN_PVM[i]=0;/* очистить буфер */
   NEISPRAVEN=0;
@@ -22,15 +22,17 @@ ZZagruzka()
   outportb(BAZ_ADR11+1,0);/* закрыть прерывания от ТУМС-2*/
   outportb(BAZ_ADR11,0);
   setlinestyle(0,0,0); setcolor(BLUE); rectangle(5,5,634,475);
-  moveto(100,30);
-  //settextstyle(0,0,2);
-  outtext("ЗАГРУЗКА ПРОГРАММЫ:");
-  setcolor(11);
-  //settextstyle(0,0,0);
-  moveto(10,60);
+	moveto(100,30);
+	//settextstyle(0,0,2);
+	outtext("ЗАГРУЗКА ПРОГРАММЫ:");
+	setcolor(11);
+	//settextstyle(0,0,0);
+	moveto(10,60);
   outtext("1. ОПРЕДЕЛЕНИЕ НОМЕРА ПЭВМ РМ ДСП.........");
 #ifdef WORK
-  STATUS=2;
+  if(DSP_SHN == 1)STATUS = 2;
+	else STATUS = 0;
+	
   for(zjj=0;zjj<kol_VO;zjj++)
   {
     pooo[zjj]=0;
@@ -50,14 +52,17 @@ ZZagruzka()
   for(zjj=0;zjj<4;zjj++){BUF_INF[zjj]=0;REG_INF[zjj]=0;}
   for(zjj=0;zjj<3;zjj++)
   {REG_KVIT_INF[zjj]=0;REG_KVIT_COM[zjj]=0;REG_KVIT_FR4[zjj]=0;}
-//  инициировать порт переключателя основная/резервная ПЭВМ
-  outportb(BAZ_ADR5+1,0x0);// запретить прерывания  COM для переключателя резерва
-  outportb(BAZ_ADR5+4,0x0);
-  delay(500);
-  outportb(BAZ_ADR5+4,0x1); //установить DTR - сигнал опроса осн/рез и N ПЭВМ
-  delay(500);
-  zjj=inportb(BAZ_ADR5+6);
-  t_p_pvm(200);
+	if(DSP_SHN == 1)
+	{
+		//  инициировать порт переключателя основная/резервная ПЭВМ
+		outportb(BAZ_ADR5+1,0x0);// запретить прерывания  COM для переключателя резерва
+		outportb(BAZ_ADR5+4,0x0);
+		delay(500);
+		outportb(BAZ_ADR5+4,0x1); //установить DTR - сигнал опроса осн/рез и N ПЭВМ
+		delay(500);
+		zjj=inportb(BAZ_ADR5+6);
+  }
+	t_p_pvm(200);
   FFFlag=0;ZAGRUZKA=2;
   start_port(1);
 #endif
@@ -83,77 +88,81 @@ ZZagruzka()
 #ifndef WORK
   return;
 #endif
-  setcolor(8);
-  if((NEISPRAVEN==0)&&(STATUS==0)&&((NOMER_ARMA==1)||(NOMER_ARMA==2)))
-  {
-		for(zjj=0;zjj<kol_VO;zjj++){fr4[zjj][0]=0;fr4[zjj][1]=0;fr4[zjj][2]=0;}
-    FFFlag=1;
-    setcolor(11);
-    outtextxy(10,100,"3. ПРИЕМ УСТАНОВЛЕННЫХ ОГРАНИЧЕНИЙ ИЗ ОСНОВНОЙ ПЭВМ.......");
-		PRIEM_FR4=1;
-    OBMEN_PVM=0xC0;
-		kom_v_bufer_pvm(0,OBMEN_PVM);//запрос в основной машине данных по fr4
-    OBMEN_PVM=0;
-    OBMEN_PVM_OLD=OBMEN_PVM;
-    FORM_BUF_PVM_OUT();
-    outportb(BAZ_ADR4+1,3);//разрешение передачи
-    zjj=0;
-    setcolor(8);line(10,110,630,110);line(10,120,630,120);
-    for(zjj=1;zjj<=63;zjj++)line(10*zjj,110,10*zjj,120);
-    setcolor(1);
-    FIR_time=biostime(0,0L);
-    SEC_time=FIR_time;
-    zjj=0;
-		while(PRIEM_FR4==1)
-    {
-      what_is_new();
-      if(N_OGR>0){setcolor(1);moveto(10*(N_OGR)+1,111),outtext("█");}
-      SEC_time=biostime(0,0L);
-      if(SEC_time-FIR_time>3L)
-      {
-        pust_pvm++;
-        FIR_time=SEC_time;
-        zjj++;
-        if(zjj>=10)
-        {
-          NEISPRAVEN=1;
-          break;
-        }
-      }
-      FORM_BUF_PVM_OUT();
-    }
-		POVTOR_FR4=0;POVTOR_COM=0;POVTOR_INF=0;
-    disco();
-  }
-  if(NEISPRAVEN==1)
-  {
-    moveto(348,100);setcolor(7);outtext(">");setcolor(12);
-    moveto(10,130);outtext("Нет связи с ПЭВМ, ограничения не приняты из ПЭВМ-");
-		PRIEM_FR4=0;POVTOR_FR4=0;POVTOR_COM=0;POVTOR_INF=0;
-    if(NOMER_ARMA==1) outtext("2 !!!");
-    else
-      if(NOMER_ARMA==2) outtext("1 !!!");
-      else  outtext("???");
-  }
-  setlinestyle(0,0,3);setcolor(12);
-  line(90,355,190,355);
-  line(376,355,525,355);
-  line(91,354,91,410);
-  line(90,409,524,409);
-  line(524,354,524,410);
-  setusercharsize(2,1,2,1);
-  setcolor(12);
-  outtextxy(200,350,"ВНИМАНИЕ !!!");
-  setusercharsize(1,1,1,1);
-  setcolor(8);
-  outtextxy(100,370,"После выполнения загрузки данных проверьте установку");
-  outtextxy(100,380,"всех ограничений, имеющихся для станционных объектов,");
-  outtextxy(100,390,"и, при необходимости,введите их в АРМы ДСП");
-  setlinestyle(0,0,0);
-  setcolor(14);
-  moveto(10,270);
-  if(FFFlag==1) outtext("4.");
-  else outtext("3.");
+	if(DSP_SHN == 1)
+	{
+		setcolor(8);
+		if((NEISPRAVEN==0)&&(STATUS==0)&&((NOMER_ARMA==1)||(NOMER_ARMA==2)))
+		{
+			for(zjj=0;zjj<kol_VO;zjj++){fr4[zjj][0]=0;fr4[zjj][1]=0;fr4[zjj][2]=0;}
+			FFFlag=1;
+			setcolor(11);
+			outtextxy(10,100,"3. ПРИЕМ УСТАНОВЛЕННЫХ ОГРАНИЧЕНИЙ ИЗ ОСНОВНОЙ ПЭВМ.......");
+			PRIEM_FR4=1;
+			OBMEN_PVM=0xC0;
+			kom_v_bufer_pvm(0,OBMEN_PVM);//запрос в основной машине данных по fr4
+			OBMEN_PVM=0;
+			OBMEN_PVM_OLD=OBMEN_PVM;
+			FORM_BUF_PVM_OUT();
+			outportb(BAZ_ADR4+1,3);//разрешение передачи
+			zjj=0;
+			setcolor(8);line(10,110,630,110);line(10,120,630,120);
+			for(zjj=1;zjj<=63;zjj++)line(10*zjj,110,10*zjj,120);
+			setcolor(1);
+			FIR_time=biostime(0,0L);
+			SEC_time=FIR_time;
+			zjj=0;
+			while(PRIEM_FR4==1)
+			{
+				what_is_new();
+				if(N_OGR>0){setcolor(1);moveto(10*(N_OGR)+1,111),outtext("█");}
+				SEC_time=biostime(0,0L);
+				if(SEC_time-FIR_time>3L)
+				{
+					pust_pvm++;
+					FIR_time=SEC_time;
+					zjj++;
+					if(zjj>=10)
+					{
+						NEISPRAVEN=1;
+						break;
+					}
+				}	
+				FORM_BUF_PVM_OUT();
+			}
+			POVTOR_FR4=0;POVTOR_COM=0;POVTOR_INF=0;
+			disco();
+		}
+		if(NEISPRAVEN==1)
+		{
+			moveto(348,100);setcolor(7);outtext(">");setcolor(12);
+			moveto(10,130);outtext("Нет связи с ПЭВМ, ограничения не приняты из ПЭВМ-");
+			PRIEM_FR4=0;POVTOR_FR4=0;POVTOR_COM=0;POVTOR_INF=0;
+			if(NOMER_ARMA==1) outtext("2 !!!");
+			else
+				if(NOMER_ARMA==2) outtext("1 !!!");
+				else  outtext("???");
+		}
+		setlinestyle(0,0,3);setcolor(12);
+		line(90,355,190,355);
+		line(376,355,525,355);
+		line(91,354,91,410);
+		line(90,409,524,409);
+		line(524,354,524,410);
+		setusercharsize(2,1,2,1);
+		setcolor(12);
+		outtextxy(200,350,"ВНИМАНИЕ !!!");
+		setusercharsize(1,1,1,1);
+		setcolor(8);
+		outtextxy(100,370,"После выполнения загрузки данных проверьте установку");
+		outtextxy(100,380,"всех ограничений, имеющихся для станционных объектов,");
+		outtextxy(100,390,"и, при необходимости,введите их в АРМы ДСП");
+		setlinestyle(0,0,0);
+		setcolor(14);
+		moveto(10,270);
+		if(FFFlag==1) outtext("4.");
+		else outtext("3.");
+	}
+	else moveto(10,270);
   outtext(" ЗАГРУЗКА ДАННЫХ ИЗ МПСУ................");
   ZAGRUZKA=1;
   setcolor(8); zj=0; Ntu=0;
@@ -198,31 +207,34 @@ ZZagruzka()
 }
 /************************************************************/
 #include<stdio.h>
-t_p_pvm(int del)
+void t_p_pvm(int del)
 {
   int cl=0,
 			cll=0,
 			kokl=0;
-#ifdef NALAD  
-  nom_func("327");
-#endif          
+  
+	nom_func("327");
+          
   disable();
-  cll = inportb(BAZ_ADR5+6);
+	if(DSP_SHN == 1)
+	{	
+		cll = inportb(BAZ_ADR5+6);
 agg:
-  cl=cll&0x10; /* проверяем CTS - номер АРМа */
-  if(NOMER_ARMA==3)/* если номер пока не определен */
-  {
-    if(kokl>100)
-    {
-      proverka_NA();
-      clear_K();
-      goto jj;
-    }
-    if(cl==0x10) NOMER_ARMA=1;// если CTS установлен, это первый АРМ
-    else NOMER_ARMA=2;// иначе второй АРМ
-    delay(100);
-    kokl++;
-    goto agg;
+		cl=cll&0x10; /* проверяем CTS - номер АРМа */
+		if(NOMER_ARMA==3)/* если номер пока не определен */
+		{
+			if(kokl>100)
+			{
+				proverka_NA();
+				clear_K();
+				goto jj;
+			}
+			if(cl==0x10) NOMER_ARMA=1;// если CTS установлен, это первый АРМ
+			else NOMER_ARMA=2;// иначе второй АРМ
+			delay(100);
+			kokl++;
+			goto agg;
+		}	
   }
 jj:
   kokl=0;
@@ -271,21 +283,21 @@ agg1:
 	}
 viho:
 	OK(350,80);
-	Rezult_2(200,90,STATUS);
+	if(DSP_SHN==1)Rezult_2(200,90,STATUS);
 	enable();
  //	return;
 }
 /****************************************************/
-Change_adresa()
+void Change_adresa()
 {
   unsigned long CBCB=0;
   int zjj;
-#ifdef NALAD  
-  nom_func("17");
-#endif  
+  
+	nom_func("17");
+  
   reset_int_vect();
   slom_interf(7700);
-  if(STATUS==1)kom_v_bufer_pvm(158);// 'Ю' 
+	if(STATUS==1)kom_v_bufer_pvm(158,0);// 'Ю'
   add(0,'ю');
   setcolor(14);
   moveto(200,Zy);
@@ -298,11 +310,11 @@ Change_adresa()
 	exit(0);
 }
 //--------------------------------------------------------------
-proverka_NA()
+void proverka_NA()
 {
-#ifdef NALAD  
-  nom_func("252");
-#endif        
+  
+	nom_func("252");
+        
   setfillstyle(SOLID_FILL,8);bar(100,100,530,200);
   setcolor(LIGHTRED);
   setlinestyle(0,0,0);rectangle(103,103,527,197);zvuk_vkl(0,0);
@@ -317,12 +329,12 @@ proverka_NA()
 }
 //-------------------------------------------------------------
 FILE *fdal;
-Rezult(int x,int y,int nA)
+void Rezult(int x,int y,int nA)
 {
-  char qqq[2]="";
-#ifdef NALAD  
-  nom_func("280");
-#endif          
+	char qqq[2]="";
+
+	nom_func("280");
+
 	setcolor(YELLOW);
 	moveto(x,y);
 	outtext("ДАННАЯ ПЭВМ - НОМЕР ");
@@ -333,11 +345,11 @@ Rezult(int x,int y,int nA)
 	outtext(qqq);
 }
 //----------------------------------------------------------------
-Rezult_2(int x,int y,int sA)
+void Rezult_2(int x,int y,int sA)
 {
-#ifdef NALAD
+
 	nom_func("281");
-#endif
+
 	setcolor(YELLOW);moveto(x,y);outtext("ДАННАЯ ПЭВМ - ");
 	setfillstyle(SOLID_FILL,7);bar(x+112,y,x+112+160,y+9);
 	moveto(x+112,y);
@@ -351,19 +363,22 @@ Rezult_2(int x,int y,int sA)
 		}
  }
 //----------------------------------------------------------------
-OK(int x,int y)
+void OK(int x,int y)
 {
-#ifdef NALAD  
-  nom_func("199");
-#endif   
-	setcolor(MAGENTA);moveto(x,y);outtext("Ok");
+  
+	nom_func("199");
+   
+	setcolor(MAGENTA);
+	moveto(x,y);
+	if(DSP_SHN == 0)outtext("АРМ ШН   ");
+	outtext("Ok");
 }
 //------------------------------------------------------------------
-proverka_STA()
+void proverka_STA()
 {
-#ifdef NALAD  
-  nom_func("253");
-#endif        
+  
+	nom_func("253");
+        
   setfillstyle(SOLID_FILL,8);bar(100,100,530,200);
   //settextstyle(0,0,0);
   setcolor(LIGHTRED);setlinestyle(0,0,0);rectangle(103,103,527,197);
@@ -379,11 +394,11 @@ proverka_STA()
 	nosound();
 }
 //------------------------------------------------------------------
-clear_K()
+void clear_K()
 {
-#ifdef NALAD
+
 	nom_func("24");
-#endif
+
 	setfillstyle(SOLID_FILL,7);
 	bar(100,100,530,200);
 }

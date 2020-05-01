@@ -5,14 +5,14 @@
 #include<fcntl.h>
 #include<sys/stat.h>
 #include<stdlib.h>
-card()
+void card()
 {
 	int k,i,j,god,mes,den;
 	struct ftime d1,d2;
 	unsigned char STROKA[50],DAT[12],byt;
-#ifdef NALAD
+
 	nom_func("16");
-#endif
+
 	if(iqw>=446)return;
 	if(klo==0){GraphMode=VGAHI;clscreen();}//если начало просмотра неиспр.УВК
 	if((klaval==81)||(klaval==73)||(klaval==55))
@@ -204,13 +204,13 @@ rd_up:
 	}
 }
 //-----------------------
-rashifr(int number,int iqw)
+void rashifr(int number,int iqw)
 {
-  int duk;
-  char kod[4];
-#ifdef NALAD
-  nom_func("262");
-#endif
+	int duk;
+	char kod[4];
+
+	nom_func("262");
+
   setlinestyle(0,0,0);
 	if(qf==n_1)setcolor(1);
 	if(qf==n_2)setcolor(5);
@@ -238,7 +238,7 @@ rashifr(int number,int iqw)
         }
         else
           if((number>=9400)&&(number<9410))
-          { moveto(24*8,iqw);number=number-9400;
+					{ moveto(24*8,iqw);number=number-9400;
             itoa(number+1,kod,10);strcat(kod,":");outtext(kod);
             outtext(" перезапуск ст.");
             return;
@@ -272,7 +272,7 @@ rashifr(int number,int iqw)
                     outtext("ошибка в ПЗУ БД МПСУ");
                     return;
                   }
-                  else
+									else
                     if(number==8450){moveto(24*8,iqw);outtext("ош. записи в файл");}
                     else
                       if((number>=4000)&&(number<4010))

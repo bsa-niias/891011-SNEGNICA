@@ -9,15 +9,15 @@
 int symb=0;
 int ar=0,novaya=0;
 int who_is=0,ffa=0;
-read_neisprav()
+void read_neisprav()
 {
 	int k,i,j,god,mes,den;
 	struct ftime d1,d2;
 	unsigned char STROKA[50],DAT[12],byt;
 
-#ifdef NALAD
-  nom_func("269");
-#endif
+
+	nom_func("269");
+
 	if(iqw>=446)return;
 	if(nikuda==0){GraphMode=VGAHI;clscreen();}//¥á«¨ ­ ç «® ¯à®á¬®âà  ­¥¨á¯à.“‚Š
 	if((klaval==81)||(klaval==73)||(klaval==55))
@@ -141,7 +141,7 @@ read_neisprav()
           else
 						if(max(d1.ft_day,d2.ft_day)!=d1.ft_day)goto r2;
             else
-            	if(max(d1.ft_hour,d2.ft_hour)!=d2.ft_hour)goto r2;
+							if(max(d1.ft_hour,d2.ft_hour)!=d2.ft_hour)goto r2;
         			else goto r1;
 			}
       else goto r2;
@@ -203,13 +203,13 @@ rd_up:
 }
 
 /****************************************************/
-reading()
+void reading()
 {
 	unsigned char name[25],text[30],bukv[1];
 	int h;
-#ifdef NALAD
+
 	nom_func("277");
-#endif
+
 	for(h=0;h<25;h++)name[h]=0;
 	for(h=0;h<25;h++)
 	{
@@ -234,22 +234,22 @@ reading()
 	line(20*8,iqw-10,20*8,iqw);
 }
 /***************************************************************/
-shapka()
+void shapka()
 {
 	int vi;
-#ifdef NALAD
-  nom_func("301");
-#endif          
-  cleardevice();
-  setbkcolor(cvv);
-  setlinestyle(0,0,0);
-  setcolor(YELLOW);
-  moveto(80,1);
-  outtext("„ˆ€ƒŽ‘’ˆŠ€  “‘’Ž‰‘’‚  ‘–");
-  line(1,22,639,22);line(1,50,639,50);line(1,22,1,50);line(639,22,639,50);
-  line(20*8,22,20*8,50);
-  moveto(10*8,30);outtext("‚…ŒŸ");
-  moveto(25*8,28);outtext("„ˆ€ƒŽ‘’ˆ—…‘Šˆ… ‘ŽŽ™…ˆŸ");
+
+	nom_func("301");
+
+	cleardevice();
+	setbkcolor(cvv);
+	setlinestyle(0,0,0);
+	setcolor(YELLOW);
+	moveto(80,1);
+	outtext("„ˆ€ƒŽ‘’ˆŠ€  “‘’Ž‰‘’‚  ‘–");
+	line(1,22,639,22);line(1,50,639,50);line(1,22,1,50);line(639,22,639,50);
+	line(20*8,22,20*8,50);
+	moveto(10*8,30);outtext("‚…ŒŸ");
+	moveto(25*8,28);outtext("„ˆ€ƒŽ‘’ˆ—…‘Šˆ… ‘ŽŽ™…ˆŸ");
 }
 //--------------------------------------------------
 int read_str1(int qf,unsigned char STROKA[50],unsigned char DAT[12])

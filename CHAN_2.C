@@ -14,27 +14,27 @@ int i_C;
 char text[3];
 unsigned char test_sum;
 //***************************************************************************
-fin_kom()
+void fin_kom()
 {
   int uu=0;
-#ifdef NALAD  
-  nom_func("55");
-#endif  
+  
+	nom_func("55");
+  
   flagoutmsg=0;
   for(uu=0;uu<=10;uu++)buf_ko[uu]=0;
   return;
 }
 //************************************************
-consentr()
+void consentr()
 { //программа монитор процессов получения/передачи,
   //обработки и отображения информации по каналам обмена АРМа ДСП
   int TELO=0,st,tos=0,k,i_kan,jj,ij,i;
   unsigned char test_sum,text1[2];
   char NKA[2]="";
   unsigned long t_tek;
-#ifdef NALAD  
-  nom_func("28");
-#endif    
+  
+	nom_func("28");
+    
 //первичная обработка принятых данных
 if(DISK!=0)goto m01;
 #ifdef WORK
@@ -68,7 +68,7 @@ m01:
       if(text1[0]!=0)
       {
         setcolor(1);outtextxy(i*8+8,220,text1);
-      }
+			}
     }
     for(i=0;i<60;i++)
     {
@@ -154,8 +154,8 @@ m02:
   }//конец прохода по стойкам 
   if(DISK!=0)goto m03;
   test_mo();// проверка и переинициализация модема
-  if(pusto==0)
-  {
+	if(pusto==0)
+	{
 agm:
     if(flagoutmsg==13)flagoutmsg=1;//если половина сквозного маршрута выдана
     if((flagoutmsg>0)&&(flagoutmsg<12))// если есть готовая команда для ТУМС
@@ -226,12 +226,12 @@ ag:       for(i_C=0;i_C<=8;i_C++)bu[st][i_C]=buf_ko[i_C];//команду в буфер
 m03:
 }
 //---------------------------------------------
-FORM_BUF_PVM_OUT()
+void FORM_BUF_PVM_OUT()
 {
   int test=0,i;
-#ifdef NALAD
-  nom_func("70");
-#endif
+
+	nom_func("70");
+
   if(DISK!=0)return;
   if((ZAGRUZKA==0)&&(TELEUP!=1))return;
   else
@@ -351,9 +351,9 @@ exit:
 //------------------------------------------------------
 est_kom(int KE)
 {
-#ifdef NALAD
-  nom_func("52");
-#endif
+
+	nom_func("52");
+
   //$$$$$$$$$$$ проверка наличия команды
 }
 //***************************************
@@ -361,9 +361,9 @@ form_otv(int st)
 {
 	int gas1,j,ij,jj;
 	unsigned char text[7];
-#ifdef NALAD
+
 	nom_func("84");
-#endif
+
 	if(DISK!=0)return;
 	//определить стойку по заголовку
 	gas1=(REG_INFO[st][1]&3)-1;
@@ -410,9 +410,9 @@ form_otv(int st)
 //********************************
 vidacha_pvm(int adre)
 {
-#ifdef NALAD  
-  nom_func("391");
-#endif    
+  
+	nom_func("391");
+    
   if(UKAZ_ZAP_OUT==UKAZ_VYVOD)// передано все?
   {
     if(PERED_PVM==2)// передача не запрещалась ?
@@ -437,12 +437,12 @@ vidacha_pvm(int adre)
   return;
 }
 //--------------------------------------------------------
-ochistka()
+void ochistka()
 {
   int i,j;
-#ifdef NALAD  
-  nom_func("197");
-#endif   
+  
+	nom_func("197");
+   
 // освобождаем все очереди
 #ifdef DISPETCHER
   for(i=0;i<SIZE_BUF_OUT_DC;i++)BUF_OUT_DC[i]=0;
@@ -459,12 +459,12 @@ ochistka()
   }
 }
 //*******************************************************************
-in_port(unsigned int adr)
+void in_port(unsigned int adr)
 {
   int st,i;
-#ifdef NALAD  
-  nom_func("104");
-#endif          
+  
+	nom_func("104");
+          
   if(adr==BAZ_ADR1)st=0;
   else
     if(adr==BAZ_ADR11)st=1;
@@ -499,11 +499,11 @@ in_port_BBKP(int adr)
 
 }*/
 //-------------------------------------------------------
-init()
+void init()
 {
-#ifdef NALAD  
-  nom_func("106");
-#endif        
+  
+	nom_func("106");
+        
   if(DISK!=0)return;
   disable();
   get_int_vect();
@@ -585,29 +585,29 @@ init()
   enable();
 }
 //*********************************************************
-get_int_vect()
+void get_int_vect()
 {
-#ifdef NALAD  
-  nom_func("97");
-#endif       
+  
+	nom_func("97");
+       
  if(DISK!=0)return;
  s_time=getvect(V);
 }
 //**********************************************************
-set_int_vect()
+void set_int_vect()
 {
-#ifdef NALAD  
-  nom_func("298");
-#endif        
+  
+	nom_func("298");
+        
  if(DISK!=0)return;
  setvect(V,reading_char);
 }
 //*********************************************************
-reset_int_vect()
+void reset_int_vect()
 {
-#ifdef NALAD  
-  nom_func("279");
-#endif        
+  
+	nom_func("279");
+        
   if(DISK!=0)return;
   disable();
   if(BAZ_ADR2!=0) outportb(BAZ_ADR2+4,0);
@@ -627,118 +627,118 @@ reset_int_vect()
 //**************************************************************//
 void interrupt far reading_char()
 {
-  int de1,de11,de2,de4,d5,test;
-  if(DISK!=0)return;
-  outportb(0x20,0x20);
-  de1=inportb(BAZ_ADR1+2);//читать прерывания 1-го ТУМС
-  if(BAZ_ADR11!=0)de11=inportb(BAZ_ADR11+2); // читать прерывания 2-го ТУМС
-  else de11=1;
-  if(BAZ_ADR2!=0)de2=inportb(BAZ_ADR2+2);//читать прерывание ББКП
-  if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR4+2);//читать прерывания ПЭВМ
-  if((BAZ_ADR4==0)&&(BAZ_ADR2==0)&&( BAZ_ADR11==0)) goto b;
+	int de1,de11,de2,de4,d5,test;
+	if(DISK!=0)return;
+	outportb(0x20,0x20);
+	de1=inportb(BAZ_ADR1+2);//читать прерывания 1-го ТУМС
+	if(BAZ_ADR11!=0)de11=inportb(BAZ_ADR11+2); // читать прерывания 2-го ТУМС
+	else de11=1;
+	if(BAZ_ADR2!=0)de2=inportb(BAZ_ADR2+2);//читать прерывание ББКП
+	if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR4+2);//читать прерывания ПЭВМ
+	if((BAZ_ADR4==0)&&(BAZ_ADR2==0)&&( BAZ_ADR11==0)) goto b;
 a:
-  d5=de4&6;//анализ ошибки четности  для обмена ПЭВМ
-  if(d5==6) inportb(BAZ_ADR4+5);// если ошибка четности
-  else
-  {
-    d5=de4&4;// анализ приема ПЭВМ - ПЭВМ
-    if(d5==4)test=priem_pvm(BAZ_ADR4);
-    else
-    {
-      d5=de4&2;// анализ передачи ПЭВМ-ПЭВМ
-      if((d5==2)&&(PERED_PVM==2))vidacha_pvm(BAZ_ADR4);//если передатчик свободен
-      else inportb(BAZ_ADR4+6);//сбрасываем прерывание от модема
-    }
-  }
-  if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR4+2);//проверить нет ли новых прерываний для ПЭВМ-ПЭВМ
-  else de4=1;
-  if(de4!=1) goto a;// если появились новые прерывания - обработать
+	d5=de4&6;//анализ ошибки четности  для обмена ПЭВМ
+	if(d5==6) inportb(BAZ_ADR4+5);// если ошибка четности
+	else
+	{
+		d5=de4&4;// анализ приема ПЭВМ - ПЭВМ
+		if(d5==4)test=priem_pvm(BAZ_ADR4);
+		else
+		{
+			d5=de4&2;// анализ передачи ПЭВМ-ПЭВМ
+			if((d5==2)&&(PERED_PVM==2))vidacha_pvm(BAZ_ADR4);//если передатчик свободен
+			else inportb(BAZ_ADR4+6);//сбрасываем прерывание от модема
+		}
+	}
+	if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR4+2);//проверить нет ли новых прерываний для ПЭВМ-ПЭВМ
+	else de4=1;
+	if(de4!=1) goto a;// если появились новые прерывания - обработать
 b:
-  d5=de1&6;//анализ ошибок четности для канала 1-ой стойки
-  if(d5==6) inportb(BAZ_ADR1+6);//снять ошибку четности
-  else
-  {
-    d5=de1&4;//проверить наличие приема от 1-ой стойки
-    if(d5==4) in_port(BAZ_ADR1);//если что-то пришло, то принять
-    else
-    {
-      d5=de1&2; //если нечего принимать, то проверить свободность передатчика
-      if(d5==2)vidacha(BAZ_ADR1);//если можно передать, то выдать символ
-      else inportb(BAZ_ADR1+6);// иначе сбросить ошибку линии
-    }
-  }
-  de1=inportb(BAZ_ADR1+2); //прочитать нет ли нового прерывания 1-го ТУМС
-  if(de1!=1)goto b;//если такое прерывание возникло, то вернуться
+	d5=de1&6;//анализ ошибок четности для канала 1-ой стойки
+	if(d5==6) inportb(BAZ_ADR1+6);//снять ошибку четности
+	else
+	{
+		d5=de1&4;//проверить наличие приема от 1-ой стойки
+		if(d5==4) in_port(BAZ_ADR1);//если что-то пришло, то принять
+		else
+		{
+			d5=de1&2; //если нечего принимать, то проверить свободность передатчика
+			if(d5==2)vidacha(BAZ_ADR1);//если можно передать, то выдать символ
+			else inportb(BAZ_ADR1+6);// иначе сбросить ошибку линии
+		}
+	}
+	de1=inportb(BAZ_ADR1+2); //прочитать нет ли нового прерывания 1-го ТУМС
+	if(de1!=1)goto b;//если такое прерывание возникло, то вернуться
 	if(BAZ_ADR11==0) goto b3;// если второй стойки нет, закончить
 b2:
-  d5=de11&6;//проверить ошибки четности второй стойки
-  if(d5==6)inportb(BAZ_ADR11+6);//если есть, сбросить прерывание модема
-  else
-  {
-    d5=de11&4;//проверить прием
-    if(d5==4)in_port(BAZ_ADR11); //если есть прием, прочитать символ
-    else//если нет приема
-    {
-      d5=de11&2;//проверить свободность передатчика
-      if(d5==2)vidacha(BAZ_ADR11);//при свободном передатчике выдать символ
-      else inportb(BAZ_ADR11+6);// иначе сбросить ошибку линии
-    }
-  }
-  de11=inportb(BAZ_ADR11+2);//прочитать, нет ли нового прерывания от ТУМС 2
-  if(de11!=1) goto b2;// если есть, вернуться
-  if(BAZ_ADR2==0) goto fin;// если ББКП нет, закончить
+	d5=de11&6;//проверить ошибки четности второй стойки
+	if(d5==6)inportb(BAZ_ADR11+6);//если есть, сбросить прерывание модема
+	else
+	{
+		d5=de11&4;//проверить прием
+		if(d5==4)in_port(BAZ_ADR11); //если есть прием, прочитать символ
+		else//если нет приема
+		{
+			d5=de11&2;//проверить свободность передатчика
+			if(d5==2)vidacha(BAZ_ADR11);//при свободном передатчике выдать символ
+			else inportb(BAZ_ADR11+6);// иначе сбросить ошибку линии
+		}
+	}
+	de11=inportb(BAZ_ADR11+2);//прочитать, нет ли нового прерывания от ТУМС 2
+	if(de11!=1) goto b2;// если есть, вернуться
+	if(BAZ_ADR2==0) goto fin;// если ББКП нет, закончить
 b3:
-  d5=de2&6;//проверить ошибки четности ББКП
-  if(d5==6) inportb(BAZ_ADR2+6);//если есть, сбросить прерывание модема
-  else
-  {
-    d5=de2&4;//проверить прием
-    if(d5==4) in_port_BBKP(BAZ_ADR2); //если есть прием, прочитать символ
-    else//если нет приема
-    {
-      d5=de2&2;//проверить свободность передатчика
-      if(d5==2)
-      vidacha_BBKP(BAZ_ADR2);//при свободном передатчике выдать символ
-      else inportb(BAZ_ADR2+6);// иначе сбросить ошибку линии
-    }
-  }
-  de2=inportb(BAZ_ADR2+2);//прочитать, нет ли нового прерывания от BBKP
-  if(de2!=1) goto b3;// если есть, вернуться
+	d5=de2&6;//проверить ошибки четности ББКП
+	if(d5==6) inportb(BAZ_ADR2+6);//если есть, сбросить прерывание модема
+	else
+	{
+		d5=de2&4;//проверить прием
+		if(d5==4) in_port_BBKP(BAZ_ADR2); //если есть прием, прочитать символ
+		else//если нет приема
+		{
+			d5=de2&2;//проверить свободность передатчика
+			if(d5==2)
+			vidacha_BBKP(BAZ_ADR2);//при свободном передатчике выдать символ
+			else inportb(BAZ_ADR2+6);// иначе сбросить ошибку линии
+		}
+	}
+	de2=inportb(BAZ_ADR2+2);//прочитать, нет ли нового прерывания от BBKP
+	if(de2!=1) goto b3;// если есть, вернуться
 fin:
-  de1=inportb(BAZ_ADR1+2);//прочитать 1-ый ТУМС
-  if(BAZ_ADR11!=0) de11=inportb(BAZ_ADR11+2);//если есть, прочитать 2-ой ТУМС
-  if(BAZ_ADR2!=0) de2=inportb(BAZ_ADR2+2);//если есть, прочитать ББКП
-  if(BAZ_ADR4!=0) de4=inportb(BAZ_ADR4+2);//если есть, прочитать ПЭВМ
-  if((BAZ_ADR2==0)&&(BAZ_ADR4==0)&&( BAZ_ADR11==0))// если только один ТУМС
-  {
-    if(de1==1)//если нет прерывания
-    {
-      outportb(0x20,0x20);// закрыть процедуру
-      return;// и выйти
-    }else goto b;// иначе вернуться
-  }
-  if((de1==1)&&( de2==1)&&( de4==1)&&( de11==1))// если по всем каналам ничего нет
+	de1=inportb(BAZ_ADR1+2);//прочитать 1-ый ТУМС
+	if(BAZ_ADR11!=0) de11=inportb(BAZ_ADR11+2);//если есть, прочитать 2-ой ТУМС
+	if(BAZ_ADR2!=0) de2=inportb(BAZ_ADR2+2);//если есть, прочитать ББКП
+	if(BAZ_ADR4!=0) de4=inportb(BAZ_ADR4+2);//если есть, прочитать ПЭВМ
+	if((BAZ_ADR2==0)&&(BAZ_ADR4==0)&&( BAZ_ADR11==0))// если только один ТУМС
+	{
+		if(de1==1)//если нет прерывания
+		{
+			outportb(0x20,0x20);// закрыть процедуру
+			return;// и выйти
+		}else goto b;// иначе вернуться
+	}
+	if((de1==1)&&( de2==1)&&( de4==1)&&( de11==1))// если по всем каналам ничего нет
 
-  {
-    outportb(0x20,0x20);// то закрыть процедуру
-    return;// и выйти
-  }
-  goto a;// иначе вернуться
+	{
+		outportb(0x20,0x20);// то закрыть процедуру
+		return;// и выйти
+	}
+	goto a;// иначе вернуться
  }
 //----------------------------------------------------
-proverka_svyazi()
+void proverka_svyazi()
 {
-  int st,ic,t1=0,t_st,ks;
-  char AAq[2]="";
-#ifdef NALAD  
-  nom_func("254");
-#endif          
-  if(DISK!=0)return;
-  for(st=0;st<skoko_stoek;st++)//пройти по всем стойкам
-  {
-    //работа со сбоями ТС
-    if(sboy_ts[st]>5)//если по ТС нет данных более 5 сек
-    {
+	int st,ic,t1=0,t_st,ks;
+	char AAq[2]="";
+
+	nom_func("254");
+
+	if(DISK!=0)return;
+	for(st=0;st<skoko_stoek;st++)//пройти по всем стойкам
+	{
+		//работа со сбоями ТС
+		if((DISK==0)&&(sboy_ts[st]>5))//если по ТС нет данных более 5 сек
+		{
       if(otkaz_ts[st]==0)
       { //установить признак отказа канала ТС
         otkaz_ts[st]=1;
@@ -755,7 +755,7 @@ proverka_svyazi()
 #else
 				ks=0;
 #endif
-        if(pusto==0)
+				if(pusto==0)
         for(ic=0;ic<kol_VO;ic++)
         {
           if(ic==ks)continue;
@@ -878,12 +878,12 @@ proverka_svyazi()
   }
 }
 //****************************************************
-start_port(int a)
+void start_port(int a)
 {
   int ss;
-#ifdef NALAD  
-  nom_func("318");
-#endif          
+  
+	nom_func("318");
+          
   if(DISK!=0)return;
   ochistka();
   outportb(BAZ_ADR3+1,0x00); // запрет прерывания COM
@@ -892,14 +892,14 @@ start_port(int a)
   if(a==1)init();// установка векторов прерываний и настройка портов
 }
 //-----------------------------------------------------------
-test_deshifr(int k_ot,int bit_)
+void test_deshifr(int k_ot,int bit_)
 {
   int st=0;
   long vv;
   char ST[10],k;
-#ifdef NALAD  
-  nom_func("338");
-#endif         
+  
+	nom_func("338");
+         
   //if(STATUS!=1)
   return;
   st=fr1[k_ot][13]-1;//определить индекс стойки
@@ -927,7 +927,7 @@ test_deshifr(int k_ot,int bit_)
    if((zapret[st]&0xfff)==0) return;
    k_ot=zapret[st]&0x7fff;
    if(test_sost_(k_ot)==1) return;
-   zapret[st]=zapret[st]&0x8000;
+	 zapret[st]=zapret[st]&0x8000;
    if((otkaz_tu[st]==0)&&(zapret[st]==0))
    { w(174,999,ST);
      slom_interf(7070+st);
@@ -938,31 +938,31 @@ test_deshifr(int k_ot,int bit_)
  }
 }
 //------------------------------------------------
-test_otvetstv()
+void test_otvetstv()
 {
-  int cl=0,cll=0;
-#ifdef NALAD  
-  nom_func("345");
-#endif
-  if(DISK!=0)return;
-  if(MODE_KN==1) return;
-  cll=inportb(BAZ_ADR3+6);
-  cl=cll&0x80;
-  if(cl==0x80)
-  {
-    if(otv_kom==1) return;
-    else
-    {
-      hudo=0; otv_kom=1;
-      regs.x.ax=4;
-      regs.x.cx=markery[Ok][4];;
-      regs.x.dx=markery[Ok][5];
-      int86(0x33,&regs,&regs);
-      knopka_OK();
-    }
-    return;
-  }
-  else
+	int cl=0,cll=0;
+
+	nom_func("345");
+
+	if(DISK!=0)return;
+	if(MODE_KN==1) return;
+	cll=inportb(BAZ_ADR3+6);
+	cl=cll&0x80;
+	if(cl==0x80)
+	{
+		if(otv_kom==1) return;
+		else
+		{
+			hudo=0; otv_kom=1;
+			regs.x.ax=4;
+			regs.x.cx=markery[Ok][4];;
+			regs.x.dx=markery[Ok][5];
+			int86(0x33,&regs,&regs);
+			knopka_OK();
+		}
+		return;
+	}
+	else
   {
     cl=cll&0x20;
     if(cl==0x20)
@@ -973,31 +973,31 @@ test_otvetstv()
         hudo=0;
         otv_kom=0;
         zalet=0;
-        vtora=0;
-        poka=0;
-        zapusk=0;
-        zapretvybora=0;
-        knopka_OK();
-      }
-      return;
-    }
-    else
-    {
-      if(hudo==1) return;
-      otv_kom=0;
-      hudo=1;
-      knopka_OK();
-    }
-  }
+				vtora=0;
+				poka=0;
+				zapusk=0;
+				zapretvybora=0;
+				knopka_OK();
+			}
+			return;
+		}
+		else
+		{
+			if(hudo==1) return;
+			otv_kom=0;
+			hudo=1;
+			knopka_OK();
+		}
+	}
 }
 //*********************************
-test_port_pvm()
+void test_port_pvm()
 {
   int cl=0,cll=0,kol_poo,x=12,y=53,ij;
   char q1[6],AAq[2]="";
-#ifdef NALAD
-  nom_func("347");
-#endif
+	if(DSP_SHN == 0) return;
+	nom_func("347");
+
   if(DISK!=0)return;
   if(new_day==1)return;
   cll=inportb(BAZ_ADR5+6);//прочитать порт статуса ПЭВМ
@@ -1026,7 +1026,7 @@ test_port_pvm()
 		{ if(STATUS==0){hudoo=0;return;}
       if((STATUS==1)||(STATUS==2))//если резервная
       {
-        hudoo=0;
+				hudoo=0;
         slom_interf(7500);
         add(0,'Д');
       }
@@ -1038,7 +1038,7 @@ test_port_pvm()
       {
       	fr3[ij][10]=0;fr3[ij][8]=0;
         if(fr1[ij][0]==1)displaystrelka(ij,0,0);
-        if(fr1[ij][0]==3)sekci(ij);
+				if(fr1[ij][0]==3)sekci(ij,9999);
         if(fr1[ij][0]==4)displaypathuch(ij);
         if(fr1[ij][0]==5)displaypath(ij,10);
 			}
@@ -1061,21 +1061,21 @@ pro:
         add(0,'Ш');
         prorisovka=0;
         w(169,999," СТАТУС ПЭВМ");
-        hudoo=1001;
-      }
-    }
-  }
+				hudoo=1001;
+			}
+		}
+	}
 }
 
 //--------------------------------------------------------
-test_mo()
+void test_mo()
 {
   int i;
-#ifdef NALAD  
-  nom_func("341");
-#endif    
+  
+	nom_func("341");
+    
   if(DISK!=0)return;
-  if((pusto&3)!=0)//если потеряна связь
+	if((pusto&3)!=0)//если потеряна связь
   {
     tiiq=biostime(0,0L);//получить время
     if((tiiq-tii)>2020L) //если от пуск прошло более 2 минут
@@ -1102,11 +1102,11 @@ test_mo()
 //процедура обработки символа, принятого от соседней ПЭВМ
 int what_symb(unsigned char BO)
 {
-  int it;
-  char AAq[2]="";
-#ifdef NALAD
-  nom_func("411");
-#endif
+	int it;
+	char AAq[2]="";
+
+	nom_func("411");
+
   if(DISK!=0)return;
   if(BUF_INF[2]!=BO)return(0xff);
 	if((BO&0xC0)==0xC0)goto mfr4;
@@ -1136,44 +1136,44 @@ int what_symb(unsigned char BO)
         fix_tu_sos[it]=1;
       }
     }
-    else
-    { otkaz_tu_sos[it]=0;
-      if(fix_tu_sos[it]==1)//если не было фиксации восстановления ТУ соседа
-      { add(0,'V'|(32*it));
-        slom_interf(7160+it);
-        fix_tu_sos[it]=0;
-      }
-    }
-  }
-  //
-  if((BO&0x10)==0x10)//если реконфигурация 1-го канала соседа
-  { if(fix_rek_sos[0]==0)//если нет фиксации реконфигурации 1-го канала соседа
-    { fix_rek_sos[0]=1;
-      add(0,'Ю');
-      slom_interf(7940);
-    }
-  }
-  else if(fix_rek_sos[0]==1)fix_rek_sos[0]=0;
+		else
+		{ otkaz_tu_sos[it]=0;
+			if(fix_tu_sos[it]==1)//если не было фиксации восстановления ТУ соседа
+			{ add(0,'V'|(32*it));
+				slom_interf(7160+it);
+				fix_tu_sos[it]=0;
+			}
+		}
+	}
+	//
+	if((BO&0x10)==0x10)//если реконфигурация 1-го канала соседа
+	{ if(fix_rek_sos[0]==0)//если нет фиксации реконфигурации 1-го канала соседа
+		{ fix_rek_sos[0]=1;
+			add(0,'Ю');
+			slom_interf(7940);
+		}
+	}
+	else if(fix_rek_sos[0]==1)fix_rek_sos[0]=0;
 #ifdef KOL_SOO2
-  if((BO&0x20)==0x20)//если реконфигурация 2-го канала соседа
-  if(fix_rek_sos[1]==0)
-  { fix_rek_sos[1]=1;
-    add(0,'ю');
-    slom_interf(7950);
-  }
-  else if(fix_rek_sos[1]==1)fix_rek_sos[1]=0;
+	if((BO&0x20)==0x20)//если реконфигурация 2-го канала соседа
+	if(fix_rek_sos[1]==0)
+	{ fix_rek_sos[1]=1;
+		add(0,'ю');
+		slom_interf(7950);
+	}
+	else if(fix_rek_sos[1]==1)fix_rek_sos[1]=0;
 #endif
-  //если запрос об автодействии
-  if(((BO&0xC0)==0x40)&&(STATUS==1))form_kom_avtod();
+	//если запрос об автодействии
+	if(((BO&0xC0)==0x40)&&(STATUS==1))form_kom_avtod();
 	//если запрос ограничений по fr4
 mfr4:
-  if((BO&0xC0)==0xC0)
-  { if((STATUS==1)&&(pusto==0))
+	if((BO&0xC0)==0xC0)
+	{ if((STATUS==1)&&(pusto==0))
 		{ NOMER_FOR_FR4=form_fr4(0);
 			ZAPROS_FR4=1;
 			MY_FR4=1;
     }
-  }
+	}
   add(0,BO);
   return(0);
 }
@@ -1182,9 +1182,9 @@ int form_fr4(int os)
 {
   unsigned char mask=0;
   int n_0,n_1,n_2,n_3,i,j;
-#ifdef NALAD  
-  nom_func("72");
-#endif      
+  
+	nom_func("72");
+      
 	for(i=os;i<kol_VO;i++)
 	{
 		j=(fr4[i][0]&7)+fr4[i][1];
@@ -1221,9 +1221,9 @@ int form_fr4(int os)
 int upak_fr4(int os)
 {
   unsigned int n_0,n_1,n_2,n_3,i,j,mask;
-#ifdef NALAD  
-  nom_func("384");
-#endif      
+  
+	nom_func("384");
+      
   mask=0;
 	for(i=os;i<kol_VO;i++)
 	{
@@ -1251,34 +1251,34 @@ int upak_fr4(int os)
 }
 //------------------------------------------------
 // прием и анализ данных из канала ПЭВМ-ПЭВМ
-what_is_new()
+void what_is_new()
 {
-  int jj,qu ;
-#ifdef NALAD
-  nom_func("410");
-#endif
-  if(DISK!=0)return;
-  // если получена квитанция на информацию
-  if((END_KVIT_INF==1)&&(BUF_IN_PVM[UKAZ_KVIT_INF]==0x11))
-  { if((BUF_IN_PVM[UKAZ_KVIT_INF+2]!=0x10)||
-    (BUF_IN_PVM[UKAZ_KVIT_INF+1]!=REG_INF[2]))MY_INF=1;
-    else
-    { POVTOR_INF=0;
-      for(jj=0;jj<4;jj++)REG_INF[jj]=0;
-    }
-    END_KVIT_INF=0;UKAZ_KVIT_INF=0;
-  }
-  // если получена квитанция на команду
-  if((END_KVIT_COM==1)&&(BUF_IN_PVM[UKAZ_KVIT_COM]==0x24))
-  { if((BUF_IN_PVM[UKAZ_KVIT_COM+2]!=0x15)||
-    (BUF_IN_PVM[UKAZ_KVIT_COM+1]!=REG_COM[9]))MY_COM=1;
-    else
-    { POVTOR_COM=0;
-      MY_COM=0;
-      for(jj=0;jj<11;jj++)REG_COM[jj]=0;
-    }
-    END_KVIT_COM=0;UKAZ_KVIT_COM=0;
-  }
+	int jj,qu ;
+
+	nom_func("410");
+
+	if(DISK!=0)return;
+	// если получена квитанция на информацию
+	if((END_KVIT_INF==1)&&(BUF_IN_PVM[UKAZ_KVIT_INF]==0x11))
+	{ if((BUF_IN_PVM[UKAZ_KVIT_INF+2]!=0x10)||
+		(BUF_IN_PVM[UKAZ_KVIT_INF+1]!=REG_INF[2]))MY_INF=1;
+		else
+		{ POVTOR_INF=0;
+			for(jj=0;jj<4;jj++)REG_INF[jj]=0;
+		}
+		END_KVIT_INF=0;UKAZ_KVIT_INF=0;
+	}
+	// если получена квитанция на команду
+	if((END_KVIT_COM==1)&&(BUF_IN_PVM[UKAZ_KVIT_COM]==0x24))
+	{ if((BUF_IN_PVM[UKAZ_KVIT_COM+2]!=0x15)||
+		(BUF_IN_PVM[UKAZ_KVIT_COM+1]!=REG_COM[9]))MY_COM=1;
+		else
+		{ POVTOR_COM=0;
+			MY_COM=0;
+			for(jj=0;jj<11;jj++)REG_COM[jj]=0;
+		}
+		END_KVIT_COM=0;UKAZ_KVIT_COM=0;
+	}
   // если получена квитанция на ограничения 
 	if((END_KVIT_FR4==1)&&(BUF_IN_PVM[UKAZ_KVIT_FR4]==0x1a))
 	{ if((BUF_IN_PVM[UKAZ_KVIT_FR4+2]!=0x1b)||  // если нет конца или
@@ -1321,7 +1321,7 @@ what_is_new()
     else
     { REG_KVIT_COM[1]=BUF_COM_PVM[9];
       IT_IS_COM_PVM=1;
-    }
+		}
     REG_KVIT_COM[0]=0x24;REG_KVIT_COM[2]=0x15;
     KVIT_COM=1;END_COM=0;UKAZ_COM=0;
   }
@@ -1356,16 +1356,16 @@ what_is_new()
     IT_IS_INF=0;
     for(jj=0;jj<4;jj++)BUF_INF[jj]=0;
   } 
-  return;
+	return;
 }
 //*********************************************************
 int rasp_fr4()
 {
   int os=0,os1=0,c0,c1,c2,c3,para;
   unsigned char ura=0;
-#ifdef NALAD  
-  nom_func("263");
-#endif          
+  
+	nom_func("263");
+          
   if(DISK!=0)return;
 	if((BUF_FR4[1]=='#')&&(BUF_FR4[2]=='#')&&(BUF_FR4[3]=='#'))
   {
@@ -1404,9 +1404,9 @@ int rasp_fr4()
 int priem_pvm(int adr)
 { int test=0;
   unsigned char simbol=0;
-#ifdef NALAD  
-  nom_func("233");
-#endif          
+  
+	nom_func("233");
+          
   // прочитать символ из порта ввода 
   if(DISK!=0)return; 
   simbol=inportb(adr);
@@ -1428,32 +1428,32 @@ int priem_pvm(int adr)
     case 0x1f: END_INF=1;test=1;break;
 		case 0x18: UKAZ_FR4=UKAZ_PRIEMA_PVM;break;
 		case 0x19: END_FR4=1;test=1;break;
-    case 0x28: UKAZ_COM=UKAZ_PRIEMA_PVM;break;
-    case 0x29: END_COM=1;test=1;break;
-    case 0x11: UKAZ_KVIT_INF=UKAZ_PRIEMA_PVM;break;
-    case 0x10: END_KVIT_INF=1;test=1;break;
+		case 0x28: UKAZ_COM=UKAZ_PRIEMA_PVM;break;
+		case 0x29: END_COM=1;test=1;break;
+		case 0x11: UKAZ_KVIT_INF=UKAZ_PRIEMA_PVM;break;
+		case 0x10: END_KVIT_INF=1;test=1;break;
 		case 0x1a: UKAZ_KVIT_FR4=UKAZ_PRIEMA_PVM;break;
 		case 0x1b: END_KVIT_FR4=1;test=1;break;
-    case 0x24: UKAZ_KVIT_COM=UKAZ_PRIEMA_PVM;break;
-    case 0x15: END_KVIT_COM=1;test=1;break;
-    default:  break;
-  }
-  // если есть символ конца посылки и до конца буфера менее 10,
-  //  то перейти на нулевую
-  if((MAX_SIZE_IN<(UKAZ_PRIEMA_PVM+11))&&(test==1))UKAZ_PRIEMA_PVM=0;
-  // если нет символа конца посылки, то перейти к следующей
-  else UKAZ_PRIEMA_PVM++;
-  return(1);
+		case 0x24: UKAZ_KVIT_COM=UKAZ_PRIEMA_PVM;break;
+		case 0x15: END_KVIT_COM=1;test=1;break;
+		default:  break;
+	}
+	// если есть символ конца посылки и до конца буфера менее 10,
+	//  то перейти на нулевую
+	if((MAX_SIZE_IN<(UKAZ_PRIEMA_PVM+11))&&(test==1))UKAZ_PRIEMA_PVM=0;
+	// если нет символа конца посылки, то перейти к следующей
+	else UKAZ_PRIEMA_PVM++;
+	return(1);
 
 }
 //************************************************************************
-ischem()
+int ischem()
 { //процедура поиска объекта, по которому получены данные из соседней ПЭВМ
   int oo=0,uu=0,n_obek=9999,nnob=9999,Zna=0,Rezik=0,POD=9999,Sdvig=0,FN=0,FIN=0;
   int KJB=0,zapis=0;
-#ifdef NALAD  
-  nom_func("110");
-#endif          
+  
+	nom_func("110");
+          
   if(DISK!=0)return;
   KJB=BUF_COM_PVM[1]&0x02;//определить для какой стойки
 #ifdef KOL_SOO2
@@ -1482,7 +1482,7 @@ ischem()
     if(BUF_COM_PVM[2]=='F') //если данные для СП или УП
     {
       Sdvig=STR1+SIG1;FN=0;FIN=UCH1;
-    }
+		}
     if((BUF_COM_PVM[2]=='C')||(BUF_COM_PVM[2]=='S'))//если данные для стрелки
     {
       Sdvig=0;FN=0;FIN=STR1;
@@ -1517,7 +1517,7 @@ ischem()
               { if(BUF_COM_PVM[3]==podgruppa[oo+Sdvig-FN])//если найдена подгруппа
                 {POD=oo;break;}//запомнить подгруппу
               }
-              if(POD==9999)return;//если подгруппа не найдена - выход
+							if(POD==9999)return;//если подгруппа не найдена - выход
               for(uu=0;uu<5;uu++)//пройти по байтам сообщения
               { if(BUF_COM_PVM[uu+4]!=124)//если в байте не заполнитель
                 { n_obek=spputi[POD][uu];//получить номер объекта
@@ -1552,7 +1552,7 @@ fina:         if(n_obek==9999) return;//если объект не найден - выход
 finak:        if(n_obek==9999) return;
               if(Zna==84){zapis=1;break;}
               Rezik=Zna&0x01;
-              if(Rezik==0x01)fr4[n_obek][0]=1;
+							if(Rezik==0x01)fr4[n_obek][0]=1;
               else fr4[n_obek][0]=0;
               Rezik=Zna&0x02;
               if(Rezik==0x02)fr4[n_obek][1]=1;
@@ -1587,7 +1587,7 @@ fena:         TEST=2;
               if(Rezik==0x02)
               {
                 fr4[n_obek][1]=1;
-                if(nnob!=9999)fr4[nnob][1]=1;
+								if(nnob!=9999)fr4[nnob][1]=1;
               }
               else
               {
@@ -1622,19 +1622,19 @@ fena:         TEST=2;
   }
   if(zapis==0)//если признак записи сброшен
   {
-    disco();//записать ограничения
-    if(MY_COM==0)add(2,'>'); //если команды нет записать информацию
-  }
-  if(zapis==1)add(2,'<');//если есть признак записи - записать команду
-  return(0);
+		disco();//записать ограничения
+		if(MY_COM==0)add(2,'>'); //если команды нет записать информацию
+	}
+	if(zapis==1)add(2,'<');//если есть признак записи - записать команду
+	return(0);
 }
 //*************************************************************************
-sbros_obmen_pvm()
+void sbros_obmen_pvm()
 {
   int i;
-#ifdef NALAD  
-  nom_func("292");
-#endif          
+  
+	nom_func("292");
+          
   if(DISK!=0)return;
   w(160,999,"");// не выполнена передача данных соседу
   UKAZ_ZAP_OUT=0; UKAZ_VYVOD=0;
@@ -1671,12 +1671,12 @@ sbros_obmen_pvm()
 //команды введенной оператором
 //при отсутствии свободных регистров команд-новая команда теряется и
 //формируется признак "отказ ТУ"
-kom_v_bufer(int st)
+void kom_v_bufer(int st)
 {
-  int i,ij,ob;
-#ifdef NALAD  
-  nom_func("127");
-#endif          
+	int i,ij,ob;
+
+	nom_func("127");
+          
   if(DISK!=0)return;
 //  if(REG_COM_TUMS[st][0]!='(')//если в ренистре команд нет команды
 #ifdef KOL_SOO2
@@ -1706,7 +1706,7 @@ met1: for(i=0;i<11;i++)buf_ko[i]=REG_COM_TUMS[st][i]=0;
     else N_RAZ[st]++;//записать число сделанных передач
     t_com[st]=biostime(0,0l);//запомнить время выдачи
 //    whole_finish();
-    for(i=0;i<11;i++)//скопировать команду в буфер вывода
+		for(i=0;i<11;i++)//скопировать команду в буфер вывода
     { if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//если до конца
        BUF_OUT[st][ukaz_zap[st]++]=REG_COM_TUMS[st][i];//записать
     }
@@ -1737,12 +1737,12 @@ met1: for(i=0;i<11;i++)buf_ko[i]=REG_COM_TUMS[st][i]=0;
 //************************************************************
 //процедура выдачи информации из буфера в линию
 //вызывается из обработчика прерываний при свободности регистра вывода
-vidacha(int adr)
+void vidacha(int adr)
 {
-  int st;
-#ifdef NALAD  
-  nom_func("389");
-#endif      
+	int st;
+
+	nom_func("389");
+      
   if(DISK!=0)return;
   if(adr==BAZ_ADR1)st=0;
   else
@@ -1763,16 +1763,16 @@ vidacha(int adr)
 //***************************************
 //процедура вывода в порт обмена данных из буфера вывода
 //вызывается из обработчика прерывания при свободности регистра вывода
-vidacha_BBKP(int adr)
+void vidacha_BBKP(int adr)
 {
-#ifdef NALAD  
-  nom_func("390");
-#endif    
+
+	nom_func("390");
+
 #ifdef DISPETCHER
-  if(DISK!=0)return;
-  if(adr!=BAZ_ADR2)return;
-  else
-  if((ukaz_vyd_dc==ukaz_zap_dc)||(BUF_OUT_DC[ukaz_vyd_dc]==0))
+	if(DISK!=0)return;
+	if(adr!=BAZ_ADR2)return;
+	else
+	if((ukaz_vyd_dc==ukaz_zap_dc)||(BUF_OUT_DC[ukaz_vyd_dc]==0))
   {
     ukaz_zap_dc=0;//начинать заполнение буфера с начала
     ukaz_vyd_dc=0;
@@ -1798,7 +1798,7 @@ otvety_TUMS()
 {
   int st,ij,i;
   for(st=0;st<skoko_stoek;st++)//пройти по всем стойкам.
-  {
+	{
     if(REG_OT[st][0]==0)break;//если ответ пустой-идти дальше.
     else//если не обработанный ответ.
     { if(REG_OT[st][4]=='P')//если ответ в норме.
@@ -1833,7 +1833,7 @@ metka_a:
         }
         else
         {
-          sboy_ts_dc++;
+					sboy_ts_dc++;
           if(sboy_ts_dc>11){otkaz_ts_dc=1;sboy_ts_dc=0;}
           ukaz_zap_dc=ukaz_zap_dc++;
           if(ukaz_zap_dc>SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
@@ -1868,7 +1868,7 @@ int est_com_dc()
       (REG_OT[tums][2]==REG_COM_DC[2])&&  
       (REG_OT[tums][3]==REG_COM_DC[3]))
       {
-        for(i=0;i<11;i++)REG_COM_DC[i]=0;//удалить команду
+				for(i=0;i<11;i++)REG_COM_DC[i]=0;//удалить команду
         t_com[tums]=0l;//сбросить метку времени
         N_RAZ[tums]=0;//сбросить счетчик количества повторов
         return(0);
@@ -1888,9 +1888,9 @@ int est_com_dc()
 int est_com_ARM(int tums)
 {
   int i,ij;
-#ifdef NALAD  
-  nom_func("51");
-#endif  
+  
+	nom_func("51");
+  
   if(REG_COM_TUMS[tums][0]!=0)//если неподтверждена команда
   {
     if((REG_OT[tums][1]==REG_COM_TUMS[tums][1])&&  
@@ -1903,7 +1903,7 @@ int est_com_ARM(int tums)
       N_RAZ[tums]=0;//сбросить счетчик количества повторов
       return(0);
     }
-    else
+		else
     {
       for(i=0;i<6;i++)REG_OT[tums][i]=0;
       return(-1);
@@ -1938,7 +1938,7 @@ analiz_ot_dc()
             ukaz_zap[st]++;
           }
           else
-          {
+					{
             ukaz_zap[st]++;
             dc_not_plus=1;
             goto metka_out;
@@ -2004,11 +2004,11 @@ int est_inf_dc(int n_reg_ot)
 //проверка из допустимости и раздача по ТУМС
 //вызывается из программы main в каждом цикле
 #ifdef DISPETCHER
-COM_FROM_DC()
+void COM_FROM_DC()
 {
-  int ij,st,i,N_obekt;
-#ifdef NALAD
-  nom_func("27");
+	int ij,st,i,N_obekt;
+
+	nom_func("27");
 #endif
   if(ukaz_com_dc==0)return;//если не было команд
   ukaz_com_dc=10;//считаем, что во всех регистрах есть команда
@@ -2039,7 +2039,7 @@ COM_FROM_DC()
           )
           {
             goto metka_b;
-          }
+					}
         }
         else
 #endif
@@ -2074,7 +2074,7 @@ metka_a:
     if(st==0)
     {
       outportb(BAZ_ADR1+1,3);
-      outportb(BAZ_ADR1,0);
+			outportb(BAZ_ADR1,0);
     }
     if(st==1)
     {
@@ -2093,9 +2093,9 @@ konec_cikl:
 int poisk_obekt(unsigned char buf[11])
 {
   int i,j,ij,k,st,N_pod;
-#ifdef NALAD  
-  nom_func("230");
-#endif         
+  
+	nom_func("230");
+         
   if((buf[1]&3)==0x1)st=0;
   else
     if((buf[1]&3)==0x2)st=1;
@@ -2195,20 +2195,20 @@ sig:i=buf[8]&0xBF;
 }
 int analiz_com_dc()
 {
-#ifdef NALAD  
-  nom_func("7");
-#endif  
+  
+	nom_func("7");
+  
   return(0);
 }
 //***************************
 int fix_bad_com()
 {
-#ifdef NALAD  
-  nom_func("65");
-#endif  
+  
+	nom_func("65");
+  
   return(0);
 }
-#endif
+
 /*проверка подтверждений полученных из стойки для команд из АРМ
 test_podt_arm()
 {
@@ -2243,18 +2243,18 @@ test_podt_arm()
 ****************************************/
 test_podt_dc()
 {
-#ifdef NALAD  
-  nom_func("346");
-#endif  
+  
+	nom_func("346");
+  
  return;
 }
 //----------------------------------------
 int byla_com(unsigned char REG_[11])//проверка наличия команды,для полученной квитанции
 {
   int st,tos,i;
-#ifdef NALAD  
-  nom_func("14");
-#endif  
+  
+	nom_func("14");
+  
   tos=REG_[1]&0x02;
   if(tos==0x02)st=1;
   else st=0;
@@ -2285,9 +2285,9 @@ int pishu_soob(int tums)//запись сообщения для ДЦ,анализ потери
   int tos=0,soob,i,novizna;
   char text[3]={0,0,0};
   unsigned char REG_[13];
-#ifdef NALAD
-  nom_func("224");
-#endif
+
+	nom_func("224");
+
 #ifdef DISPETCHER
   if(STATUS!=1)return(-1);
   for(i=0;i<11;i++)REG_[i]=REG_INFO[tums][i];
@@ -2340,9 +2340,9 @@ int pishu_podt(int tums)//запись подтверждения для ДЦ,анализ потери
   int tos=0,soob,i;
   char text[3]={0,0,0};
   unsigned char REG_[6];
-#ifdef NALAD
-  nom_func("441");
-#endif
+
+	nom_func("441");
+
 #ifdef DISPETCHER
   if((STATUS!=1)||(DU==0))return(-1);
   for(i=0;i<6;i++)REG_[i]=REG_INFO[tums][i];
@@ -2364,21 +2364,21 @@ int pishu_podt(int tums)//запись подтверждения для ДЦ,анализ потери
 //-------------------------
 //pot - признак потери 1-не передано;2-не квитировано
 //sob - номер потерянного сообщения
-fix_poter(int pot,int sob)
+void fix_poter(int pot,int sob)
 {
-#ifdef NALAD
-  nom_func("66");
-#endif
+
+	nom_func("66");
+
 }
 
 //-----------------------------
-OUT_DC()
+void OUT_DC()
 {
 #ifdef DISPETCHER
   int i,j;
-#ifdef NALAD
-  nom_func("210");
-#endif
+
+	nom_func("210");
+
   if(STATUS!=1)return;
   if(OB_PRER>=KOL_SOO)OB_PRER=0;
   if(SIZE_BUF_OUT_DC-ukaz_zap_dc<11)return;
@@ -2440,12 +2440,12 @@ OUT_DC()
 #endif
 }
 //-------------------------------------------------
-ANALIZ_TUMS()
+void ANALIZ_TUMS()
 {
 	int st,i,ij,podt_com,k;
-#ifdef NALAD
+
 	nom_func("10");
-#endif
+
 	if(DISK!=0)return;
 	for(st=0;st<skoko_stoek;st++)//пройти по стойкам
 	{ if(ANALIZ[st]>0)//если из стойки пришло сообщение или ответ
@@ -2472,12 +2472,15 @@ ANALIZ_TUMS()
 					{
 						sboy_ts[st]=0;
 						otkaz_ts[st]=0;
-						pusto=pusto&(~(1<<st));
-						if(((pusto&0x10ff)==0x1000)&&(ZAGRUZKA==0))
-						pusto=0xff00;
-//           else pusto=0;
+						if(DISK==0)
+						{
+							pusto = pusto&(~(1<<st));
+							if(((pusto&0x10ff)==0x1000)&&(ZAGRUZKA==0))
+							pusto=0xff00;
+						}
+						else pusto = 0;
 						if((STATUS==1)||(STATUS==0))form_otv(st);//отправить ответ
-            dc_not_plus=pishu_soob(st);//запись сообщения для ДЦ,анализ потери
+						dc_not_plus=pishu_soob(st);//запись сообщения для ДЦ,анализ потери
           }
         }
       }
@@ -2491,9 +2494,9 @@ int pishu_com_dc(unsigned char REG_[11])
   obk,obkt,il,in,im,kop;
   long len_f;
   unsigned char buf_[11];
-#ifdef NALAD
-  nom_func("223");
-#endif
+
+	nom_func("223");
+
   if(STATUS!=1)return(-1);
   handle = open("dat\\COM_DC.BIN",O_RDONLY|O_BINARY);
   if(handle==-1)
@@ -2594,18 +2597,18 @@ snova:
 //--------------------
 form_otv_dc(unsigned char REG_[11])
 {
-#ifdef NALAD  
-  nom_func("85");
-#endif        
+  
+	nom_func("85");
+        
   return;
 }
 //--------------------------------
-int byla_inf_dc(int REG_[11])
+int byla_inf_dc(unsigned char REG_[11])
 {
   int soob;
-#ifdef NALAD
-  nom_func("15");
-#endif  
+
+	nom_func("15");
+  
   if(DISK!=0)return;
 #ifdef DISPETCHER
   soob=REG_[3]-48;
@@ -2615,13 +2618,13 @@ int byla_inf_dc(int REG_[11])
   return(0);
 }
 //-------------------------------
-ANALIZ_KOM_TUMS()
+void ANALIZ_KOM_TUMS()
 {
   int st,i;
   unsigned long int t_tek;
-#ifdef NALAD  
-  nom_func("8");
-#endif  
+  
+	nom_func("8");
+  
   if(DISK!=0)return;
   t_tek=biostime(0,0l);
   for(st=0;st<skoko_stoek;st++)
@@ -2638,13 +2641,13 @@ ANALIZ_KOM_TUMS()
   }
 }
 //---------------------------------------------------------
-in_port_BBKP(int adr)
+void in_port_BBKP(unsigned int adr)
 {
   int i;
   unsigned char SYM_DC;
-#ifdef NALAD  
-  nom_func("105");
-#endif        
+  
+	nom_func("105");
+        
   SYM_DC=inportb(adr)&127;
   if(SYM_DC==0)return;
   t_pust_dc=0;
@@ -2657,12 +2660,12 @@ in_port_BBKP(int adr)
 
 }
 //---------------------------------------------------------
-ANALIZ_BBKP()
+void ANALIZ_BBKP()
 {
   int i,ij,podt_inf_dc,k;
-#ifdef NALAD  
+  
   nom_func("6");
-#endif  
+  
   if(DISK!=0)return;  
 #ifdef DISPETCHER
 povtor:

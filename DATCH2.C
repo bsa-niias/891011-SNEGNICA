@@ -9,10 +9,9 @@
 #include<stdlib.h>
 #include<graphics.h>
 #include<string.h>
-int get_str(int nm,int bt);
 void fix(int ob,int bt);
 /***************************************/
-uksps(int nom)//nom-номер объекта
+void uksps(int nom)//nom-номер объекта
 {
 	int ij,
   ob1_1=0,//первый датчик УКСПС 1-го перегона
@@ -59,9 +58,9 @@ uksps(int nom)//nom-номер объекта
 	otk_uksps=0,
 	bt_otk;
   char kod[3];
-#ifdef NALAD
+
 	nom_func("383");
-#endif
+
   if(fr1[nom][1]==28)//если получены данные по датчикам УКСПС
   {
 		//seg005:00D4  - seg005:00E2 
@@ -358,7 +357,7 @@ ris:
 		//seg005:0943 		
     if(tst_fix(ob,bit1))
     {
-      if(get_str(ob,bit1)==0) neisprav_na_disk('@',chudo);
+			if(get_str(ob,bit1)==0) neisprav_na_disk('@',chudo);
       w(169,999,chudo);
       zvuk_vkl(0,0);
       home(modi);
@@ -488,15 +487,15 @@ end:
 //Процедура отображения, фиксации неисправностей на диске, вывода
 //предупреждения на экран и выдачи звукового сигнала для датчиков
 //состояния фидеров
-fider3dat(int nom,int bit_)
+void fider3dat(int nom,int bit_)
 {
   int goj,//радиус изображения лампы состояния фидера
   F1,//цвет лампы первого фидера
   F2,//цвет лампы второго фидера
   cod_fider;//код состояния фидеров
-#ifdef NALAD  
-  nom_func("53");
-#endif
+  
+	nom_func("53");
+
   if(bit_>=fr1[nom][11])return;//если передан не предусмотренный бит - выйти
   if((klo==1)||(help!=0)||(nikuda==1))return;
  //1вф*4+2ф*2+1ф - данные формирования кода состояния фидеров
@@ -538,13 +537,13 @@ fider3dat(int nom,int bit_)
 
 //----------------------------------------------------------------
 //изображение на экране лампы для объекта nom и бита bit_
-lampa(int nom,int bit_)
+void lampa(int nom,int bit_)
 {
   int goj,rad,ZZ,CC;
   unsigned char objkt_z;
-#ifdef NALAD
-  nom_func("141");
-#endif     
+
+	nom_func("141");
+     
   if((klo==1)||(help!=0)||(nikuda==1))return;
   if(fr1[nom][2*bit_+3]==9999)return;//если для бита не определена коорд. X
   ZZ=(fr1[nom][2]&0xFF00)>>8;
@@ -641,13 +640,13 @@ cont:
 }
 //-----------------------------------------------------------------------
 //изображение на экране цветного прямоугольника для объекта nom и бита bit_
-barcolor(int nom,int bit_)
+void barcolor(int nom,int bit_)
 {
   int goj,rad,ZZ,CC,xx,yy,cvt0,cvt1;
   unsigned char objkt_z;
-#ifdef NALAD
-  nom_func("141");
-#endif
+
+	nom_func("141");
+
   if((klo==1)||(help!=0)||(nikuda==1))return;
   if(fr1[nom][2*bit_+3]==9999)return;//если для бита не определена коорд. X
   ZZ = (fr1[nom][2] & 0xFF00)>>8;
@@ -674,27 +673,27 @@ barcolor(int nom,int bit_)
   else  {setfillstyle(1,cvt0);setcolor(cvt0);}
   //если бит установлен и требуется звук
   if((fr3[nom][bit_]==1)&&(zvu_tabl[ZZ][bit_]!=0))
-  {
-    //если нет переключения экранов, то на 1 сек включить звук
-    if(perekluch==0)zvuk_vkl(1,18);
-  }
-  /****************************************************************************/
-  if(fr3[nom][5]==1)setfillstyle(1,11);//для непарафазности цвет - циан
-  rad=(fr1[nom][11]&(0xf000>>(bit_*4)))>>((3-bit_)*4);//взять размер
-  xx=fr1[nom][3+2*bit_];
-  yy=fr1[nom][4+2*bit_];
-  setlinestyle(0,0,0);
-  bar(xx,yy-rad,xx+2,yy+rad);
+	{
+		//если нет переключения экранов, то на 1 сек включить звук
+		if(perekluch==0)zvuk_vkl(1,18);
+	}
+	/****************************************************************************/
+	if(fr3[nom][5]==1)setfillstyle(1,11);//для непарафазности цвет - циан
+	rad=(fr1[nom][11]&(0xf000>>(bit_*4)))>>((3-bit_)*4);//взять размер
+	xx=fr1[nom][3+2*bit_];
+	yy=fr1[nom][4+2*bit_];
+	setlinestyle(0,0,0);
+	bar(xx,yy-rad,xx+2,yy+rad);
 }
 //------------------------------------------------------------------
-den_noch(int nom)
+void den_noch(int nom)
 {
   int ob_nn,bit_nn,ob_dn,bit_dn,ob_dnk,bit_dnk,ob_au,bit_au,rad,
   cod,x,y,cvet_au,cvet_ru,cvet_dnk,goj;
   char codik[3];
-#ifdef NALAD  
-  nom_func("34");
-#endif     
+  
+	nom_func("34");
+     
   if((klo==1)||(help!=0)||(nikuda==1))return;
   setlinestyle(0,0,0);
   ob_dn=fr1[nom][3];bit_nn=fr1[nom][4];
@@ -721,7 +720,7 @@ den_noch(int nom)
     case 9: cvet_au=10;cvet_ru=8;cvet_dnk=14;break;
     case 10: cvet_au=10;cvet_ru=5;cvet_dnk=10;break;
     case 11: cvet_au=10;cvet_ru=5;cvet_dnk=14;break;
-    case 12: cvet_au=10;cvet_ru=5;cvet_dnk=10;break;
+		case 12: cvet_au=10;cvet_ru=5;cvet_dnk=10;break;
     case 13: cvet_au=10;cvet_ru=5;cvet_dnk=14;break;
     case 14: cvet_au=10;cvet_ru=5;cvet_dnk=10;break;
     case 15: cvet_au=10;cvet_ru=5;cvet_dnk=14;break;
@@ -748,22 +747,22 @@ den_noch(int nom)
 //при изменении состояния любой части объекта меняется цвет лампы
 //nom - номер объекта
 //bit_ - номер бита
-lampa_3c(int nom,int bit_,int zps)
+void lampa_3c(int nom,int bit_,int zps)
 {
-  int goi=0,
-  ij,
-  ob_cvt,//строка таблицы cvt
-  ob_neispr,//строка таблицы zvu_tab
-  ob_par[4],//парныe объект
+	int goi=0,
+	ij,
+	ob_cvt,//строка таблицы cvt
+	ob_neispr,//строка таблицы zvu_tab
+	ob_par[4],//парныe объект
   b_par[4],//биты парных объектов
   rd[4], //радиусы лампы
   cod[4], //коды состояния ламп
   x[4],//координаты X
   y[4],//координаты Y
   color[4];//цвета ламп
-#ifdef NALAD
-  nom_func("143");
-#endif
+
+	nom_func("143");
+
   //если помощь просмотр отказов или потеря обмена - выход
   if((klo==1)||(help!=0)||(nikuda==1))return;
   ob_cvt=fr1[nom][2]&0xff;//взять объект для цвета ламп
@@ -781,7 +780,7 @@ lampa_3c(int nom,int bit_,int zps)
     y[goi]=fr1[nom][goi*2+4]&0xfff;
     cod[goi]=fr3[nom][goi]*2+fr3[ob_par[goi]][b_par[goi]];
     switch(cod[goi])
-    { //все выключено
+		{ //все выключено
       case 0: color[goi]=(cvt[ob_cvt][goi*2]&0xf0)>>4;break;
       //включен сигнал - нет ПНО
 			case 1: color[goi]=cvt[ob_cvt][goi*2]&0xf;break;
@@ -840,14 +839,14 @@ lampa_3c(int nom,int bit_,int zps)
 }
 //---------------------------------------------------------------
 //объект типа 2,210 две многоцветные лампы из одного сообщения
-lampa_3(int nom,int bit_,int pisat)
+void lampa_3(int nom,int bit_,int pisat)
 {
-  int goj=0,cvet=7,ob_cvt,ob_neispr,ob_2v0,ob_2v1,cod,rad,x,y,b_20,b_21;
-#ifdef NALAD
-  nom_func("142");
-#endif
-  if((klo==1)||(help!=0)||(nikuda==1))return;
-  if((fr1[nom][12]&(0xf000>>(bit_*4)))==0)return;
+	int goj=0,cvet=7,ob_cvt,ob_neispr,ob_2v0,ob_2v1,cod,rad,x,y,b_20,b_21;
+
+	nom_func("142");
+
+	if((klo==1)||(help!=0)||(nikuda==1))return;
+	if((fr1[nom][12]&(0xf000>>(bit_*4)))==0)return;
   if((prorisovka==0)&&(ZAGRUZKA==0))prorisovka=0;
   if(fr3[nom][5]==1)cvet=11;
   if(bit_!=5)//если любой бит, кроме бита непарафазности
@@ -899,14 +898,14 @@ rs:
 	}
 }
 /************************************************************/
-tel_vkl_vikl(int iwr)
+void tel_vkl_vikl(int iwr)
 {
 //отображает на экране символ установленного варианта управления
-  int ir,cod,colorit,obj_2;
-  char cod_asc[3];
-#ifdef NALAD  
-  nom_func("334");
-#endif          
+	int ir,cod,colorit,obj_2;
+	char cod_asc[3];
+
+	nom_func("334");
+
   for(ir=0;ir<=2;ir++)cod_asc[ir]=0;
   obj_2=fr1[iwr][5];
   if((fr3[iwr][0]!=fr3[obj_2][0])||
@@ -932,7 +931,7 @@ tel_vkl_vikl(int iwr)
     TELEUP=0;
     DU=0;
     SEZON=0;
-    goto prodol;
+		goto prodol;
   }
   cod=(fr3[iwr][0]&fr3[obj_2][0])*8+ // ВСУ 
   (fr3[iwr][1]&fr3[obj_2][1])*4+     // ДУ
@@ -965,7 +964,7 @@ tel_vkl_vikl(int iwr)
               for(ir=0;ir<=skoko_stoek;ir++)
               t_com[ir]=biostime(0,0l);
               pooo[KVV1]=biostime(0,0l);
-            }
+						}
             TELEUP=1;DU=1;SEZON=0;break; //диспетчерское
     case 9: colorit=10;strcpy(cod_asc,"СУ");
             if(TELEUP==0)
@@ -1023,15 +1022,15 @@ prodol:
    tele(iwr);
 }
 /*************************************************/
-tele(int iwr)
+void tele(int iwr)
 {
-  int SME=0;
-#ifdef NALAD  
-  nom_func("335");
-#endif           
-  if(nikuda==1||help!=0) return;
-  if(fr1[iwr][13]==2) SME=0;
-  else SME=140;
+	int SME=0;
+
+	nom_func("335");
+
+	if(nikuda==1||help!=0) return;
+	if(fr1[iwr][13]==2) SME=0;
+	else SME=140;
   TELEUP=0;
   setcolor(8);
   setfillstyle(SOLID_FILL,7);
@@ -1056,36 +1055,36 @@ tele(int iwr)
     bar(360,45+SME,580,53+SME);
     setcolor(8);
     moveto(360,45+SME);
-    outtext("включено дисп.управление");
-    TELEUP=0;
-   }
-   else
-   {
-    setfillstyle(CLOSE_DOT_FILL,YELLOW);
-    bar(360,45+SME,580,53+SME);
-    if((fr3[iwr][2]==0)&&(fr3[iwr][3]==1))
-    {
-      setcolor(8);
-      moveto(360,45+SME);
-      outtext("включено управление с ПЭВМ");
-      TELEUP=1;
-    }
-    else
-    {
-      setcolor(8);
-      moveto(360,45+SME);
-      outtext("управление с ПЭВМ отключено");
-      TELEUP=0;
-    }
-  }
+		outtext("включено дисп.управление");
+		TELEUP=0;
+	 }
+	 else
+	 {
+		setfillstyle(CLOSE_DOT_FILL,YELLOW);
+		bar(360,45+SME,580,53+SME);
+		if((fr3[iwr][2]==0)&&(fr3[iwr][3]==1))
+		{
+			setcolor(8);
+			moveto(360,45+SME);
+			outtext("включено управление с ПЭВМ");
+			TELEUP=1;
+		}
+		else
+		{
+			setcolor(8);
+			moveto(360,45+SME);
+			outtext("управление с ПЭВМ отключено");
+			TELEUP=0;
+		}
+	}
 }
 /*******************************************************/
-komplekt(int ir,int bit_)
+void komplekt(int ir,int bit_)
 {
   int chislo=0;
-#ifdef NALAD  
-  nom_func("129");
-#endif        
+  
+	nom_func("129");
+        
   if(bit_==5) goto aa; //если бит непарафазности
   if(bit_>2)
     if((fr3[ir][3]==1)||(fr3[ir][4]==1))//если перезапуск или объединение 
@@ -1104,26 +1103,26 @@ aa:
   return;
 }
 //------------------------------------------------------------
-ispr_pvm(int nom,int ispr)
+void ispr_pvm(int nom,int ispr)
 {
-  char AAq[2]="";
-  int colo1=0,x1,y1;
-#ifdef NALAD  
-  nom_func("112");
-#endif          
-  if((help!=0)||(nikuda==1))return;
-  kvadrat();//изображение статуса ПЭВМ (цветом "подставки")
+	char AAq[2]="";
+	int colo1=0,x1,y1;
+
+	nom_func("112");
+
+	if((help!=0)||(nikuda==1))return;
+	kvadrat();//изображение статуса ПЭВМ (цветом "подставки")
 
   if(nom==0)// "своя" ПЭВМ
   { //отображение при просмотре состояния интерфейсов УВК
-    if(klo==1){PVM(nom,ispr);kanal(0);return;}
+		if(klo==1){PVM(nom,ispr);kanal(0);return;}
     if(STATUS==1) colo1=LIGHTGREEN;//если основная - цвет зеленый
     else  if(STATUS==0) colo1=YELLOW;//если резервна - цвет желтый
           else colo1=8; //если ШН или другое - цвет серый
   }
   else//"соседняя" ПЭВМ
   {
-    if(klo==1){PVM(nom,ispr); kanal(1); return; }
+		if(klo==1){PVM(nom,ispr); kanal(1); return; }
     if(ispr==0)//если исправна
     { if(STATUS==1) colo1=YELLOW;//если сосед в резерве
       else
@@ -1132,27 +1131,31 @@ ispr_pvm(int nom,int ispr)
     }
     else colo1=RED;
   }
-  if(nom==0)
+  if(nom==0)//своя ПЭВМ
   { x1=Xleft; y1=Yleft; setcolor(10); itoa(NOMER_ARMA,AAq,10);
     moveto(x1-12,y1-2); outtext(AAq);
   }
   else
-  { x1=Xright; y1=Yright; setcolor(8); moveto(x1+8,y1-2);
-    if(NOMER_ARMA==1) outtext("2");
-    else outtext("1");
-  }
-  setfillstyle(SOLID_FILL,colo1);bar(x1-4,y1-4,x1+4,y1+4);
-  setcolor(8);setlinestyle(0,0,0);rectangle(x1-4,y1-4,x1+4,y1+4);
-  line(x1,y1+4,x1,y1+6);line(x1-2,y1+6,x1+2,y1+6);
+	{ x1=Xright; y1=Yright; setcolor(8); moveto(x1+8,y1-2);
+		if(NOMER_ARMA==1) outtext("2");
+		else outtext("1");
+	}
+	setfillstyle(SOLID_FILL,colo1);
+	bar(x1-4,y1-4,x1+4,y1+4);
+	setcolor(8);
+	setlinestyle(0,0,0);
+	rectangle(x1-4,y1-4,x1+4,y1+4);
+	line(x1,y1+4,x1,y1+6);
+	line(x1-2,y1+6,x1+2,y1+6);
 }
 /**************************************************************/
-kanal_DC()
+void kanal_DC()
 {
   int x1,y1;
   char AAq[2];
-#ifdef NALAD  
-  nom_func("115");
-#endif          
+  
+	nom_func("115");
+          
   x1=Xleft;y1=Yleft;
   if(STATUS==1)setcolor(10);
   else setcolor(7);
@@ -1166,20 +1169,20 @@ kanal_DC()
 	moveto(x1+25,y1-2);AAq[0]=16;AAq[1]=0; outtext(AAq);
 }
 //------------------------
-kanal_SPDLP()
+void kanal_SPDLP()
 {
-  int x1,y1;
-  char AAq[2];
-#ifdef NALAD  
-  nom_func("116");
-#endif          
-  x1=Xleft;
+	int x1,y1;
+	char AAq[2];
+
+	nom_func("116");
+
+	x1=Xleft;
 	y1=Yleft;
 	AAq[0]=31;
 	AAq[1]=0;
-  if(STATUS==1)setcolor(10);
-  else setcolor(14);
-  moveto(x1-13,y1+8);outtext(AAq);
+	if(STATUS==1)setcolor(10);
+	else setcolor(14);
+	moveto(x1-13,y1+8);outtext(AAq);
 
   if(NEISPRAVEN==1)setcolor(8);
   else
@@ -1189,17 +1192,17 @@ kanal_SPDLP()
   outtext(AAq);
 }
 //------------------------
-knopka(int nom) /* цвет кнопки переключения комплектов */
+void knopka(int nom) /* цвет кнопки переключения комплектов */
 {
-  int color1=0,color2=0,x1,y1,KSSk=0,kod;
-#ifdef NALAD  
-  nom_func("122");
-#endif     
-  
-  if((klo==1)||(help!=0)||(nikuda==1))return;     
-  KSSk=nom;
-  kod=fr3[KSSk][0]+fr3[KSSk][1]*2+fr3[KSSk][2]*4;
-  switch(kod)
+	int color1=0,color2=0,x1,y1,KSSk=0,kod;
+
+	nom_func("122");
+
+
+	if((klo==1)||(help!=0)||(nikuda==1))return;
+	KSSk=nom;
+	kod=fr3[KSSk][0]+fr3[KSSk][1]*2+fr3[KSSk][2]*4;
+	switch(kod)
   {
     case 0: color1=10;color2=14;break;
     case 1: color1=14;color2=10;break;
@@ -1222,13 +1225,13 @@ x:
 
 }
 /************************************************/
-dispdatch(int nom,int bit_)
+void dispdatch(int nom,int bit_)
 //работа с датчиками разделки
 {
-  ELE=nom;
-#ifdef NALAD  
-  nom_func("38");
-#endif      
+	ELE=nom;
+
+	nom_func("38");
+
   if(bit_==2)
   { if(fr3[nom][bit_]==1)
 		{slom_interf(4059+fr1[nom][13]);return;}
@@ -1246,9 +1249,9 @@ void sigo(int sig,int tip,int obkt,int bt)
   int mid=4,half=6,rad=3,lon=10,sme=3,gad=3,og,bit_og;
   int zapret_ris=0,eps=4,eps1=8;
   int cvt_vs,cvt_sig,cvt_og,PNO,B_PNO;
-#ifdef NALAD
-  nom_func("305");
-#endif          
+
+	nom_func("305");
+          
   if((klo==1)||(help!=0)||(nikuda==1))zapret_ris=1;
   setlinestyle(0,0,0);
   if(fr1[sig][2]!=0){half=half+1;eps=eps+1;eps1=eps1+1;}
@@ -1261,7 +1264,7 @@ void sigo(int sig,int tip,int obkt,int bt)
             dug1=0;dug2=150;dug3=210;dug4=360;
             eps=-eps;eps1=-eps1;
             break;
-    case 2: half=-half;
+		case 2: half=-half;
             dug1=30;dug2=180;dug3=180;dug4=330;
             eps=-eps;eps1=-eps1;
             break;
@@ -1294,7 +1297,7 @@ void sigo(int sig,int tip,int obkt,int bt)
                       //если огневых не
                       if(og==9999){cvt_og=cvt_sig; goto ris;}
                       if(parafaz(og)<0){cvt_og=11;break;}
-                      if(fr3[og][bit_og]==1)//если огневое не в норме
+											if(fr3[og][bit_og]==1)//если огневое не в норме
                       { if(tst_fix(og,bit_og))
                         {
                           if(tip==5)//если таймер
@@ -1327,7 +1330,7 @@ void sigo(int sig,int tip,int obkt,int bt)
                       fix(sig,0);
 											if(fr1[sig][10]==9999)fix(sig,1);//если нет ПНО
                       break;
-               //если поездной сигнал открыт
+							 //если поездной сигнал открыт
               case 2: cvt_sig=10;cvt_og=10;
                       if(pooo[og]!=0l)sbros_time(og,bit_og);
                       if((fr1[sig][10]>kol_OSN)&&(fr1[sig][10]!=9999))
@@ -1360,7 +1363,7 @@ ris:        cod_cvt=fr3[sig][3]*2+fr3[sig][2];
                       {
                         w(88,sig,"");
                         zvuk_vkl(1,18);
-                        fix(sig,2);fix(sig,3);
+												fix(sig,2);fix(sig,3);
                         if(pooo[og]!=0l)sbros_time(og,bit_og);
 
                       }
@@ -1393,7 +1396,7 @@ ris1:      fix(obkt,5);
                     w(169,999,chudo);
                   }
                    fix(obkt,bt);
-                }
+								}
                 setcolor(2);
               }
             }
@@ -1426,7 +1429,7 @@ ris1:      fix(obkt,5);
             }
             break;
     //если рисуется ЖСо
-    case 3: if(parafaz(obkt)<0)setcolor(11);//если непарафазность
+		case 3: if(parafaz(obkt)<0)setcolor(11);//если непарафазность
             else
             {//если норма
               if(fr3[obkt][bt]==0){fix(obkt,bt);setcolor(7);}
@@ -1459,7 +1462,7 @@ ris1:      fix(obkt,5);
               else //если ненорма
               { if(tst_fix(obkt,bt))
                 {
-                  if(get_str(obkt,bt)==0)
+									if(get_str(obkt,bt)==0)
                   {
                     neisprav_na_disk('@',chudo);
                     w(175,999,chudo);
@@ -1486,13 +1489,13 @@ ris1:      fix(obkt,5);
 void ognev(int oik,int bt,int tip)
 {
   int sign,i;
-#ifdef NALAD
-  nom_func("198");
-#endif
+
+	nom_func("198");
+
   if(fr1[oik][4+bt]==9999)return;//если бит пустой, то выйти
   else sign=fr1[oik][4+bt];       //иначе номер объекта сигнала
   if(fr3[oik][5]==0)sigo(sign,tip,oik,bt);//если огневой объект парафазен
-  else //если непарафазность
+	else //если непарафазность
     for(i=0;i<fr1[oik][12];i++)//пройти по всем сигналам данного объекта
     {
       if(fr1[oik][4+i]==9999)break;
@@ -1507,9 +1510,9 @@ void ognev(int oik,int bt,int tip)
 void ris_batarei(int nomer,int bit_)
 {
   int x,y,j,sign,tip;
-#ifdef NALAD  
-  nom_func("282");
-#endif          
+  
+	nom_func("282");
+          
     //если огневое реле
   tip=0;
   if(fr1[nomer][3]==1){ognev(nomer,bit_,tip);return;}
@@ -1527,16 +1530,16 @@ void ris_batarei(int nomer,int bit_)
   return;
 }
 //------------------------------------------------------------
-krasit_razd(int nomer,int bt)
+void krasit_razd(int nomer,int bt)
 {
   int color,x,y,xx,yy,nom,cl1,cl2;
   char bb[5]="";
-#ifdef NALAD  
-  nom_func("137");
-#endif   
+  
+	nom_func("137");
+   
   if(((vtora!=0)||(zalet!=0))&&(prorisovka==1))return;
   color=0;
-  if((fr1[nomer][1]==301)||(fr1[nomer][1]==302)){sekci(nomer,bt);return;}
+	if((fr1[nomer][1]==301)||(fr1[nomer][1]==302)){sekci(nomer,bt);return;}
   if((bt==5)&&(fr3[nomer][5]==1))slom_interf(nomer);
   if((nikuda==1)||(klo==1)||(help!=0))return;
   if((fr1[nomer][1]>=200)&&(fr1[nomer][1]<=300))
@@ -1560,7 +1563,7 @@ krasit_razd(int nomer,int bt)
           int86(0x16,&regs,&regs);
           zvuk_vkl(1,9);
           w(169,nomer,"06");
-        }
+				}
       }
     }
     else
@@ -1593,7 +1596,7 @@ krasit_razd(int nomer,int bt)
       }
       else
       { cl1=8;//если не выполнена предварительная
-        if(fr3[nomer][9]==9)//если была выдана команда
+				if(fr3[nomer][9]==9)//если была выдана команда
         { if(was[markery[fr1[nomer][5]][7]-10]!=0)//если секция помечена в разделке
           was[markery[fr1[nomer][5]][7]-10]=0;//снять метку о разделке
           //если маркер на этом объекте- вернуть домой
@@ -1625,12 +1628,12 @@ krasit_razd(int nomer,int bt)
   }
 }
 //-------------------------------------
-krasit_knopki(int nomer,int bt)
+void krasit_knopki(int nomer,int bt)
 {
-  int nn1,nn2=0,bb2=0,GRIV,color,x,y,xx,yy,nom,cl1,cl2;
-#ifdef NALAD
-  nom_func("136");
-#endif
+	int nn1,nn2=0,bb2=0,GRIV,color,x,y,xx,yy,nom,cl1,cl2;
+
+	nom_func("136");
+
   //если получены данные по выдержке
   if(fr1[nomer][1]==302)//если ИВ
   {
@@ -1658,7 +1661,7 @@ krasit_knopki(int nomer,int bt)
       nomer=fr1[nn1][4]&0xfff;//ИВ
       GRIV=fr3[nomer][bb2];//получить состояние выдержки
     }
-  }
+	}
   // если бит непарафазности и есть непарафазность по ИВ
   if((bt==5)&&( fr3[nomer][5]==1))slom_interf(nomer);// ИВ
   //если есть управление и непарафазность по кнопке
@@ -1691,21 +1694,21 @@ krasit_knopki(int nomer,int bt)
     // нет связи вообще или //нет связи с данной стойкой
     if((fr3[nn1][5]==1)||(fr3[nn2][5]==1)||(fr3[nomer][5]==1))color=11;
     if(nom!=9999)//если есть управление ГРИ от АРМа
-    { //получить координаты кнопки управления нарисовать кнопку полученным цветом
-      x=markery[nom][4]-4; y=markery[nom][5]-4;
-      xx=markery[nom][4]+4; yy=markery[nom][5]+4;
-      setfillstyle(SOLID_FILL,color);bar(x,y,xx,yy);
-    }
-    return;
-  }
+		{ //получить координаты кнопки управления нарисовать кнопку полученным цветом
+			x=markery[nom][4]-4; y=markery[nom][5]-4;
+			xx=markery[nom][4]+4; yy=markery[nom][5]+4;
+			setfillstyle(SOLID_FILL,color);bar(x,y,xx,yy);
+		}
+		return;
+	}
 }
 /*************************************/
-knopka_vkl_vsego(int nom,int bit_)
+void knopka_vkl_vsego(int nom,int bit_)
 {
   int x,y,p,svebf,svebv,nm1,bt1,nm2,bt2,cod;
-#ifdef NALAD  
-  nom_func("125");
-#endif          
+  
+	nom_func("125");
+          
   if((klo==1)||(help!=0)||(nikuda==1))return;
   switch(fr1[nom][1])
   {
@@ -1733,16 +1736,16 @@ knopka_vkl_vsego(int nom,int bit_)
       //если бит сброшен
       if(fr3[nom][bit_]==0)setfillstyle(1,svebf);
       else setfillstyle(1,svebv);
-    }
-  bar(x-4,y-4,x+4,y+4);
+		}
+	bar(x-4,y-4,x+4,y+4);
 }
 //-----------------------------------------------
-ris_nemar(int nom)
+void ris_nemar(int nom)
 {
   int x,y,p,svebf,svebv,bit_,isp,ob_rm,b_rm,ob_mi,b_mi,ob_ot,b_ot,cd,c_l,ii;
-#ifdef NALAD  
-  nom_func("285");
-#endif          
+  
+	nom_func("285");
+          
   if((klo==1)||(help!=0)||(nikuda==1))return;
   p=fr1[nom][10];//объект управления в markery
   svebv=fr1[nom][6];//цвет для включения
@@ -1770,40 +1773,40 @@ ris_nemar(int nom)
     case 0: c_l=8; break;
     case 1: c_l=15;break;
     case 2: c_l=12;break;
-    case 3: c_l=10;break;
+		case 3: c_l=10;break;
     case 4: c_l=13;break;
     case 5: c_l=13;break;
     case 6: c_l=14;break;
     case 7: c_l=13;break;
     case 8: c_l=3;break;
   }
-  setlinestyle(0,0,0);
-  setcolor(c_l);
-  for(ii=3;ii>0;ii--)circle(x,y,ii);
+	setlinestyle(0,0,0);
+	setcolor(c_l);
+	for(ii=3;ii>0;ii--)circle(x,y,ii);
 }
 //-----------------------------------------------
-nemar(int ob)
+void nemar(int ob)
 {
-  int ob_up,bt_up,ob_mark,ob_rm,bt_rm,ob_mi,bt_mi,ob_ot,bt_ot,x,y,ij,cd,
-  sig_n,sig_k;
-  ob_up=fr1[ob][2]&0xfff; //объект для управления (вкл/откл) немар.передвиж.
-  ob_mark=fr1[ob_up][10];
-  ob_rm=fr1[ob][3]&0xfff;
-  bt_rm=(fr1[ob][3]&0xf000)>>12;
-  ob_mi=fr1[ob][4]&0xfff;
-  bt_mi=(fr1[ob][4]&0xf000)>>12;
-  ob_ot=fr1[ob][5]&0xfff;
-  bt_ot=(fr1[ob][5]&0xf000)>>12;
-  sig_n=fr1[ob_up][2];
-  sig_k=fr1[ob_up][7];
-#ifdef NALAD  
-  nom_func("182");
-#endif 
-  cd=fr3[ob_ot][bt_ot]*4+fr3[ob_mi][bt_mi]*2+fr3[ob_rm][bt_rm];
-  if(cd==0){fr3[sig_n][12]=0;fr3[sig_k][12]=0;}
-  if((cd==1)||(cd==3)||(cd==7)){fr3[sig_n][12]=15;fr3[sig_k][12]=15;}
-  if((fr3[ob_ot][5]==1)||(fr3[ob_rm][5]==1)||(fr3[ob_mi][5]==1))cd=8;
-  for(ij=6;ij<13;ij++)
+	int ob_up,bt_up,ob_mark,ob_rm,bt_rm,ob_mi,bt_mi,ob_ot,bt_ot,x,y,ij,cd,
+	sig_n,sig_k;
+	ob_up=fr1[ob][2]&0xfff; //объект для управления (вкл/откл) немар.передвиж.
+	ob_mark=fr1[ob_up][10];
+	ob_rm=fr1[ob][3]&0xfff;
+	bt_rm=(fr1[ob][3]&0xf000)>>12;
+	ob_mi=fr1[ob][4]&0xfff;
+	bt_mi=(fr1[ob][4]&0xf000)>>12;
+	ob_ot=fr1[ob][5]&0xfff;
+	bt_ot=(fr1[ob][5]&0xf000)>>12;
+	sig_n=fr1[ob_up][2];
+	sig_k=fr1[ob_up][7];
+
+	nom_func("182");
+
+	cd=fr3[ob_ot][bt_ot]*4+fr3[ob_mi][bt_mi]*2+fr3[ob_rm][bt_rm];
+	if(cd==0){fr3[sig_n][12]=0;fr3[sig_k][12]=0;}
+	if((cd==1)||(cd==3)||(cd==7)){fr3[sig_n][12]=15;fr3[sig_k][12]=15;}
+	if((fr3[ob_ot][5]==1)||(fr3[ob_rm][5]==1)||(fr3[ob_mi][5]==1))cd=8;
+	for(ij=6;ij<13;ij++)
   {
     if(fr1[ob][ij]==9999)break;
     fr3[fr1[ob][ij]][12]=fr3[fr1[ob][ij]][12]&0xf;
@@ -1818,16 +1821,16 @@ nemar(int ob)
   ris_nemar(ob_up);
 }
 //-----------------------------------------------
-knopka_vkl_opove(int nom,int bit_)
+void knopka_vkl_opove(int nom,int bit_)
 {
   int rm, // номер объекта для РМ
   b_rm, //номер бита для РМ
   zm, // номер объекта для ЗМ
   b_zm, // номер бита для РМ
   x,y,p,svebf,i,treug[6];
-#ifdef NALAD
-  nom_func("124");
-#endif
+
+	nom_func("124");
+
   if((klo==1)||(help!=0)||(nikuda==1))return;
   rm=fr1[nom][2]&0xfff;
   b_rm=(fr1[nom][2]&0xf000)>>12;
@@ -1852,13 +1855,13 @@ knopka_vkl_opove(int nom,int bit_)
   fillpoly(3,treug);
 }
 //-------------------------------------------------------
-slom_uch(int nomer,char vid)
+void slom_uch(int nomer,char vid)
 {
   int o,i;
   char dobav[3];
-#ifdef NALAD  
-  nom_func("308");
-#endif          
+  
+	nom_func("308");
+          
   for(o=0;o<20;o++)chudo[o]=0;
   dobav[0]='_';dobav[1]=vid;dobav[2]=0; 
   o=0;
@@ -1869,12 +1872,12 @@ slom_uch(int nomer,char vid)
   neisprav_na_disk('&',chudo);
 }
 /**********************************************/
-slom_sign(int nomer)
+void slom_sign(int nomer)
 {
   int o;
-#ifdef NALAD  
-  nom_func("307");
-#endif          
+  
+	nom_func("307");
+          
   for(o=0;o<20;o++)chudo[o]=0;
   strcpy(chudo,pako[nomer]);
   if(fr3[nomer][0]==1)strcat(chudo,"_М");
@@ -1882,197 +1885,197 @@ slom_sign(int nomer)
   neisprav_na_disk('*',chudo);
 }
 /***********************************************/
-dr()
+void dr()
 {
-#ifdef NALAD  
-  nom_func("45");
-#endif
-  if((nikuda==1)||(help>0))goto fin;
-  if(klo==1){kartina();goto fin; }
-  if (marazm==1){uprav=1;marazm=0;}
-  if (tst==2) uprav=1;
-  else uprav=0;
-  GraphMode=VGAHI;perekluch=1;
-  if((otkaz_ts[0]==0)&&(otkaz_ts[1]==0)){clscreen();nachalo();prodol();}
-  else 
-  {
-    if(otkaz_ts[0]==0) z1(1);
-    if(otkaz_ts[1]==0) z1(2);
-  }
+
+	nom_func("45");
+
+	if((nikuda==1)||(help>0))goto fin;
+	if(klo==1){kartina();goto fin; }
+	if (marazm==1){uprav=1;marazm=0;}
+	if (tst==2) uprav=1;
+	else uprav=0;
+	GraphMode=VGAHI;perekluch=1;
+	if((otkaz_ts[0]==0)&&(otkaz_ts[1]==0)){clscreen();nachalo();prodol();}
+	else
+	{
+		if(otkaz_ts[0]==0) z1(1);
+		if(otkaz_ts[1]==0) z1(2);
+	}
 fin:
-  perekluch=0;pusto=0;
-  if(otkaz_ts[0]==0){outportb(BAZ_ADR1+1,3);outportb(BAZ_ADR1,0);}
-  if(otkaz_ts[1]==0){outportb(BAZ_ADR11+1,3);outportb(BAZ_ADR11,0);}
+	perekluch=0;pusto=0;
+	if(otkaz_ts[0]==0){outportb(BAZ_ADR1+1,3);outportb(BAZ_ADR1,0);}
+	if(otkaz_ts[1]==0){outportb(BAZ_ADR11+1,3);outportb(BAZ_ADR11,0);}
 }
 /***********************************************/
-kvv(int nom,int bit_)
+void kvv(int nom,int bit_)
 {
-  int KVx,Krz,SME=0;
-#ifdef NALAD  
-  nom_func("140");
-#endif   
-  if(nom==KVV1){KVx=KVV1;Krz=KVV1;SME=625;}
-  else
-  {
+	int KVx,Krz,SME=0;
+
+	nom_func("140");
+
+	if(nom==KVV1){KVx=KVV1;Krz=KVV1;SME=625;}
+	else
+	{
 #ifdef KOL_SOO2
-    KVx=KVV2;Krz=KVV2;SME=630;
+		KVx=KVV2;Krz=KVV2;SME=630;
 #endif
-  }
-  if(bit_==0)
-  {
-    if((klo==0)&&(nikuda==0)&&(help==0))
-    { if(fr3[nom][5]==1)setfillstyle(SOLID_FILL,11);
-      else setfillstyle(SOLID_FILL,2);
-      if(fr3[nom][bit_]==0)setfillstyle(SOLID_FILL,8);
-      bar(SME,450,SME+5,455);
-    }
-    return;
-  }
-  if(fr3[nom][1]==1)
-  {
-    if(tst_fix(nom,1))slom_interf(4070+fr1[nom][13]-1);
-    fix(nom,1);
-    return;
+	}
+	if(bit_==0)
+	{
+		if((klo==0)&&(nikuda==0)&&(help==0))
+		{ if(fr3[nom][5]==1)setfillstyle(SOLID_FILL,11);
+			else setfillstyle(SOLID_FILL,2);
+			if(fr3[nom][bit_]==0)setfillstyle(SOLID_FILL,8);
+			bar(SME,450,SME+5,455);
+		}
+		return;
+	}
+	if(fr3[nom][1]==1)
+	{
+		if(tst_fix(nom,1))slom_interf(4070+fr1[nom][13]-1);
+		fix(nom,1);
+		return;
   }
   if(bit_==2){if(klo==1)kps_osn(KVx);    return;}
   if(bit_==3){if(klo==1)kps_rez(Krz);    return;}
 }
 /*********************************************************************/
-Pam(int nom,int bit_)
+void Pam(int nom)
 {
-#ifdef NALAD  
-  nom_func("215");
-#endif       
-  if(tst_fix(nom,0))
-  {
-    if(fr3[nom][0]==1){slom_interf(8299+fr1[nom][13]);}
-    fix(nom,0);
-  }
-  if(tst_fix(nom,1))
-  {
-    if(fr3[nom][1]==1){slom_interf(8399+fr1[nom][13]);}
-    fix(nom,1);
-  }    
+
+	nom_func("215");
+
+	if(tst_fix(nom,0))
+	{
+		if(fr3[nom][0]==1){slom_interf(8299+fr1[nom][13]);}
+		fix(nom,0);
+	}
+	if(tst_fix(nom,1))
+	{
+		if(fr3[nom][1]==1){slom_interf(8399+fr1[nom][13]);}
+		fix(nom,1);
+	}
 }
 //------------------------------------------------
-pict_podsvetka()
+void pict_podsvetka()
 { int i,K,falsv,pamjat=0;
-#ifdef NALAD  
-  nom_func("221");
-#endif        
-  //пройти по всем основным элементам 
-  for (pamjat=0;pamjat<kol_VO;pamjat++)
-  {
-    if((fr1[pamjat][0]==3)&&(fr1[pamjat][1]<3)&&(fr1[pamjat][2]<3))
-    {K=pamjat;zap_matr(K);cvet_matr();ris_sp_str();}
-  }
+
+	nom_func("221");
+
+	//пройти по всем основным элементам
+	for (pamjat=0;pamjat<kol_VO;pamjat++)
+	{
+		if((fr1[pamjat][0]==3)&&(fr1[pamjat][1]<3)&&(fr1[pamjat][2]<3))
+		{K=pamjat;zap_matr(K);cvet_matr();ris_sp_str();}
+	}
 }
 //---------------------------------------------------------
 #ifdef VSP
-ris_smen_otv(int nomer,int bit_)
+void ris_smen_otv(int nomer,int bit_)
 {
-  int nom,first,color,xc,yc,x,y,oho,j13;
- 
+	int nom,first,color,xc,yc,x,y,oho,j13;
+
 	if((klo==1)||(help!=0)||(nikuda==1))return;
-  
+
 	if (fr1[nomer][3]==2)
 		first=2;
-  else
-    if(fr1[nomer][3]==1) 
+	else
+		if(fr1[nomer][3]==1)
 			first=1;
 
 	if(bit_==2)
-  { 
+	{
 		if (fr3[nomer][2]==1)
 			color=RED;
-    else 
+		else
 			color=8;
-    nom = fr1[nomer][6];
-  }
-  else
+		nom = fr1[nomer][6];
+	}
+	else
 		if(bit_==3)
-		{ 
-			if(fr3[nomer][3]==1) 
+		{
+			if(fr3[nomer][3]==1)
 				color=RED;
-			else 
+			else
 				color=8;
 			nom=fr1[nomer][5];
 		}
-		else 
+		else
 			return;
-  
+
 	xc = markery[nom][4];
-  yc = markery[nom][5];
-  oho = 9999;
-	
-  for(j13=0;j13<VSP;j13++)
-  if(mark[j13][0]==nom)
+	yc = markery[nom][5];
+	oho = 9999;
+
+	for(j13=0;j13<VSP;j13++)
+	if(mark[j13][0]==nom)
 	{
 		oho=j13;
 		break;
 	}
-  
+
 	if(oho==9999)
 		return;
 	//	seg005:6426 loc_26726:
 	if(fr3[nomer][5]==1)
-  { setfillstyle(SOLID_FILL,LIGHTCYAN);
-    bar(xc-4,yc-4,xc+4,yc+4);
-    return;
-  }
-	
-	//seg005:6470 loc_26770:	
-  setfillstyle(SOLID_FILL,color);
-	//seg005:647E 
-  if(color==RED)
-	{	
-		//seg005:6487 loc_26787: 
-    if(first==1)
-    { //seg005:64A6
+	{ setfillstyle(SOLID_FILL,LIGHTCYAN);
+		bar(xc-4,yc-4,xc+4,yc+4);
+		return;
+	}
+
+	//seg005:6470 loc_26770:
+	setfillstyle(SOLID_FILL,color);
+	//seg005:647E
+	if(color==RED)
+	{
+		//seg005:6487 loc_26787:
+		if(first==1)
+		{ //seg005:64A6
 			bar(xc-4,yc-4,xc+4,yc);
 			//seg005:64BA - seg005:64DD
-      if((mark[oho][1]==1)&&(priem_==1)&&(fr3[nomer][9]!=0))
-			{	
-				//seg005:64F3  
+			if((mark[oho][1]==1)&&(priem_==1)&&(fr3[nomer][9]!=0))
+			{
+				//seg005:64F3
 				fr3[nomer][9]=0;
 				//seg005:6507
 				w(12,999,"");
 				zapretvybora=1;
-			}	
-			//seg005:651B loc_2681B: -  seg005:654A 
-      if((mark[oho][1]==-1)&&(priem_==-1)&&(fr3[nomer][9]!=0))
-			{	
+			}
+			//seg005:651B loc_2681B: -  seg005:654A
+			if((mark[oho][1]==-1)&&(priem_==-1)&&(fr3[nomer][9]!=0))
+			{
 				fr3[nomer][9]=0;
 				w(12,999,"");
 				zapretvybora=1;
 			}
 			fr3[nomer][9]=0;
-    }
-    else
-    { 
+		}
+		else
+		{
 			//seg005:659F loc_2689F:
 			bar(xc-4,yc,xc+4,yc+4);
 			//seg005:65CB
-      fr3[nomer][7]=0;
-    }
-  }
+			fr3[nomer][7]=0;
+		}
+	}
 	else
-	{	
+	{
 		//seg005:65D5 loc_268D5:
-    if(first==1)
-    { 
+		if(first==1)
+		{
 			//seg005:65F4
 			bar(xc-4,yc-4,xc+4,yc);
-			// seg005:6608 - seg005:6615 
-      if((mark[oho][1]==1)&&(priem_==1))
-			//seg005:662B  
+			// seg005:6608 - seg005:6615
+			if((mark[oho][1]==1)&&(priem_==1))
+			//seg005:662B
 			fr3[nomer][9]=0;
-			
+
 		//seg005:663E - seg005:664B
-      if((mark[oho][1]==-1)&&(priem_==-1))
+			if((mark[oho][1]==-1)&&(priem_==-1))
 				fr3[nomer][9]=0;
-    }
-    else 
+		}
+		else
 			//seg005:666A loc_2696A:
 			bar(xc-4,yc,xc+4,yc+4);
 	}
@@ -2082,26 +2085,26 @@ ris_smen_otv(int nomer,int bit_)
 #ifdef OGRAD
 k_ograd(int ob_sogl)
 { int ob_zapros,ob_ogr,bit_zapros,bit_sogl,bit_ogr,put;
-  int sp_chet,sp_nchet,st_chet,st_nchet,otvod_chet,otvod_nchet;
-  unsigned char koda;
-  if(DISK!=0)return;
-  put=fr1[ob_sogl][4];
-  ob_zapros=fr1[ob_sogl][2];bit_zapros=fr1[ob_zapros][3];
-  ob_ogr=fr1[ob_sogl][3];bit_ogr=fr1[ob_ogr][5];
-  bit_sogl=fr1[ob_sogl][12];
-  sp_chet=fr1[ob_sogl][6];st_chet=fr1[ob_sogl][7];otvod_chet=fr1[ob_sogl][8];
-  sp_nchet=fr1[ob_sogl][9];st_nchet=fr1[ob_sogl][10];otvod_nchet=fr1[ob_sogl][11];
-  if(klaval==13)
-  { if(may_be_ograd(put)==1){home(modi);return;}
-    // ВЫДАЕМ СОГЛАСИЕ НА ОГРАЖДЕНИЕ,ПУТЬ ##
-    w(156,put,""); home(modi);oppp=0;
-    koda='A';
-    point=ob_sogl;
-    if(fotksig(koda)==1)return;
-    buf_ko[9]=check_sum(buf_ko);
-    pooo[ob_sogl]=biostime(0,0L);
-    flagoutmsg=1;
-  }
+	int sp_chet,sp_nchet,st_chet,st_nchet,otvod_chet,otvod_nchet;
+	unsigned char koda;
+	if(DISK!=0)return;
+	put=fr1[ob_sogl][4];
+	ob_zapros=fr1[ob_sogl][2];bit_zapros=fr1[ob_zapros][3];
+	ob_ogr=fr1[ob_sogl][3];bit_ogr=fr1[ob_ogr][5];
+	bit_sogl=fr1[ob_sogl][12];
+	sp_chet=fr1[ob_sogl][6];st_chet=fr1[ob_sogl][7];otvod_chet=fr1[ob_sogl][8];
+	sp_nchet=fr1[ob_sogl][9];st_nchet=fr1[ob_sogl][10];otvod_nchet=fr1[ob_sogl][11];
+	if(klaval==13)
+	{ if(may_be_ograd(put)==1){home(modi);return;}
+		// ВЫДАЕМ СОГЛАСИЕ НА ОГРАЖДЕНИЕ,ПУТЬ ##
+		w(156,put,""); home(modi);oppp=0;
+		koda='A';
+		point=ob_sogl;
+		if(fotksig(koda)==1)return;
+		buf_ko[9]=check_sum(buf_ko);
+		pooo[ob_sogl]=biostime(0,0L);
+		flagoutmsg=1;
+	}
 }
 #endif
 //----------------------------------------------------------------
@@ -2110,96 +2113,96 @@ k_ograd(int ob_sogl)
 //возвращает -1 при ненорме
 int parafaz(int ob)
 {
-#ifdef NALAD
-  nom_func("216");
-#endif
-  if(fr3[ob][5]==1)//при непарафазности
-  {
-    if(tst_fix(ob,5))
-    {
-      slom_interf(ob);
-      fix(ob,5);
-      if(pooo[ob]!=0l)sbros_time(ob,5);
-    }
-    return(-1);
-  }
-  else
-  {
-    if(tst_fix(ob,5))fix(ob,5);
-    return(0);
-  }
+
+	nom_func("216");
+
+	if(fr3[ob][5]==1)//при непарафазности
+	{
+		if(tst_fix(ob,5))
+		{
+			slom_interf(ob);
+			fix(ob,5);
+			if(pooo[ob]!=0l)sbros_time(ob,5);
+		}
+		return(-1);
+	}
+	else
+	{
+		if(tst_fix(ob,5))fix(ob,5);
+		return(0);
+	}
 }
 //----------------------------------------------------------------
 //процедура отображения, вывода на экран сообщения и записи на диск
 //состояния объекта управления типа лампа, зависящая от двух объектов из
 //разных сообщений стойки ТУМС
-lampa_compl(int nom,int bit_)
+void lampa_compl(int nom,int bit_)
 {
-  int goj=0,ob_svyaz,ob_sn,bit_sn,jj;
-#ifdef NALAD  
-  nom_func("144");
-#endif     
-  //если нет координаты X для 1-ой лампы объекта, то выйти
-  //если система находитс в просмотре помощи, неисправностей или нет связи
-  if((klo==1)||(help!=0)||(nikuda==1))return;
-  if((fr1[nom][2*bit_+3]==9999)&&(fr1[nom][2*bit_+4]==9999))return;
-  //если бит установлен и нет переключения экранов
-  if((fr3[nom][bit_]==1)&&(perekluch==0))
-  //если надо фиксировать данное событие
-  if(zvu_tabl[fr1[nom][2]][bit_+4]!=0)
-  //если найдено имя для бита
-  if(get_str(nom,bit_)==0) neisprav_na_disk(zvu_tabl[fr1[nom][2]][bit_+4],chudo);
-  ob_svyaz=fr1[nom][11];//определить объект связи
-  ob_sn=fr1[ob_svyaz][bit_*2];//определить смежный объект
-  bit_sn=fr1[ob_svyaz][bit_*2+1];//определить бит смежного объекта
-  if(fr3[nom][bit_]==1)// если основной датчик сработал
-  {
-    if(fr3[ob_sn][bit_sn]==0)
-    setcolor(fr1[ob_svyaz][10]);//взять цвет для 0-вого значения смежного бита
-    if(fr3[ob_sn][bit_sn]==1)
-    setcolor(fr1[ob_svyaz][11]);//взять цвет для 1-ного значения смежного бита
-    setlinestyle(0,0,0);
-    //если нужен звук и нет переключения экранов
-    if((zvu_tabl[fr1[nom][2]][bit_]!=0)&&(perekluch==0))zvuk_vkl(1,18);
-  }
-  else // если основной датчик сбросился
-  {
-    if(fr3[ob_sn][bit_sn]==0)
-    setcolor(fr1[ob_svyaz][8]);//взять цвет для 0-го значения смежного бита
-    if(fr3[ob_sn][bit_sn]==1)
-    setcolor(fr1[ob_svyaz][9]);//взять цвет для 1-го значения смежного бита
-    setlinestyle(0,0,0);
-    //если надо звук и нет переключения экрана
-    if((zvu_tabl[fr1[nom][2]][bit_]!=0)&&(perekluch==0))zvuk_vkl(1,18);
-  }
-  //если непарафазность или нет связи
-  if(fr3[nom][5]==1)setcolor(LIGHTCYAN);
-  for(goj=fr1[ob_svyaz][12]-1;goj>=0;goj--)
-  circle(fr1[nom][3+2*bit_],fr1[nom][4+2*bit_],goj);
+	int goj=0,ob_svyaz,ob_sn,bit_sn,jj;
+
+	nom_func("144");
+
+	//если нет координаты X для 1-ой лампы объекта, то выйти
+	//если система находитс в просмотре помощи, неисправностей или нет связи
+	if((klo==1)||(help!=0)||(nikuda==1))return;
+	if((fr1[nom][2*bit_+3]==9999)&&(fr1[nom][2*bit_+4]==9999))return;
+	//если бит установлен и нет переключения экранов
+	if((fr3[nom][bit_]==1)&&(perekluch==0))
+	//если надо фиксировать данное событие
+	if(zvu_tabl[fr1[nom][2]][bit_+4]!=0)
+	//если найдено имя для бита
+	if(get_str(nom,bit_)==0) neisprav_na_disk(zvu_tabl[fr1[nom][2]][bit_+4],chudo);
+	ob_svyaz=fr1[nom][11];//определить объект связи
+	ob_sn=fr1[ob_svyaz][bit_*2];//определить смежный объект
+	bit_sn=fr1[ob_svyaz][bit_*2+1];//определить бит смежного объекта
+	if(fr3[nom][bit_]==1)// если основной датчик сработал
+	{
+		if(fr3[ob_sn][bit_sn]==0)
+		setcolor(fr1[ob_svyaz][10]);//взять цвет для 0-вого значения смежного бита
+		if(fr3[ob_sn][bit_sn]==1)
+		setcolor(fr1[ob_svyaz][11]);//взять цвет для 1-ного значения смежного бита
+		setlinestyle(0,0,0);
+		//если нужен звук и нет переключения экранов
+		if((zvu_tabl[fr1[nom][2]][bit_]!=0)&&(perekluch==0))zvuk_vkl(1,18);
+	}
+	else // если основной датчик сбросился
+	{
+		if(fr3[ob_sn][bit_sn]==0)
+		setcolor(fr1[ob_svyaz][8]);//взять цвет для 0-го значения смежного бита
+		if(fr3[ob_sn][bit_sn]==1)
+		setcolor(fr1[ob_svyaz][9]);//взять цвет для 1-го значения смежного бита
+		setlinestyle(0,0,0);
+		//если надо звук и нет переключения экрана
+		if((zvu_tabl[fr1[nom][2]][bit_]!=0)&&(perekluch==0))zvuk_vkl(1,18);
+	}
+	//если непарафазность или нет связи
+	if(fr3[nom][5]==1)setcolor(LIGHTCYAN);
+	for(goj=fr1[ob_svyaz][12]-1;goj>=0;goj--)
+	circle(fr1[nom][3+2*bit_],fr1[nom][4+2*bit_],goj);
 }
 #ifdef OGRAD
 //------------------------------------------------------
 //Процедура проверки возможности установки ограждения пути
 int may_be_ograd(int put_ogr)
 { int element,napr,vhod_s_v=0,strelka;
-  element=put_ogr;
-  napr=1; //начинаем движение в четную сторону
+	element=put_ogr;
+	napr=1; //начинаем движение в четную сторону
 start:
-  if(napr==1)element++;
-  if(napr==0)element--;
-  strelka=0;
-  while(fr1[element][0]!=5)
-  { if(napr==1&&vhod_s_v==0)element++;
-    if(napr==0&&vhod_s_v==0)element--;
-    if(fr1[element][0]==1)//если вышли на стрелку 
-    { strelka++;
-      if(fr1[element][7]==napr)//если вход на стрелку совпадает с движением
-      { if(fr3[element][0]==1&&fr3[element][1]==0)//если стрелка в плюсе
-        { if(fr1[element][1]==0)// если переход по плюсу c отклонением
-          {
-           element=fr1[element][2];
-          }
-        }
+	if(napr==1)element++;
+	if(napr==0)element--;
+	strelka=0;
+	while(fr1[element][0]!=5)
+	{ if(napr==1&&vhod_s_v==0)element++;
+		if(napr==0&&vhod_s_v==0)element--;
+		if(fr1[element][0]==1)//если вышли на стрелку
+		{ strelka++;
+			if(fr1[element][7]==napr)//если вход на стрелку совпадает с движением
+			{ if(fr3[element][0]==1&&fr3[element][1]==0)//если стрелка в плюсе
+				{ if(fr1[element][1]==0)// если переход по плюсу c отклонением
+					{
+					 element=fr1[element][2];
+					}
+				}
       }
       else//вход на стрелку не совпадает с направлением
       { if(vhod_s_v==1)//если входим с отклонения
@@ -2257,10 +2260,10 @@ start:
 //контроль ведется по слову fr3[ob][11]
 int tst_fix(int ob,int bt)
 {
-#ifdef NALAD  
-  nom_func("364");
-#endif  
 	int test;
+
+	nom_func("364");
+
 	if(ob==132)
 		test = 0;	
   if((fr3[ob][bt]==1)&&((fr3[ob][11]&(1<<bt))!=0))return(0);
@@ -2272,9 +2275,9 @@ int tst_fix(int ob,int bt)
 //на диск и выдаче текстовых сообщений-предупреждений
 void fix(int ob,int bt)
 {
-#ifdef NALAD  
-  nom_func("64");
-#endif  
+  
+	nom_func("64");
+  
   if(fr3[ob][bt]==1)
 		fr3[ob][11]=fr3[ob][11]|(1<<bt);
   if(fr3[ob][bt]==0)
@@ -2299,9 +2302,9 @@ void ris_otv_knop(int ob)
   cvt,//цвет исполниельного объекта
   cvt1,//цвет предварительного объекта
   inv1;
-#ifdef NALAD
-  nom_func("287");
-#endif
+
+	nom_func("287");
+
   pred=fr1[ob][2];//получить предварительный
   isp=fr1[ob][3];//получить исполнительный
   invers=fr1[ob][10];//получить признак инверсии
@@ -2367,7 +2370,7 @@ final:
 }
 //----------------------------------------------
 //отображение "ворот" для УКГ
-UKG(int ob)
+void UKG(int ob)
 {
   int bt_kg, //бит для контроля габарита
   bt_okg, //бит отключателя контроля габарита
@@ -2379,9 +2382,9 @@ UKG(int ob)
   yt, //y-координата для вывода текста
   cvt, //цвет "ворот"
   cod; //код состояния
-#ifdef NALAD  
+  
   nom_func("382");
-#endif      
+      
   bt_kg=fr1[ob][2];
   bt_okg=fr1[ob][3];
   upr=fr1[ob][4]&0xfff;
@@ -2471,7 +2474,7 @@ UKG(int ob)
 //param=0 - вход из объекта типа LRU (датчик сигнала) или смены направления
 //param=1 - вход из объекта типа LKO (датчик огневого реле)
 //param=5 - вход из анализатора таймера-по истечению времени
-lru_lko(int ob,int bt,int param)
+void lru_lko(int ob,int bt,int param)
 {
 	int ob_ru, // датчик сигнала
   bt_ru,     // бит сигнала

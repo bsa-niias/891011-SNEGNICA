@@ -13,13 +13,14 @@ int day,month,year;
 int po1,po2,po3,po4,po5,po6,po7,f3;
 void *f_o;
 //--------------------------------------------------------------
-neisprav_na_disk(char znak,char slovo[20])
+void neisprav_na_disk(char znak,char slovo[20])
 {
 	unsigned dt1,dt2,tm1,tm2;
   unsigned long ob_size=0;
-#ifdef NALAD
-  nom_func("306");
-#endif
+
+	nom_func("306");
+
+	if(notHDD==1)return;
   if(pusto!=0)return;
   if(nikuda==1)return;
   if(DISK==0)
@@ -119,14 +120,15 @@ error:
 	return;
 }
 //------------------------------------
-add_word(char kto,char slo[20])
+void add_word(char kto,char slo[20])
 {
 	int Tch=0,yui,dur=0,test_=13700;
 	unsigned char STROKA[50],dat[5];
   unsigned char dn[3],ms[3],gd[5],chs[3],min[3],sec[3];
-#ifdef NALAD
+
 	nom_func("3");
-#endif
+
+	if(notHDD == 1) return;
  	for(yui=0;yui<50;yui++)STROKA[yui]=0;
 	if(DISK==0)
   {
@@ -159,16 +161,15 @@ add_word(char kto,char slo[20])
   return;
 }
 //------------------------------------------
-slom_interf(int chi)
+void slom_interf(int chi)
 {
 	struct ftime d1,d2;
 	int tst;
 	unsigned long ob_size=0;
-#ifdef NALAD
+
 	nom_func("306");
-#endif
-	if(chi==4060)
-	tst=1;
+	
+	if(notHDD==1)return;
 	if(pusto!=0)return;
   if(klo==1)return;
   if(DISK==0)
@@ -274,9 +275,9 @@ error:
 //------------------------------------------------------------
 int kotora(int ks)
 {
-#ifdef NALAD
-  nom_func("133");
-#endif
+
+	nom_func("133");
+
 	if((fr3[ks][0]==0)&&(fr3[ks][1]==0)&&(fr3[ks][2]==1))return(1);
   if((fr3[ks][0]==1)&&(fr3[ks][1]==1)&&(fr3[ks][2]==0))return(2);
   if((fr3[ks][0]==0)&&(fr3[ks][1]==0)&&(fr3[ks][2]==0))return(1);
@@ -284,14 +285,15 @@ int kotora(int ks)
   return(0);
 }
 /******************************************/
-add_oblom(int chis)
+void add_oblom(int chis)
 {
 	int Tch=0,yui,dur=0,test_=13700;
 	long aa;
 	unsigned char STROKA[50],dat[5],chs[3],min[3],sec[3],cifr[2];
-#ifdef NALAD
+
 	nom_func("2");
-#endif
+
+	if(notHDD == 1)return;
 	cifr[1]=0;
 	for(yui=0;yui<50;yui++)STROKA[yui]=0;//очистить строку
 	//записать в строку день

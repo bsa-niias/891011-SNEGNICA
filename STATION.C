@@ -13,22 +13,22 @@ int ioy=0;
 int all_null(int nom)
 {
   int iqc,vot_on=0;
-#ifdef NALAD
-  nom_func("4");
-#endif
+
+	nom_func("4");
+
   vot_on=markery[nom][6];
   for(iqc=Start_R;iqc<Start_R+WAZO;iqc++)
   if((vot_on!=iqc)&&(fr3[iqc][0]==1))return(1);
 return(0);
 }
 //-----------------------------------------------
-analiz_time()
+void analiz_time()
 {
   int i,obekt,j,tip,tek,sled;
   long tim,tt;
-#ifdef NALAD
-  nom_func("9");
-#endif
+
+	nom_func("9");
+
   tim=biostime(0,0l);
   for(i=0;i<25;i++)
   {
@@ -245,15 +245,15 @@ cikl:
 }
 //---------------------------------------------------------------
 
-dn_au(int nom)
+void dn_au(int nom)
 {
   int ob_au,ob_dn,ob_nn,bit_au,bit_nn,bit_dn;
   ob_nn=fr1[nom][3];bit_nn=fr1[nom][4];
   ob_dn=fr1[nom][5];bit_dn=fr1[nom][6];
   ob_au=fr1[nom][9];bit_au=fr1[nom][10];
-#ifdef NALAD  
-  nom_func("43");
-#endif  
+  
+	nom_func("43");
+  
   if(klaval==13)
   { ob_nn=fr1[nom][3];bit_nn=fr1[nom][4];
     ob_dn=fr1[nom][5];bit_dn=fr1[nom][6];
@@ -275,25 +275,25 @@ dn_au(int nom)
         if((COD_DN==4)||(COD_DN==5)||(COD_DN==9)){w(208,999,"");nom=ob_nn;}
         //НЕИСПРАВНА СХЕМА ПЕРЕКЛЮЧЕНИЯ РЕЖИМОВ СИГНАЛОВ
         else {w(209,999,"");return;}
-    }
-    oppp=0; puti=0;
-    if(nom==ob_nn)nom=ob_dn;
-    else
-      if(nom==ob_dn)nom=ob_nn;
-    form_kom_knopka(nom,0);
-    home(modi);
-    return;
-  }
-  else return;
+		}
+		oppp=0; puti=0;
+		if(nom==ob_nn)nom=ob_dn;
+		else
+			if(nom==ob_dn)nom=ob_nn;
+		form_kom_knopka(nom,0);
+		home(modi);
+		return;
+	}
+	else return;
 }
 //--------------------------------------------------------------
-first_razd(int nom)
+void first_razd(int nom)
 { //команда включения разделки объекта nom типа РИ, выдается дважды
   //в качестве предварительной и исполнительной
   int nomer,podgr,n,i17,j17,SDVIG=0,FN=0,FIN=0;
-#ifdef NALAD  
-  nom_func("62");
-#endif    
+  
+	nom_func("62");
+    
   buf_ko[2]='F'; //сформировать код группы для РИ-объекта
   n=markery[nom][6];//получить номер в базе для выбранного маркером
   if(fr1[n][13]==1)//для объекта из первой стойки
@@ -317,37 +317,37 @@ first_razd(int nom)
   for(j17=0;j17<=4;j17++)//пройти по объектам каждой подгруппы
   if (spspu[i17][j17]==n)//если объект найден
   {
-    podgr=podgruppa[i17+SDVIG-FN];//получить код подгруппы
-    nomer=j17; //запомнить порядковый номер объекта в подгруппе
-    break;
-  }
-  if(nomer==9999) return;//если объект не найден - выход
-  buf_ko[3]=podgr;//для найденного объекта записать код подгруппы
-  for (i17=0;i17<=4;i17++)
-  if (i17==nomer) buf_ko[i17+4]='T';//буква 'T'для байта, соответствующего объекта
-  else buf_ko[i17+4]=124; //для прочих объектов - |
-  buf_ko[9]=check_sum(buf_ko);//записать контрольную сумму
-  pooo[n]=biostime(0,0L);//включить таймер на разделку данного элемента
-  fr3[n][9]=9;//установить флаг включенного таймера
-  flagoutmsg=1;//выставить требование передачи в ТУМС
+		podgr=podgruppa[i17+SDVIG-FN];//получить код подгруппы
+		nomer=j17; //запомнить порядковый номер объекта в подгруппе
+		break;
+	}
+	if(nomer==9999) return;//если объект не найден - выход
+	buf_ko[3]=podgr;//для найденного объекта записать код подгруппы
+	for (i17=0;i17<=4;i17++)
+	if (i17==nomer) buf_ko[i17+4]='T';//буква 'T'для байта, соответствующего объекта
+	else buf_ko[i17+4]=124; //для прочих объектов - |
+	buf_ko[9]=check_sum(buf_ko);//записать контрольную сумму
+	pooo[n]=biostime(0,0L);//включить таймер на разделку данного элемента
+	fr3[n][9]=9;//установить флаг включенного таймера
+	flagoutmsg=1;//выставить требование передачи в ТУМС
 }
 //--------------------------------------------------------
 
-form_first_kom(int nom)
+void form_first_kom(int nom)
 { //процедура формирования предварительной команды для вспомогательной
-  //смены направления
-  int nomer,podgr,kodd=0,n,i18,j18,SDVIG=0,FN=0,FIN=0;
-#ifdef NALAD  
-  nom_func("71");
-#endif      
-  if(zapusk!=3)w(11,999,"");//ПОСЫЛАЕМ ПРЕДВАРИТЕЛЬНУЮ КОМАНДУ
-  buf_ko[2]='E'; //заполнить код группы
-  n=markery[nom][6];//получить номер выбранного маркером объекта для базы
-  if(fr1[n][13]==1)//если объект из первой стойки
-  {
-    buf_ko[1]=ZAGO_MPSU(0x61);//заполнить заголовок
-    SDVIG=STR1;FN=0;FIN=SIG1;//получить смещение и границу для сигналов
-  }
+	//смены направления
+	int nomer,podgr,kodd=0,n,i18,j18,SDVIG=0,FN=0,FIN=0;
+
+	nom_func("71");
+
+	if(zapusk!=3)w(11,999,"");//ПОСЫЛАЕМ ПРЕДВАРИТЕЛЬНУЮ КОМАНДУ
+	buf_ko[2]='E'; //заполнить код группы
+	n=markery[nom][6];//получить номер выбранного маркером объекта для базы
+	if(fr1[n][13]==1)//если объект из первой стойки
+	{
+		buf_ko[1]=ZAGO_MPSU(0x61);//заполнить заголовок
+		SDVIG=STR1;FN=0;FIN=SIG1;//получить смещение и границу для сигналов
+	}
 #ifdef KOL_SOO2
   else
   {
@@ -363,7 +363,7 @@ form_first_kom(int nom)
     for(j18=0;j18<=4;j18++)//пройти по объектам подгрупп
     if (spsig[i18][j18]==n)//если найден нужный объект
     {
-      podgr=podgruppa[i18+SDVIG-FN];//запомнить подгруппу
+			podgr=podgruppa[i18+SDVIG-FN];//запомнить подгруппу
       nomer=j18;//запомнить порядковый номер в подгруппе для объекта
       break;
     }
@@ -396,7 +396,7 @@ form_first_kom(int nom)
 
 //------------------------------------------------------------------
 #ifdef VSP
-form_second_kom(int nom)
+void form_second_kom(int nom)
 { //процедура формирования исполнительной команды для вспомогательной смены
   //направления
   int n,nomer,podgr,kodd=0,SDVIG=0,FN=0,FIN=0,i18,j18;
@@ -426,7 +426,7 @@ form_second_kom(int nom)
   if(nomer==9999) return;//если объект не найден - выход
   buf_ko[3]=podgr;//заполнить подгруппу
   for(i18=0;i18<VSP;i18++)
-  if(mark[i18][0]==nom)
+	if(mark[i18][0]==nom)
   if(mark[i18][1]==1) priem_=1;
   else priem_=-1;
   if(i18>VSP) return;
@@ -446,17 +446,17 @@ form_second_kom(int nom)
 }
 #endif
 //---------------------------------------------------------------
-gri_razd(int nom)
+void gri_razd(int nom)
 { // формирует команду для включения выдержки времени
-  //на выполнение искусственной разделки
-  int nomer,podgr,n,i17,j17,SDVIG=0,FN=0,FIN=0;
-#ifdef NALAD  
-  nom_func("100");
-#endif         
-  buf_ko[2]='F';//заполнить группу
-  n=markery[nom][6];//получить объект
-  if(fr1[n][13]==1)//для стойки №1 получить заголовок, сдвиг и границы
-  {
+	//на выполнение искусственной разделки
+	int nomer,podgr,n,i17,j17,SDVIG=0,FN=0,FIN=0;
+
+	nom_func("100");
+
+	buf_ko[2]='F';//заполнить группу
+	n=markery[nom][6];//получить объект
+	if(fr1[n][13]==1)//для стойки №1 получить заголовок, сдвиг и границы
+	{
     buf_ko[1]=ZAGO_MPSU(0x61);
     SDVIG=STR1+SIG1;FN=0;FIN=UCH1;
   }
@@ -476,22 +476,22 @@ gri_razd(int nom)
     nomer=j17;//зафиксировать номер в подгруппе
     break;
   }
-  if(nomer==9999) return;//если объект не найден - выход
-  buf_ko[3]=podgr;//заполнить подгруппу
-  for (i17=0;i17<=4;i17++)
-  if (i17==nomer) buf_ko[i17+4]='L'; //для выбранного объекта записать команду
-  else buf_ko[i17+4]=124; //для прочих объектов записать заполнитель
-  buf_ko[9]=check_sum(buf_ko);//дополнить команду контрольной суммой
-  pooo[n]=biostime(0,0L);//зафиксировать время
-  fr3[n][9]=9;//запомнить факт выдачи команды
-  flagoutmsg=1;//установить запрос на передачу в ТУМС
+	if(nomer==9999) return;//если объект не найден - выход
+	buf_ko[3]=podgr;//заполнить подгруппу
+	for (i17=0;i17<=4;i17++)
+	if (i17==nomer) buf_ko[i17+4]='L'; //для выбранного объекта записать команду
+	else buf_ko[i17+4]=124; //для прочих объектов записать заполнитель
+	buf_ko[9]=check_sum(buf_ko);//дополнить команду контрольной суммой
+	pooo[n]=biostime(0,0L);//зафиксировать время
+	fr3[n][9]=9;//запомнить факт выдачи команды
+	flagoutmsg=1;//установить запрос на передачу в ТУМС
 }
 //------------------------------------------------------
-k_per(int nom)
+void k_per(int nom)
 { 
-#ifdef NALAD  
-  nom_func("113");
-#endif        
+  
+	nom_func("113");
+        
   if (klaval==13)
   { //ПОСЫЛАЕМ КОМАНДУ НА ОТКРЫТИЕ ПЕРЕЕЗДА
     if((fr3[nom][0]==1)&&(fr3[nom+1][1]==1))w(24,999,"");
@@ -503,22 +503,22 @@ k_per(int nom)
   return;
 }
 //------------------------------------------------------
-knopa(int nom)
+void knopa(int nom)
 { unsigned int coox,cooy,//координаты
-  bit,//бит воздействия на включение
-  ob_akt,//объект навязывания состояния (возможно вопреки объекту управления)
-  bit_akt,//бит навязывания состояния
-  zn_akt,//значение активного состояния навязывающего бита
-  ob_vkl,//объект включения
-  ob_otkl,//объект отключения
-  bit_otkl,//бит отключения
-  so1,//сообщение на включение
-  so2,//сообщение на отключение
-  inv,//признак необходимости инвертировать команду
-  i;
-#ifdef NALAD  
-  nom_func("121");
-#endif          
+	bit,//бит воздействия на включение
+	ob_akt,//объект навязывания состояния (возможно вопреки объекту управления)
+	bit_akt,//бит навязывания состояния
+	zn_akt,//значение активного состояния навязывающего бита
+	ob_vkl,//объект включения
+	ob_otkl,//объект отключения
+	bit_otkl,//бит отключения
+	so1,//сообщение на включение
+	so2,//сообщение на отключение
+	inv,//признак необходимости инвертировать команду
+	i;
+
+	nom_func("121");
+          
   if(klaval==13)
   {
     if(fr1[nom][1]!=166)
@@ -533,7 +533,7 @@ knopa(int nom)
       bit_otkl=(fr1[nom][4]&0xf000)>>12;
       so1=fr1[nom][8];
       so2=fr1[nom][9];
-    }
+		}
     if((fr1[nom][7]!=9999)&&(fr1[nom][2]!=33)&&(fr1[nom][1]!=166))
     {
      ob_akt=fr1[nom][7]>>4; bit_akt=(fr1[nom][7]&0xf)>>1;
@@ -560,12 +560,12 @@ out:
   else return;
 }
 //------------------------------------------------------------------
-knopka_OK()
+void knopka_OK()
 {
-  int goj=0;
-#ifdef NALAD  
-  nom_func("123");
-#endif          
+	int goj=0;
+
+	nom_func("123");
+          
   if(pusto==0)
   {
     if(otv_kom==0) setcolor(8);// если нет нажатия кнопки ОК - цвет серый 
@@ -590,7 +590,7 @@ knopka_OK()
     for(ukaz_trass=0;ukaz_trass<100;ukaz_trass++)trassa[ukaz_trass]=0xFFFF;
     whole_finish();
     finish_strelok();
-    povt1=povt2=poka=vozvr=0;
+		povt1=povt2=poka=vozvr=0;
     flagoutmsg=0;
     setcolor(RED);
   }
@@ -620,27 +620,27 @@ knopka_OK()
     if(perekluch==0)
     { if(zalet!=0) zalet=0;
       if(zabeg!=0) zabeg=0;
-       t_otpusk=biostime(0,0L);//зафиксировать время отпускания кнопки
-    }
-  }
-  if((klo==1)||(help!=0)||(nikuda==1))return;
-  if((pusto&3)!=0) setcolor(LIGHTCYAN);
+			 t_otpusk=biostime(0,0L);//зафиксировать время отпускания кнопки
+		}
+	}
+	if((klo==1)||(help!=0)||(nikuda==1))return;
+	if((pusto&3)!=0) setcolor(LIGHTCYAN);
 ris:
-  setlinestyle(0,0,0);
-  setfillstyle(0,0);
-  for(goj=6;goj>0;goj--)circle(XOK,YOK,goj);// нарисовать кнопку
-  if(hudo==1)
-  {
-    setcolor(cvv);
-    for(goj=0;goj<=5;goj++)circle(XOK,YOK,goj);
-  }
+	setlinestyle(0,0,0);
+	setfillstyle(0,0);
+	for(goj=6;goj>0;goj--)circle(XOK,YOK,goj);// нарисовать кнопку
+	if(hudo==1)
+	{
+		setcolor(cvv);
+		for(goj=0;goj<=5;goj++)circle(XOK,YOK,goj);
+	}
 }
 //------------------------------------------------------
-kom_per(int pop)
+void kom_per(int pop)
 {
-#ifdef NALAD  
-  nom_func("126");
-#endif         
+  
+	nom_func("126");
+         
   if((nikuda==1)||(klo==1)||(help!=0)) return;
   if((fr3[pop][0]==1)&&(fr3[pop+1][1]==1))w(23,999,"");//ОТКРЫТЬ ПЕРЕЕЗД?
   else w(22,999,"");//ЗАКРЫТЬ ПЕРЕЕЗД?
@@ -648,25 +648,25 @@ kom_per(int pop)
   puti=1;
 }
 //---------------------------------------------------------
-marsh1()
+void marsh1()
 { //программа трассировки маршрута по топологии станции и проверка достижимости
-  int i,nop,sm,test_marsh,vm=0,otvet,obekt2;
-#ifdef NALAD  
-  nom_func("164");
-#endif       
-  // если нажимается первая точка, запоминаем начало маршрута
-  if(povt1==0)
-  {
-    nop=fr1[nach_marsh][1];//фиксируем направление сигнала
-    if(nop==0) sm=1;//по направлению выбираем шаг смещения
-    else sm=-1;
-  }
-  if(poka==0)
-  { for (i=0;i<kol_OSN;i++)fr3[i][6]=0;//для основных объектов - сброс вспомогательного слова
-    if(mane==0)
-    {
-      if((fr1[markery[modi][6]][2]==0)&&//если сигнал маневровый и
-      (fr1[markery[modi][6]][6]==0))    // и светофор маневровый
+	int i,nop,sm,test_marsh,vm=0,otvet,obekt2;
+
+	nom_func("164");
+
+	// если нажимается первая точка, запоминаем начало маршрута
+	if(povt1==0)
+	{
+		nop=fr1[nach_marsh][1];//фиксируем направление сигнала
+		if(nop==0) sm=1;//по направлению выбираем шаг смещения
+		else sm=-1;
+	}
+	if(poka==0)
+	{ for (i=0;i<kol_OSN;i++)fr3[i][6]=0;//для основных объектов - сброс вспомогательного слова
+		if(mane==0)
+		{
+			if((fr1[markery[modi][6]][2]==0)&&//если сигнал маневровый и
+			(fr1[markery[modi][6]][6]==0))    // и светофор маневровый
       mane=1;// установить признак маневрового маршрута
       else
         if(manevro==1) mane=1;//если маршрут маневровый  установить признак
@@ -678,7 +678,7 @@ marsh1()
       ko=markery[modi][6];//запомнить объект управления
       if(fr1[markery[modi][6]][6]==3&&mane==0)ko++; //если 2 белых - сместиться
     }
-    if(povt2==0)//если второй сигнал не выбран
+		if(povt2==0)//если второй сигнал не выбран
     { nach_marsh=ko;//присвоить началу маршрута значение выбранного сигнала
       n_m=modi;//запомнить объект управления
       povt2=1;//зафиксировать
@@ -708,7 +708,7 @@ marsh1()
   if((nach_marsh-end_marsh==1)||(nach_marsh-end_marsh==-1))//если начало-конец рядом
   { ioy=1; goto not;}
   ZAHOD=0;TEST=1;//устанавливаем признак поиска эталонного маршрута
-  test_marsh=may_be(nach_marsh,fr1[nach_marsh][1]);//создать эталон
+	test_marsh=may_be(nach_marsh,fr1[nach_marsh][1]);//создать эталон
   ukaz_trass=0;
   while(trassa_osn[ukaz_trass]!=0xFFFF)//очистить указатели заходов и поворотов
   { if((fr3[trassa_osn[ukaz_trass]][8]!=0))
@@ -738,7 +738,7 @@ marsh1()
         if(fr1[trassa[ukaz_trass]][0]==5)//если объект=путь
         {
           w(100,999,"");/*НЕВОЗМОЖЕН МАНЕВРОВЫЙ МАРШРУТ ЧЕРЕЗ ПУТЬ*/
-          ioy=2;//установить признак выхода на путь
+					ioy=2;//установить признак выхода на путь
           goto not;
         }
       }
@@ -768,27 +768,27 @@ marsh1()
     ris_trassa();
     voper();
   }
-  else//если трасса не найдена
-  {
+	else//если трасса не найдена
+	{
 not:
-    finish_startMM(); //закончить работу с трассой
+		finish_startMM(); //закончить работу с трассой
 nn: if(ioy==1)//если "плохой" конец
-    w(134,999,""); //ТОЧКА КОНЦА МАРШРУТА УКАЗАНА НЕВЕРНО
-    home(modi);
-    soob_for_oper=1;
-    sbros=1;
-    whole_finish();
-    return;
-  }
+		w(134,999,""); //ТОЧКА КОНЦА МАРШРУТА УКАЗАНА НЕВЕРНО
+		home(modi);
+		soob_for_oper=1;
+		sbros=1;
+		whole_finish();
+		return;
+	}
 }
 //---------------------------------------------------------------
-marsh2()
+void marsh2()
 { //процедура проверки оттрассированного маршрута в маршрутном режиме
   //и проверка возможности установки стрелок в требуемое состояние
   int otv,obekt2,i;
-#ifdef NALAD  
-  nom_func("165");
-#endif         
+  
+	nom_func("165");
+         
   vozvr=0;//сбросить флаг нажатий точек задания маршрута
   End_vara=0;//сбросить конец вариантного маршрута
   ukaz_trass=0;//указатель трассы поставить в начало
@@ -812,15 +812,15 @@ marsh2()
         }
         TIMER_SOB(obekt2,22,obekt2);//зарядить таймер на ожидание выполнения
       }
-    }
-    ukaz_trass++;//перейти к следующему элементу маршрута по трассе
-  }
-  w(132,nach_marsh,"");/*ПОСЫЛАЕМ КОМАНДУ НА ОТКРЫТИЕ СИГНАЛА */
-  soob_for_oper=1;
-  zad_marsh();
-  //установить признак выдачи маршрутной команды
-  if(fr1[nach_marsh][13]==1)komanda2[0]=nach_marsh;
-  if(fr1[nach_marsh][13]==2)komanda2[1]=nach_marsh;
+		}
+		ukaz_trass++;//перейти к следующему элементу маршрута по трассе
+	}
+	w(132,nach_marsh,"");/*ПОСЫЛАЕМ КОМАНДУ НА ОТКРЫТИЕ СИГНАЛА */
+	soob_for_oper=1;
+	zad_marsh();
+	//установить признак выдачи маршрутной команды
+	if(fr1[nach_marsh][13]==1)komanda2[0]=nach_marsh;
+	if(fr1[nach_marsh][13]==2)komanda2[1]=nach_marsh;
 final:
 //  finish_startMM();
 //  whole_finish();//закончить работу с объектами
@@ -829,9 +829,9 @@ final:
 int nashel(int nom)
 {
   int iqc,kil=0;
-#ifdef NALAD  
-  nom_func("180");
-#endif     
+  
+	nom_func("180");
+     
   for(iqc=0;iqc<WAZO;iqc++)
     if (nom==was[iqc]) return(1);
     else if(was[iqc]==0) kil++;
@@ -839,55 +839,55 @@ int nashel(int nom)
   else return(2);
 }
 //----------------------------------------------------------
-nemarsh(int nom)
+void nemarsh(int nom)
 {
-  int coox,cooy;
-#ifdef NALAD  
-  nom_func("183");
-#endif   
-  if(klaval==13)
-  {if(fr3[nom][fr1[nom][11]]==1)w(fr1[nom][4],999,"");
-    else
-      if(fr3[nom][fr1[nom][11]]==0) w(fr1[nom][3],999,"");
-    oppp=0;puti=0;
-    form_kom_nemarsh(nom);
-    home(modi);
-    return;
-  }
-  else return;
+	int coox,cooy;
+
+	nom_func("183");
+
+	if(klaval==13)
+	{if(fr3[nom][fr1[nom][11]]==1)w(fr1[nom][4],999,"");
+		else
+			if(fr3[nom][fr1[nom][11]]==0) w(fr1[nom][3],999,"");
+		oppp=0;puti=0;
+		form_kom_nemarsh(nom);
+		home(modi);
+		return;
+	}
+	else return;
 }
 //-------------------------------------------------------
-nok(int nom)
-{ 
-  int bit;
-#ifdef NALAD  
-  nom_func("185");
-#endif   
-  bit=(fr1[nom][3]&0xf000)>>12;
-  if(fr1[nom][0]==3)
-  {
-    if((fr3[nom][0]==1)&&(fr3[nom][bit]==0))
-    {
-      w(51,999,"");return;
-    }
-  }
-  if(fr3[nom][bit]==0)vopros(1,9999,215,"?");//ОТКЛЮЧИТЬ УКСПС
-  else
-    if(fr1[nom][0]==2)
-    {
-      if(fr3[nom][bit]==1)vopros(1,9999,214,"?");//ВКЛЮЧИТЬ УКСПС
-      else {home(modi);oppp=0;puti=0;return;}
-    }
-    else {w(229,999,"");home(modi);oppp=0;puti=0;return;}
-  zapretvybora=1;oppp=1;puti=1;
-  return;
+void nok(int nom)
+{
+	int bit;
+
+	nom_func("185");
+
+	bit=(fr1[nom][3]&0xf000)>>12;
+	if(fr1[nom][0]==3)
+	{
+		if((fr3[nom][0]==1)&&(fr3[nom][bit]==0))
+		{
+			w(51,999,"");return;
+		}
+	}
+	if(fr3[nom][bit]==0)vopros(1,9999,215,"?");//ОТКЛЮЧИТЬ УКСПС
+	else
+		if(fr1[nom][0]==2)
+		{
+			if(fr3[nom][bit]==1)vopros(1,9999,214,"?");//ВКЛЮЧИТЬ УКСПС
+			else {home(modi);oppp=0;puti=0;return;}
+		}
+		else {w(229,999,"");home(modi);oppp=0;puti=0;return;}
+	zapretvybora=1;oppp=1;puti=1;
+	return;
 }
 //---------------------------------------------------------
-noka(nom)
+void noka(nom)
 { int coox,cooy;
-#ifdef NALAD  
-  nom_func("186");
-#endif 
+  
+	nom_func("186");
+ 
   if(klaval==13)
   { if(fr3[nom][(fr1[nom][3]&0xf000)>>12]==0)w(109,999,"");//ПОСЫЛАЕМ КОМАНДУ НА ОТКЛЮЧЕНИЕ УКСПС 
     else
@@ -902,18 +902,18 @@ noka(nom)
   else return;
 }
 //-----------------------------------------------
-nokb(nom)
+void nokb(nom)
 { int coox,cooy;
-#ifdef NALAD  
-  nom_func("187");
-#endif 
-  if(klaval==13)
-  { if((fr3[nom][0]==0)&&(oppp==1))
-    {
-      w(11,999,"");//ВЫДАНА ПРЕДВАРИТЕЛЬНАЯ КОМАНДА 
-      TIMER_SOB(nom,30,nom);
-      oppp=2;
-    }
+
+	nom_func("187");
+
+	if(klaval==13)
+	{ if((fr3[nom][0]==0)&&(oppp==1))
+		{
+			w(11,999,"");//ВЫДАНА ПРЕДВАРИТЕЛЬНАЯ КОМАНДА
+			TIMER_SOB(nom,30,nom);
+			oppp=2;
+		}
     else
       if((fr3[nom][0]==1)&&oppp==2)
       {
@@ -930,11 +930,11 @@ nokb(nom)
 
 }
 //------------------------------------------------
-opoveshe(int nom,int n)
+void opoveshe(int nom,int n)
 { int zm,b_zm,rm,b_rm,coox,cooy;
-#ifdef NALAD
-  nom_func("201");
-#endif
+
+	nom_func("201");
+
   rm=fr1[nom][2]&0xfff; /*rm*/
   b_rm=(fr1[nom][2]&0xf000)>>12;
   zm=fr1[nom][7]&0xfff; /*zm*/
@@ -960,39 +960,39 @@ opoveshe(int nom,int n)
         else {home(modi);return;}
     }
     if(n==1)
-    {
-      w(31,999,"");
-      form_kom_knopka(zm,0);//если включается запрет монтерам
-    }
-    if(n==2)
-    {
-      w(162,999,"");
-      form_kom_knopka(rm,0);//если отключается оповещение
-    }
-    home(modi);
-    return;
-  }
-  else return;
+		{
+			w(31,999,"");
+			form_kom_knopka(zm,0);//если включается запрет монтерам
+		}
+		if(n==2)
+		{
+			w(162,999,"");
+			form_kom_knopka(rm,0);//если отключается оповещение
+		}
+		home(modi);
+		return;
+	}
+	else return;
 }
 //----------------------------------------------------
 //------------------------------------------------------------------
 //процедура организации диалога при открытии сигнала в раздельном режиме
 //po_ma - признак типа светофора
-otkrs()
+void otkrs()
 {
-  int nop,sm,Rez,j1,j2;
-#ifdef NALAD  
-  nom_func("208");
-#endif
-  if((fr1[point][0]!=2)||(fr1[point][2]>1)||(fr1[point][1]>1))
-  {
-    w(228,999,"!");
+	int nop,sm,Rez,j1,j2;
+
+	nom_func("208");
+
+	if((fr1[point][0]!=2)||(fr1[point][2]>1)||(fr1[point][1]>1))
+	{
+		w(228,999,"!");
 #ifdef MOUSE
-    if(MOUSE_ON!=0)
-    {
-      clear_mouse();
-      for(j1=0;j1<12;j1++)line_old_gor_kurs[j1]=0;
-      for(j1=0;j1<40;j1++)line_old_vert_kurs[j1]=0;
+		if(MOUSE_ON!=0)
+		{
+			clear_mouse();
+			for(j1=0;j1<12;j1++)line_old_gor_kurs[j1]=0;
+			for(j1=0;j1<40;j1++)line_old_vert_kurs[j1]=0;
     }
 #endif
     soob_for_oper=1;
@@ -1007,8 +1007,8 @@ otkrs()
   //сигнал закрывается
   if((ot==1)||(fr3[point][0]==1)||(fr3[point][1]==1)||(fr3[point][2]==1)||(fr3[point][3]==1))
   { vopros(0,point,136,"");// ЗАКРЫТЬ СИГНАЛ?
-    danet=2;//установить флаг ожидания ответа для закрытия сигнала
-    vibeg=2;//установить признак задания вопроса для сигнала
+		danet=2;//установить флаг ожидания ответа для закрытия сигнала
+		vibeg=2;//установить признак задания вопроса для сигнала
     zapretvybora=1;
     // если имеется признак отмены и закрыты поездной и маневровый
     if((ot==1)&&(fr3[point][0]==0)&&(fr3[point][1]==0))
@@ -1037,8 +1037,8 @@ otkrs()
 step2:
   if(klaval==13)//если нажата Enter
   { if(vih_vopr==2)//если ранее выдавалось предупреждение для подтверждения
-    { t(0);        //убрать с экрана вопрос
-      vih_vopr=0; //обнулить признак ожидания подтверждения при запретах
+		{ t(0);        //убрать с экрана вопрос
+			vih_vopr=0; //обнулить признак ожидания подтверждения при запретах
       goto step3; //перейти к действиям
     }
     if(vih_vopr==3)//если было предложено подтвердить
@@ -1067,7 +1067,7 @@ step2:
       point=markery[i3][6];
       TEST=0;
       otkrsi();//набрать структуру КК вдоль существующего маршрута
-      if(tst_nal_sig()==1)//проверить наличие сигнала конца, и если его нет
+			if(tst_nal_sig()==1)//проверить наличие сигнала конца, и если его нет
       {
         if(PROV_SCB==1)
         {
@@ -1097,7 +1097,7 @@ step3:
           }
           else
           {
-            soob_for_oper=1;
+						soob_for_oper=1;
             menu_N=0;
             return;
           }
@@ -1115,10 +1115,10 @@ step3:
         }
         else
         if(Rez==2) goto fini;//если ограничения введены оператором - выйти
-        ukaz_trass++;//иначе перейти к следующему объекту
+				ukaz_trass++;//иначе перейти к следующему объекту
       }
       //если есть 2 белых сигнала на светофоре
-      //для 2-го белого используется следующий объект
+			//для 2-го белого используется следующий объект
       menu_N=0;
       for(j1=0;j1<10;j1++)BEDA[j1]=0;
       if(fr1[point][6]==3)
@@ -1127,12 +1127,12 @@ step3:
         if(manevro==1)w(132,point-1,"");// ПОСЫЛАЕМ КОМАНДУ НА ОТКРЫТИЕ СИГНАЛА
       }
       else
-      {
+			{
         del_kursor(i3);
         okno_otkaz=0;
         w(132,point,"");// ПОСЫЛАЕМ КОМАНДУ НА ОТКРЫТИЕ СИГНАЛА
       }
-    }
+		}
     if(oper!=0)fotksig(oper);//заполнение буфера выдачи команды
 fini:
     if(danet==1)
@@ -1157,15 +1157,15 @@ fini:
       mane=0;manevr=0;manevro=0;basha=0;
       return;
     }
-    else return;
-  }
+		else return;
+	}
 }
 //-------------------------------------------------------
-perekl_komp(int nom)
+void perekl_komp(int nom)
 {
-#ifdef NALAD  
-  nom_func("218");
-#endif       
+  
+	nom_func("218");
+       
   if(((fr3[nom][0]==0)&&(fr3[nom][1]==0)&&(fr3[nom][2]==0))||
   ((fr3[nom][0]==1)&&(fr3[nom][1]==0)&&(fr3[nom][2]==0)))
   { //ПЕРЕКЛЮЧИТЬ КОМПЛЕКТ? 
@@ -1177,21 +1177,21 @@ perekl_komp(int nom)
   }
 }
 //-------------------------------------------------------------
-perstr()
+void perstr()
 {
-  int point1,ij,avtr;
-#ifdef NALAD
-  nom_func("219");
-#endif
-  point1=point;
+	int point1,ij,avtr;
+
+	nom_func("219");
+
+	point1=point;
 #ifdef AVTOD
-  avtr=prov_ele_avtod(point);
-  if(avtr==1){w(245,999,"");return;}
-  if(avtr==2){w(244,999,"");return;}
+	avtr=prov_ele_avtod(point);
+	if(avtr==1){w(245,999,"");return;}
+	if(avtr==2){w(244,999,"");return;}
 #endif
-  if(vibeg==1) goto step2;
-  if(vib_ma==1) goto ddo;// если переводится стрелка на макете
-  if(vih_vopr==1)goto step2;//если ранее был задан вопрос для подтверждения
+	if(vibeg==1) goto step2;
+	if(vib_ma==1) goto ddo;// если переводится стрелка на макете
+	if(vih_vopr==1)goto step2;//если ранее был задан вопрос для подтверждения
   osya=0;//обнуление счетчика выданных ненорм по объекту
   for(ij=0;ij<10;ij++)BEDA[ij]=0;
   hod=0;//сброс флага входа в проверку для анализа спаренных стрелок 
@@ -1207,7 +1207,7 @@ ddo:
   //если стрелка без контроля
   if(net_kontro==2){fi_co1=0;se_co1=1;goto beda;}
   //если потеря контроля
-  if(fr3[point][5]==1){net_kontro=1;return;}
+	if(fr3[point][5]==1){net_kontro=1;return;}
   if(fr3[point][0]==fr3[point][1]==1){net_kontro=1;return;}
   else
   {
@@ -1237,7 +1237,7 @@ step2:
   vibeg=0;
   vib_ma=0;
   if((osya>=4)&&(osya<10))osya=0;
-  else
+	else
   { //выполнить проверку возможности перевода
     osya=tst_strelok(point);
     if(osya==10){home(modi);finish_strelok();return;}
@@ -1269,28 +1269,28 @@ step2:
   return;
 }
 //--------------------------------------------------------
-prkl(int nom)
+void prkl(int nom)
 {
-  int coox,cooy;
-#ifdef NALAD  
-  nom_func("238");
-#endif          
-  if (klaval==13) 
-  { //ПОСЫЛАЕМ КОМАНДУ НА ПЕРЕКЛЮЧЕНИЕ КОМПЛЕКТОВ 
-    t(0);w(41,999,"");home(modi);
-    oppp=0;puti=0;
-    form_kom_prkl(nom);
-    return;
-  }
-  else return;
+	int coox,cooy;
+
+	nom_func("238");
+
+	if (klaval==13)
+	{ //ПОСЫЛАЕМ КОМАНДУ НА ПЕРЕКЛЮЧЕНИЕ КОМПЛЕКТОВ
+		t(0);w(41,999,"");home(modi);
+		oppp=0;puti=0;
+		form_kom_prkl(nom);
+		return;
+	}
+	else return;
 }
 //---------------------------------------------------------------
-smen_napr(int nom1)
+void smen_napr(int nom1)
 {
   int h=0,bh=0;
-#ifdef NALAD  
-  nom_func("309");
-#endif          
+  
+	nom_func("309");
+          
   if((nikuda==1)||(klo==1)||(help!=0)) return;
   if(fr3[fr1[nom1][9]][7]!=0)
   {
@@ -1315,17 +1315,17 @@ zz:
     return;
   }
   else
-  { if(oppp==0)vopros(17,markery[modi][6],117,"?"); //отправление
-    oppp=1;puti=1;zapretvybora=1;
-    return;
-  }
+	{ if(oppp==0)vopros(17,markery[modi][6],117,"?"); //отправление
+		oppp=1;puti=1;zapretvybora=1;
+		return;
+	}
 }
 //----------------------------------------------------
-smena(int nom)
+void smena(int nom)
 {
-#ifdef NALAD  
-  nom_func("310");
-#endif        
+  
+	nom_func("310");
+        
   if (klaval==13) 
   {
     #ifdef POLUAVTOMAT 
@@ -1339,30 +1339,30 @@ smena(int nom)
   return;
 }
 //----------------------------------------------------
-start_time_date()
+void start_time_date()
 {
-#ifdef NALAD  
-  nom_func("319");
-#endif        
-  rg.h.ah=0x2a;        // дата
-  int86(0x21,&rg,&rg);
-  dayy_=rg.h.dl;
-  monn_=rg.h.dh;
-  yearr_=rg.x.cx;
-  rg.h.ah=0x2c;       // время 
-  int86(0x21,&rg,&rg);
-  ho_ur=rg.h.ch;
-  mi_n=rg.h.cl;
-  se_c=rg.h.dh;
+
+	nom_func("319");
+
+	rg.h.ah=0x2a;        // дата
+	int86(0x21,&rg,&rg);
+	dayy_=rg.h.dl;
+	monn_=rg.h.dh;
+	yearr_=rg.x.cx;
+	rg.h.ah=0x2c;       // время
+	int86(0x21,&rg,&rg);
+	ho_ur=rg.h.ch;
+	mi_n=rg.h.cl;
+	se_c=rg.h.dh;
 }
 //-------------------------------------------------------
 #ifdef POLUAVTOMAT
-kom_dso(int ndso_chdso)
+void kom_dso(int ndso_chdso)
 {
-  int npo_chpo,nfp_chfp,nfdp_chfdp;
-  int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
-  bit_ndso_chdso=fr1[ndso_chdso][3];
-  npo_chpo=fr1[ndso_chdso][4]; bit_npo_chpo=fr1[ndso_chdso][5];
+	int npo_chpo,nfp_chfp,nfdp_chfdp;
+	int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
+	bit_ndso_chdso=fr1[ndso_chdso][3];
+	npo_chpo=fr1[ndso_chdso][4]; bit_npo_chpo=fr1[ndso_chdso][5];
   nfp_chfp=fr1[ndso_chdso][6]; bit_nfp_chfp=fr1[ndso_chdso][7];
   nfdp_chfdp=fr1[ndso_chdso][8];bit_nfdp_chfdp=fr1[ndso_chdso][9];
   if(nikuda==1||klo==1||help!=0)return;
@@ -1377,17 +1377,17 @@ kom_dso(int ndso_chdso)
   { vopros(18,ndso_chdso,85,"?");oppp=1;zapretvybora=1;return;}
 }
 //-------------------------------------------------------------------
-k_dso(int ndso_chdso)
+void k_dso(int ndso_chdso)
 {
-  unsigned char koda;
-  int npo_chpo,nfp_chfp,nfdp_chfdp;
-  int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
-  bit_ndso_chdso=fr1[ndso_chdso][3];
-  npo_chpo=fr1[ndso_chdso][4];
-  nfp_chfp=fr1[ndso_chdso][6];
-  nfdp_chfdp=fr1[ndso_chdso][8];
-  bit_npo_chpo=fr1[ndso_chdso][5];
-  bit_nfp_chfp=fr1[ndso_chdso][7];
+	unsigned char koda;
+	int npo_chpo,nfp_chfp,nfdp_chfdp;
+	int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
+	bit_ndso_chdso=fr1[ndso_chdso][3];
+	npo_chpo=fr1[ndso_chdso][4];
+	nfp_chfp=fr1[ndso_chdso][6];
+	nfdp_chfdp=fr1[ndso_chdso][8];
+	bit_npo_chpo=fr1[ndso_chdso][5];
+	bit_nfp_chfp=fr1[ndso_chdso][7];
   bit_nfdp_chfdp=fr1[ndso_chdso][9];
   if(nikuda==1||klo==1||help!=0)return;
   if(klaval==13)
@@ -1407,12 +1407,12 @@ k_dso(int ndso_chdso)
     point=ndso_chdso;
     if(fotksig(koda)==1)return;
     buf_ko[9]=check_sum(buf_ko);
-    pooo[ndso_chdso]=biostime(0,0L);
-    flagoutmsg=1;
-  }
+		pooo[ndso_chdso]=biostime(0,0L);
+		flagoutmsg=1;
+	}
 }
 //-----------------------------------------------------------
-kom_fdp(int nfdp_chfdp)
+void kom_fdp(int nfdp_chfdp)
 {
   int ndso_chdso,npo_chpo,nfp_chfp;
   int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
@@ -1433,16 +1433,16 @@ kom_fdp(int nfdp_chfdp)
   {vopros(18,nfdp_chfdp,3,"");oppp=0;home(modi);return;}
 }
 //---------------------------------------------------------------
-k_fdp(int nfdp_chfdp)
+void k_fdp(int nfdp_chfdp)
 {
-  unsigned char koda;
-  int ndso_chdso,npo_chpo,nfp_chfp;
-  int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
-  ndso_chdso=fr1[nfp_chfp][2];
-  bit_ndso_chdso=fr1[ndso_chdso][3];
-  npo_chpo=fr1[nfdp_chfdp][4];
-  nfp_chfp=fr1[nfdp_chfdp][6];
-  bit_npo_chpo=fr1[nfp_chfp][5];
+	unsigned char koda;
+	int ndso_chdso,npo_chpo,nfp_chfp;
+	int bit_ndso_chdso,bit_npo_chpo,bit_nfp_chfp,bit_nfdp_chfdp;
+	ndso_chdso=fr1[nfp_chfp][2];
+	bit_ndso_chdso=fr1[ndso_chdso][3];
+	npo_chpo=fr1[nfdp_chfdp][4];
+	nfp_chfp=fr1[nfdp_chfdp][6];
+	bit_npo_chpo=fr1[nfp_chfp][5];
   bit_nfp_chfp=fr1[nfp_chfp][7];
   bit_nfdp_chfdp=fr1[nfp_chfp][9];
   if(nikuda==1||klo==1||help!=0)return;
@@ -1464,105 +1464,105 @@ k_fdp(int nfdp_chfdp)
 }
 #endif
 //---------------------------------------------------------
-vkl_avto()
+void vkl_avto()
 { //процедура реализации предварительного диалога при вкл./откл. автодействия
-  int avt_plt,bt_avt;
-#ifdef NALAD  
-  nom_func("394");
-#endif      
-  if(markery[modi][6]!=9999)//если имеется пультовое автодействие
-  {
-    avt_plt=markery[modi][6]&0xfff;//номер объекта пультового автодействия
-    bt_avt=(markery[modi][6]&0xf000)>>12;
-    if(fr3[avt_plt][bt_avt]!=0){w(258,999,"");return;}
-  }
-  if(markery[modi][7]-777==0)//если нажата кнопка нечетного автодействия
-    if(na==0) w(26,999,"");//если оно выключено"ВКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 1П?"
-    else w(28,999,"");//если включено "ВЫКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 1П?"
-  else
-   if (markery[modi][7]-777==1)//если нажата кнопка четного автодействия
-    if(cha==0) w(27,999,"");//если оно выключено"ВКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 2П?"
-    else w(29,999,"");//если включено "ВЫКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 2П?"
-  zapretvybora=1;oppp=1;puti=1; return;
+	int avt_plt,bt_avt;
+
+	nom_func("394");
+
+	if(markery[modi][6]!=9999)//если имеется пультовое автодействие
+	{
+		avt_plt=markery[modi][6]&0xfff;//номер объекта пультового автодействия
+		bt_avt=(markery[modi][6]&0xf000)>>12;
+		if(fr3[avt_plt][bt_avt]!=0){w(258,999,"");return;}
+	}
+	if(markery[modi][7]-777==0)//если нажата кнопка нечетного автодействия
+		if(na==0) w(26,999,"");//если оно выключено"ВКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 1П?"
+		else w(28,999,"");//если включено "ВЫКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 1П?"
+	else
+	 if (markery[modi][7]-777==1)//если нажата кнопка четного автодействия
+		if(cha==0) w(27,999,"");//если оно выключено"ВКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 2П?"
+		else w(29,999,"");//если включено "ВЫКЛЮЧИТЬ АВТОДЕЙСТВИЕ ПО 2П?"
+	zapretvybora=1;oppp=1;puti=1; return;
 }
 //-------------------------------------------------
-vkl_dn(int nom)
+void vkl_dn(int nom)
 { int ob_au,ob_dn,ob_nn,bit_au,bit_nn,bit_dn;
-  ob_nn=fr1[nom][3];bit_nn=fr1[nom][4];
-  ob_dn=fr1[nom][5];bit_dn=fr1[nom][6];
-  ob_au=fr1[nom][9];bit_au=fr1[nom][10];
-#ifdef NALAD  
-  nom_func("395");
-#endif      
-  if(ob_au!=9999)//если есть кнопка "автомат"
-  { if(nom==ob_au)//если нажата кнопка "автомат"
-    { if(COD_DN>7)//если автоматический режим уже установлен
-      //АВТОМАТИЧ.РЕЖИМ РАБОТЫ СИГНАЛОВ УЖЕ УСТАНОВЛЕН
-      { w(202,999,"");oppp=0;puti=0;home(modi);return;}
-      else vopros(1,9999,203,"?");//установить режим "автомат"?
-    }
-  }
-  if((nom==ob_nn)||(nom==ob_dn))//если нажата кнопка режима
-  { if((COD_DN==2)||(COD_DN==3)||(COD_DN==8))vopros(1,9999,204,"?");//включить дневной режим?
-    else
-      if((COD_DN==4)||(COD_DN==5)||(COD_DN==9))vopros(1,9999,205,"?");//включить ночной режим?
-      else {w(209,999,"");
-      oppp=0;puti=0;home(modi);return;}
-  }
-  if((nom!=ob_au)&&( nom!=ob_dn)&&( nom!=ob_nn))
-  {oppp=0;puti=0;home(modi);return;}
-  oppp=1;puti=1;return;
+	ob_nn=fr1[nom][3];bit_nn=fr1[nom][4];
+	ob_dn=fr1[nom][5];bit_dn=fr1[nom][6];
+	ob_au=fr1[nom][9];bit_au=fr1[nom][10];
+
+	nom_func("395");
+
+	if(ob_au!=9999)//если есть кнопка "автомат"
+	{ if(nom==ob_au)//если нажата кнопка "автомат"
+		{ if(COD_DN>7)//если автоматический режим уже установлен
+			//АВТОМАТИЧ.РЕЖИМ РАБОТЫ СИГНАЛОВ УЖЕ УСТАНОВЛЕН
+			{ w(202,999,"");oppp=0;puti=0;home(modi);return;}
+			else vopros(1,9999,203,"?");//установить режим "автомат"?
+		}
+	}
+	if((nom==ob_nn)||(nom==ob_dn))//если нажата кнопка режима
+	{ if((COD_DN==2)||(COD_DN==3)||(COD_DN==8))vopros(1,9999,204,"?");//включить дневной режим?
+		else
+			if((COD_DN==4)||(COD_DN==5)||(COD_DN==9))vopros(1,9999,205,"?");//включить ночной режим?
+			else {w(209,999,"");
+			oppp=0;puti=0;home(modi);return;}
+	}
+	if((nom!=ob_au)&&( nom!=ob_dn)&&( nom!=ob_nn))
+	{oppp=0;puti=0;home(modi);return;}
+	oppp=1;puti=1;return;
 }
 //--------------------------------------------------------
-vkl_knop(int nom)
+void vkl_knop(int nom)
 {
-  int bit,// бит включения объекта
-  vopr1,//вопрос перед включением
-  vopr2;//вопрос перед отключением
-#ifdef NALAD  
-  nom_func("397");
-#endif    
-  if((fr1[nom][2]==5)&&(na==1))
-  {
-    w(245,999,"");
-    return;
-  }
-  if((fr1[nom][2]==6)&&(cha==1))
-  {
-    w(244,999,"");
-    return;
-  }
-  if(fr1[nom][1]!=166){bit=fr1[nom][11];vopr1=fr1[nom][8];vopr2=fr1[nom][9];}
-  else {bit=(fr1[nom][3]&0xf000)>>12;vopr1=fr1[nom][6];vopr2=fr1[nom][7];}
-  if(fr1[nom][2]==33)//если это кнопка смены направления
-  { if(fr3[nom][bit]==0)//если объект пассивен
-    {
-      if(vopr1!=9999) //если предусмотрен вопрос на включение
-      { //задать вопрос о включении
-        setfillstyle(1,14),setcolor(4);
-        vopros(18,markery[modi][6],vopr1,"?");
-      }
-      else {oppp=0;puti=0;home(modi);return;}//если вопроса нет, то выйти
-    }
-    else// если объект не пассивен
-    {
-      if(fr3[nom][bit]==1)//если объект активен
-      {
-        if(vopr2!=9999)//если предусмотрен вопрос на отключение
-        { setfillstyle(1,14),setcolor(4);
-          vopros(18,markery[modi][6],vopr2,"?");
-        }
-        else {oppp=0;puti=0;home(modi);return;}
-      }
-    }
-  }
-  else//для всех остальных кнопок
-  {
-    if(fr3[nom][bit]==0)//если объект пассивен
-    {
-      if(vopr1!=9999)//если есть текст на включение
-      {
-        setfillstyle(1,14),setcolor(4);
+	int bit,// бит включения объекта
+	vopr1,//вопрос перед включением
+	vopr2;//вопрос перед отключением
+
+	nom_func("397");
+
+	if((fr1[nom][2]==5)&&(na==1))
+	{
+		w(245,999,"");
+		return;
+	}
+	if((fr1[nom][2]==6)&&(cha==1))
+	{
+		w(244,999,"");
+		return;
+	}
+	if(fr1[nom][1]!=166){bit=fr1[nom][11];vopr1=fr1[nom][8];vopr2=fr1[nom][9];}
+	else {bit=(fr1[nom][3]&0xf000)>>12;vopr1=fr1[nom][6];vopr2=fr1[nom][7];}
+	if(fr1[nom][2]==33)//если это кнопка смены направления
+	{ if(fr3[nom][bit]==0)//если объект пассивен
+		{
+			if(vopr1!=9999) //если предусмотрен вопрос на включение
+			{ //задать вопрос о включении
+				setfillstyle(1,14),setcolor(4);
+				vopros(18,markery[modi][6],vopr1,"?");
+			}
+			else {oppp=0;puti=0;home(modi);return;}//если вопроса нет, то выйти
+		}
+		else// если объект не пассивен
+		{
+			if(fr3[nom][bit]==1)//если объект активен
+			{
+				if(vopr2!=9999)//если предусмотрен вопрос на отключение
+				{ setfillstyle(1,14),setcolor(4);
+					vopros(18,markery[modi][6],vopr2,"?");
+				}
+				else {oppp=0;puti=0;home(modi);return;}
+			}
+		}
+	}
+	else//для всех остальных кнопок
+	{
+		if(fr3[nom][bit]==0)//если объект пассивен
+		{
+			if(vopr1!=9999)//если есть текст на включение
+			{
+				setfillstyle(1,14),setcolor(4);
         vopros(1,9999,vopr1,"?");
       }
       else {oppp=0;puti=0;home(modi);return;}
@@ -1587,12 +1587,12 @@ vkl_knop(int nom)
   oppp=1;puti=1;return;
 }
 //--------------------------------------------------------------
-vkl_nemarsh(int nom)
+void vkl_nemarsh(int nom)
 { int otvet;
-#ifdef NALAD  
-  nom_func("398");
-#endif    
-  if(fr1[nom][2]==33)
+
+	nom_func("398");
+
+	if(fr1[nom][2]==33)
   { if(fr3[nom][fr1[nom][11]]==0)
       if(fr1[nom][8]!=9999){setfillstyle(1,14),setcolor(4);vopros(18,markery[modi][6],fr1[nom][8],"?");}
       else {oppp=0;puti=0;home(modi);return;}
@@ -1617,7 +1617,7 @@ vkl_nemarsh(int nom)
     END=end_marsh;
     TEST=0;
     if(may_be(nach_marsh,fr1[nach_marsh][1])==0)
-    {
+		{
       ukaz_trass=0;
       while(trassa[ukaz_trass]!=0xffff)
       {
@@ -1645,12 +1645,12 @@ not:
   }
 }
 //------------------------------------------------------------------
-vkl_opoveshe(int nom)
+void vkl_opoveshe(int nom)
 { // объект для РМ, объект для ЗМ
-  int bz1,bz2,bb; 
-#ifdef NALAD  
-  nom_func("400");
-#endif      
+	int bz1,bz2,bb;
+  
+	nom_func("400");
+      
   bz1=fr1[nom][2];bz2=fr1[nom][7];bb=fr1[bz1][11];
   if((fr3[bz1][bb]==0)&&(fr3[bz2][bb]==0))
   //ВКЛЮЧИТЬ ОПОВЕЩЕНИЕ?
@@ -1675,7 +1675,7 @@ vkl_opoveshe(int nom)
         obnov_kur_mouse(590,50);
         menu1();
         return;
-      }
+			}
       else
       {oppp=0;puti=0;home(modi);return;}
   }
@@ -1684,28 +1684,28 @@ vkl_opoveshe(int nom)
   return;
 }
 //-------------------------------------------------
-vopr_mar()
+void vopr_mar()
 {
-  int end_marsh1;
-#ifdef NALAD  
-  nom_func("403");
-#endif        
-  if(end_marsh!=0)nach_marsh=end_marsh;
-  end_marsh=markery[modi][6];
-  if(markery[modi][7]==7)end_marsh1=fr1[end_marsh][2];
-  else end_marsh1=end_marsh;
-  if((fr1[nach_marsh][5]!=0)&&
-  ((fr1[nach_marsh][5]&0x00ff)==end_marsh1)||   
-  (((fr1[nach_marsh][5]&0xFF00)>>8)==end_marsh1))//если может быть вариант
-  {
-    if(fr1[end_marsh][4]==10)
-    { if(fr1[nach_marsh][1]==fr1[end_marsh][1])
-      { menu_N=5;
-        punkt_N=1;
-        klaval=-1;
-      }
-    }
-    else
+	int end_marsh1;
+
+	nom_func("403");
+
+	if(end_marsh!=0)nach_marsh=end_marsh;
+	end_marsh=markery[modi][6];
+	if(markery[modi][7]==7)end_marsh1=fr1[end_marsh][2];
+	else end_marsh1=end_marsh;
+	if((fr1[nach_marsh][5]!=0)&&
+	((fr1[nach_marsh][5]&0x00ff)==end_marsh1)||
+	(((fr1[nach_marsh][5]&0xFF00)>>8)==end_marsh1))//если может быть вариант
+	{
+		if(fr1[end_marsh][4]==10)
+		{ if(fr1[nach_marsh][1]==fr1[end_marsh][1])
+			{ menu_N=5;
+				punkt_N=1;
+				klaval=-1;
+			}
+		}
+		else
     if(fr1[end_marsh][4]==11)
     { menu_N=5;
       punkt_N=1;
@@ -1724,9 +1724,9 @@ int ZAGO_MPSU(int Coc1)
   int mask2y=0x04;//первый основной установить
   int mask3n=0x77;//второй основной сбросить
   int mask2n=0x7b;//первый основной сбросить
-#ifdef NALAD  
-  nom_func("425");
-#endif          
+  
+	nom_func("425");
+          
   BZ=Coc1;
   if(NOMER_ARMA==1)
   {//если основная ПЭВМ, установить основным первый
@@ -1744,12 +1744,12 @@ int ZAGO_MPSU(int Coc1)
   return(BZ);
 }
 //---------------------------------------------------------
-ZAP_BUF_SPD()
+void ZAP_BUF_SPD()
 {
 	int iz,jz,kz,aa,n_rpc;
-#ifdef NALAD
+
 	nom_func("433");
-#endif
+
 #ifdef SPDLP
 	if(spdlp!=0)return;
 	if(STATUS!=1)
@@ -1820,12 +1820,12 @@ ZAP_BUF_SPD()
 	return;
 }
 //---------------------------------------------------------
-OUT_SPD()
+void OUT_SPD()
 {
   unsigned char ts;
-#ifdef NALAD  
-  nom_func("212");
-#endif         
+  
+	nom_func("212");
+         
   if(spdlp==0)return;
   inportb(BAZ_ADR6);
   ts=inportb(BAZ_ADR6+5);
@@ -1846,12 +1846,12 @@ OUT_SPD()
   }
 }
 //-----------------------------------------------
-Zona_k()
+void Zona_k()
 {
-#ifdef NALAD  
-  nom_func("436");
-#endif       
-  if(klo==1||help!=0) return;
+
+	nom_func("436");
+
+	if(klo==1||help!=0) return;
   if(nikuda==1) return;
   if(ZONA_KURSORA==ZONA_N)ZONA_KURSORA=ZONA_CH;
   else ZONA_KURSORA=ZONA_N;
@@ -1863,75 +1863,89 @@ Zona_k()
   modi=i3;
 }
 //--------------------------------------------------------
-zp_zp(int nnn)
+void zp_zp(int nnn)
 {
-  int koda=0;
-#ifdef NALAD  
-  nom_func("438");
-#endif         
-  prorisovka=0;
-  NOM_NEXT=nnn+1;
-  if((fr3[nnn][0]==1)&&(fr3[NOM_NEXT][1]==1))koda='M';
-  else koda='A';
-  point=nnn;
-  if(form_kosig(koda)==1) return;
-  buf_ko[9]=check_sum(buf_ko);
-  pooo[nnn]=biostime(0,0L);
+	int koda=0;
+
+	nom_func("438");
+
+	prorisovka=0;
+	NOM_NEXT=nnn+1;
+	if((fr3[nnn][0]==1)&&(fr3[NOM_NEXT][1]==1))koda='M';
+	else koda='A';
+	point=nnn;
+	if(form_kosig(koda)==1) return;
+	buf_ko[9]=check_sum(buf_ko);
+	pooo[nnn]=biostime(0,0L);
   TIMER_SOB(nnn,66,nnn);
   buf_ko[0]='('; buf_ko[10]=')';
   kom_v_bufer(fr1[nnn][13]-1);
   if((fr3[NOM_NEXT][1]==1)&&(koda=='M'))koda='N';
   else koda='B';
   point=NOM_NEXT;
-  if(form_kosig(koda)==1) return;
+	if(form_kosig(koda)==1) return;
   buf_ko[9]=check_sum(buf_ko);
   buf_ko[0]='(';buf_ko[10]=')';
   kom_v_bufer(fr1[NOM_NEXT][13]-1);
   flagoutmsg=0;zapretvybora=0;NOM_NEXT=0;puti=0;oppp=0; prorisovka=1;
 }
 //--------------------------------------------------------------
-voper()
+void voper()
 {
   char mess[10]="";
-#ifdef NALAD  
-  nom_func("402");
-#endif        
-  setfillstyle(1,14);bar(476,21,635,47);moveto(478,28);
-  setcolor(4);outtext(" МАРШРУТ ОТ ");
-  strcpy(mess,pako[nach_marsh]);outtext(mess);strcpy(mess,"");
-  moveto(500,37);strcpy(mess,pako[end_marsh]);
-  if((fr1[nach_marsh][1]==fr1[end_marsh][1])||   
-  ((mane==1)&&(fr1[end_marsh][3]==7)))outtext(" ДО     , ДА ?  ");
-  else outtext(" ЗА     , ДА ?  ");
-  moveto(532,37);outtext(mess);setlinestyle(0,0,0);rectangle(478,24,633,46);
-  vozvr=1;
-  klaval=-1;
-  poka=0;
-  zapretvybora=1;
+	int vniz=0;
+	
+	nom_func("402");
+	/*
+	if(PREDUPR==1)
+	{
+		t(2);
+		vniz = 14;
+		PREDUPR = 0;
+	}
+	else */
+
+	t(0);
+
+	setfillstyle(1,14);bar(476,1+vniz,635,27+vniz);moveto(478,8+vniz);
+	setcolor(4);outtext(" МАРШРУТ ОТ ");
+	strcpy(mess,pako[nach_marsh]);outtext(mess);strcpy(mess,"");
+	moveto(500,17+vniz);strcpy(mess,pako[end_marsh]);
+	if((fr1[nach_marsh][1]==fr1[end_marsh][1])||
+	((mane==1)&&(fr1[end_marsh][3]==7)))outtext(" ДО     , ДА ?  ");
+	else outtext(" ЗА     , ДА ?  ");
+	moveto(532,17+vniz);outtext(mess);setlinestyle(0,0,0);
+	rectangle(478,4+vniz,633,26+vniz);
+	vozvr=1;
+	klaval=-1;
+	poka=0;
+//	PREDUPR=0;
+	zapretvybora=1;
+	return;
 }
 //----------------------------------------
 //процедура выдачи вопросительного предложения в окно экрана
-vopros(int longo,int nomo,int N_v,char Sy[8])
+void vopros(int longo,int nomo,int N_v,char Sy[8])
 {
 //longo - вариант размера,цвета и расположения текста
-  int CVE,CVEB,lp,lp1,D=0;
-  char NAME[25]="",Nam[8]="";
-  struct fillsettingstype fillinfo;
-  int xv,yv,exv,eyv;
-#ifdef NALAD  
-  nom_func("404");
-#endif        
-  switch(longo)
-  {
-    case 0: yv=1; eyv=26; break;
-    case 1: yv=1; eyv=18; break;
-    case 2: yv=1; eyv=18; break;
-    case 3: yv=1; eyv=24; break;
-    case 17:yv=0; eyv=28; break;
-    case 18:yv=0; eyv=28; break;
-    case 19:yv=1; eyv=28; break;
-    default: return;
-  }
+	int CVE,CVEB,lp,lp1,D=0;
+	char NAME[25]="",Nam[8]="";
+	struct fillsettingstype fillinfo;
+	int xv,yv,exv,eyv;
+
+	nom_func("404");
+
+	switch(longo)
+	{
+		case 0: yv=1; eyv=26; break;
+		case 1: yv=1; eyv=18; break;
+		case 2: yv=1; eyv=18; break;
+		case 3: yv=1; eyv=24; break;
+		case 17:yv=0; eyv=28; break;
+		case 18:yv=0; eyv=28; break;
+		case 19:yv=1; eyv=28; break;
+		default: return;
+	}
   lseek(file_soob,N_v*63L,0L);
   read(file_soob,&soob.lex,60);
   for(lp=0;lp<60;lp++)soob.lex[lp]=~soob.lex[lp];
@@ -1941,7 +1955,7 @@ vopros(int longo,int nomo,int N_v,char Sy[8])
   if(CVE==14)CVEB=4;
   if(CVE==2)CVEB=15;
   if(CVE==4)CVEB=15;
-  if(longo==17)
+	if(longo==17)
   xv=639-max(10+strlen(soob.lex)*7,16+strlen(otopri[fr1[nomo][11]])*7);
   else xv=639-(7+strlen(soob.lex))*7;
   exv=639;
@@ -1971,30 +1985,30 @@ vopros(int longo,int nomo,int N_v,char Sy[8])
   { lp=0;
     while(pako[nomo][lp]!=146)lp++;
     lp++;
-    for(lp1=0;lp1<25;lp1++)NAME[lp1]=0;
-    lp1=0;
-    while(pako[nomo][lp]!=':'){NAME[lp1]=pako[nomo][lp];lp++;lp1++;}
-  }
-  else
-  { lp1=0;
-    NAME[lp1++]=32;
-    for(lp=0;lp<25;lp++)
-    { NAME[lp1]=0;
-      if(pako[nomo][lp]!=32)NAME[lp1++]=pako[nomo][lp];
-    }
-    NAME[lp1]=0;
-  }
-  outtext(NAME);
-  xv=getx(); yv=gety(); moveto(xv,yv);
-  strcpy(Nam,Sy);outtext(Nam);
+		for(lp1=0;lp1<25;lp1++)NAME[lp1]=0;
+		lp1=0;
+		while(pako[nomo][lp]!=':'){NAME[lp1]=pako[nomo][lp];lp++;lp1++;}
+	}
+	else
+	{ lp1=0;
+		NAME[lp1++]=32;
+		for(lp=0;lp<25;lp++)
+		{ NAME[lp1]=0;
+			if(pako[nomo][lp]!=32)NAME[lp1++]=pako[nomo][lp];
+		}
+		NAME[lp1]=0;
+	}
+	outtext(NAME);
+	xv=getx(); yv=gety(); moveto(xv,yv);
+	strcpy(Nam,Sy);outtext(Nam);
 }
 //------------------------------------------------------------------
-zad_marsh_avto()
+void zad_marsh_avto()
 { //процедура задания маршрута
   int vv=0;
-#ifdef NALAD  
-  nom_func("424");
-#endif          
+  
+	nom_func("424");
+          
   buf_ko[2]='b';//то же самое, если поездной маршрут в одной стойке
   vv=vibor(nach_avto);//получить код-индекс для задания начала
   buf_ko[1]=BAM;//заполнить заголовок
@@ -2016,16 +2030,16 @@ zc:
   flagoutmsg=1;//выставить флаг-требование на передачу в ТУМС
 }
 //----------------------------------------------------------------
-zad_marsh()
+void zad_marsh()
 { //процедура задания маршрута
-  int vv=0;
-#ifdef NALAD  
-  nom_func("423");
-#endif          
-  for(vv=0;vv<100;vv++)
-  {
-    fr3[trassa[vv]][8]=trassa[vv+1]&0xfff;
-    if(fr3[trassa[vv]][8]==0xfff)break;
+	int vv=0;
+
+	nom_func("423");
+
+	for(vv=0;vv<100;vv++)
+	{
+		fr3[trassa[vv]][8]=trassa[vv+1]&0xfff;
+		if(fr3[trassa[vv]][8]==0xfff)break;
   }
 #ifdef KOL_SOO2
   if((mane==0)&& //если задается поездной маршрут и
@@ -2046,7 +2060,7 @@ zad_marsh()
   vv=vibor(end_marsh);//получить код-индекс для задания конца
   if(vv!=9999)  buf_ko[6]=vv; //заполнить код-индекс для сигнала конца
   else return;
-  buf_ko[5]=podgr;//установить подгруппу конца
+	buf_ko[5]=podgr;//установить подгруппу конца
   //если задается вариантный маршрут
   if((half_marsh1>0)&&(nach0_marsh>0))
   if((fr1[end_marsh][11]&256)==256)// и для конца - есть вариантный конец
@@ -2075,11 +2089,11 @@ zc:
 
 //-----------------------------------------------------------------
 //формирования команды на закрытие сигнала
-zakrsi()
+void zakrsi()
 { int stit=9999,ii,jj,tk,sl,napr;
-#ifdef NALAD  
-  nom_func("428");
-#endif        
+  
+	nom_func("428");
+        
 #ifdef AVTOD
   stit=prov_avtod1(point);//проверить вхождение в автодействие
   if(stit!=-1)//если сигнал входит в маршрут установленного автодействия
@@ -2135,7 +2149,7 @@ repit:
     if(fr1[point][2]==1)oper='F';//если поездной
     else oper='E';//если маневровый
     w(137,point,"");//ПОСЫЛАЕМ КОМАНДУ НА ОТМЕНУ МАРШРУТА ОТ СИГНАЛА
-  }
+	}
   else
     if(fr3[point][0]==1)oper='E';//если открыт маневровый
     else oper='F';//если не открыт маневровый
@@ -2165,7 +2179,7 @@ otm:
         marshrut[ii][0]=0;
         marshrut[ii][1]=0;
         marshrut[ii][2]=0;
-      }
+			}
       ris_trassa();
       jj=0;
       while(trassa[jj]!=0xFFFF)trassa[jj++]=0xffff;

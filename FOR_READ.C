@@ -7,62 +7,65 @@
 //формирование текстового сообщения numso из файла lex.lex
 //для объекта p0 с добавлением слова dob и вывод на экран
 int test_tmp;
-w(int numso,int p0,char dob[20])
+void w(int numso,int p0,char dob[20])
 {
-  int dc,dums,i23,dxv,dyv=15,xv,yv,ky,CVE,CVEB,lp,lp1;
-  char NAME[20];
-  long aa;
-#ifdef NALAD  
-  nom_func("407");
-#endif        
-	if(numso==239)
-	i23=1;
+	int dc,dums,i23,dxv,dyv=15,xv,yv,ky,CVE,CVEB,lp,lp1;
+	char NAME[20];
+	long aa;
+
+	nom_func("407");
+
 #ifdef WORK
 	if(prorisovka!=0)return;
 #endif
-  if(p0>999)yv=p0-999;
-  else yv=0;
-  aa=lseek(file_soob,63L*numso,0L);
-  read(file_soob,&soob.lex,60);
-  read(file_soob,&soob.COlo,1);
-  for(i23=0;i23<60;i23++)soob.lex[i23]=~soob.lex[i23];
-  while(soob.lex[i23--]==0x20)soob.lex[i23]=0;
-  if(p0>999)return;
-  if(p0<999)
-  { if(fr1[p0][0]==1)
-    { lp=0;
-      while(pako[p0][lp]!=146)lp++;
-      lp++;
-      for(lp1=0;lp1<20;lp1++)NAME[lp1]=0;
-      strcat(NAME," Ст.");lp1=4;
-      while(pako[p0][lp]!=':')NAME[lp1++]=pako[p0][lp++];
-    }
-    else
-    {
-      lp1=0;
-      NAME[lp1++]=32;
-      for(lp=0;lp<20;lp++)
-      { NAME[lp1]=0;
-        if(pako[p0][lp]!=32)NAME[lp1++]=pako[p0][lp];
-      }
-      NAME[lp1]=0;
-    }
-  }
-  else strcpy(NAME,"");
-  xv=639-(3+strlen(soob.lex)+strlen(NAME)+strlen(dob))*7;
-  dxv=639-xv;
-  CVE=soob.COlo;
+	if(p0>999)yv=p0-999;
+	else yv=0;
+	aa=lseek(file_soob,63L*numso,0L);
+	read(file_soob,&soob.lex,60);
+	read(file_soob,&soob.COlo,1);
+	for(i23=0;i23<60;i23++)soob.lex[i23]=~soob.lex[i23];
+	while(soob.lex[i23--]==0x20)soob.lex[i23]=0;
+	if(p0>999)return;
+	if(p0<999)
+	{ if(fr1[p0][0]==1)
+		{ lp=0;
+			while(pako[p0][lp]!=146)lp++;
+			lp++;
+			for(lp1=0;lp1<20;lp1++)NAME[lp1]=0;
+			strcat(NAME," Ст.");lp1=4;
+			while(pako[p0][lp]!=':')NAME[lp1++]=pako[p0][lp++];
+		}
+		else
+		{
+			lp1=0;
+			NAME[lp1++]=32;
+			for(lp=0;lp<20;lp++)
+			{ NAME[lp1]=0;
+				if(pako[p0][lp]!=32)NAME[lp1++]=pako[p0][lp];
+			}
+			NAME[lp1]=0;
+		}
+	}
+	else strcpy(NAME,"");
+	xv=639-(3+strlen(soob.lex)+strlen(NAME)+strlen(dob))*7;
+	dxv=639-xv;
+	CVE=soob.COlo;
 //  if((CVE==4)&&(zapretvybora==1))return;
-  if(CVE==14) CVEB=RED;
-  else
-    if(CVE==4)CVEB=WHITE;
-    else
-      if(CVE==2)CVEB=15;
+	if(CVE==14) CVEB=RED;
+	else
+		if(CVE==4)CVEB=WHITE;
+		else
+			if(CVE==2)CVEB=15;
 
-	if((CVE==4)&&(okno_otkaz==0)){t(0);okno_otkaz=1;}
+	if((CVE==4)&&(okno_otkaz==0))
+	{
+		t(0);okno_otkaz=1;
+	}
 	else
 		if((okno_otkaz==1)&&(yv<30))yv=yv+14;
-		else if(prorisovka==0)t(0);
+		else
+		if(prorisovka==0)
+		t(0);
 	wind_w(xv,yv,xv+dxv,yv+dyv,SOLID_FILL,CVE,CVEB,0);
 	moveto(xv+10,yv+5);
 	outtext(soob.lex);outtext(NAME);outtext(dob);
@@ -70,44 +73,50 @@ w(int numso,int p0,char dob[20])
 }
 /*******************************************************/
 
-wind_w(int x1,int y1,int x2,int y2,int sty,int col,int color,int text_sty)
+void wind_w(int x1,int y1,int x2,int y2,int sty,int col,int color,int text_sty)
 {
-#ifdef NALAD  
-  nom_func("422");
-#endif          
-  setfillstyle(sty,col);
+
+	nom_func("422");
+
+	setfillstyle(sty,col);
   setcolor(color);
   bar(x1,y1,x2,y2);
   setlinestyle(0,0,0);setcolor(8);
   rectangle(x1,y1,x2,y2);setcolor(color);
 }
 /************************************************************************/
-t(int kod)
+void t(int kod)
 {
   int poly[12]={170,0,639,0,639,55,460,55,445,32,170,32};;
-#ifdef NALAD  
-  nom_func("325");
-#endif          
-  if(DISK==0){poly[0]=170;poly[10]=170;}
-  else {poly[0]=180;poly[10]=180;}
+  
+	nom_func("325");
+
+	//if(DISK==0){
+	poly[0]=170;poly[10]=170;
+	//}
+  //else {poly[0]=180;poly[10]=180;}
   if(flag_paro!=0) return;
   if((klo==1)||(help>0)||(nikuda==1))return;
-  if(prorisovka==1)return; 
+#ifdef WORK
+	if(prorisovka==1)return; 
+#endif	
 #ifdef KANALS
   if(TEST_KANAL==1)return;
 #endif
   setfillstyle(1,7);
   setcolor(7);
   if(kod==0)fillpoly(6,poly);
-  else bar(180,0,639,25);
+	if(kod==1)bar(180,0,639,25);
+	if(kod==2)bar(180,14,639,32);
+	return;  
 }
 //----------------------------------------------------
-displaysignal(int oi,int bt_)
+void displaysignal(int oi,int bt_)
 {
 	int cvet1,color1,color2,cvet,x,y,lj,vmv=0,test,ou;
-#ifdef NALAD
+
 	nom_func("41");
-#endif
+
 	if(fr1[oi][1]==9999)goto kon;
 	if(fr1[oi][0]==3){sekci(oi,bt_);goto kon;}
 	if((fr3[oi][bt_]==0)&&(fr1[oi][0]!=2))goto kon;
@@ -285,9 +294,9 @@ smen:
 /***************************************************************/
   if(fr1[oi][1]==18)
   {
-    if(bt_==5)for(lj=0;lj<fr1[oi][12];lj++)ris_batarei(oi,lj,0);
-    else
-      if(bt_<fr1[oi][12]) ris_batarei(oi,bt_,0);
+		if(bt_==5)for(lj=0;lj<fr1[oi][12];lj++)ris_batarei(oi,lj);
+		else
+			if(bt_<fr1[oi][12]) ris_batarei(oi,bt_);
 //    fix(oi,bt_);
 		goto kon;
   }
@@ -489,14 +498,14 @@ kon:
 	return;
 }
 //---------------------------------------------------
-tu_tc()
+void tu_tc(void)
 {
   int XT1=Xleft,XT2=Xright,YT1=Yleft,YT2=Yright;
   char  right[2]={'\x10'}, /* ts */
         left[2]={'\x11'}; /* ty */
-#ifdef NALAD  
-  nom_func("377");
-#endif            
+  
+	nom_func("377");
+            
   if((klo==1)||(help!=0)) return;
   if(nikuda==1) return;
   /********************  TC  **********************/
@@ -572,13 +581,13 @@ tu_tc()
 }
 
 /**********************************************/
-KM_put(int nom,int bit_)
+void KM_put(int nom,int bit_)
 {
   int NNm=0,xc,yc,cvet,bit_ch,bit_n,napr;
   char Tx[2]="";
-#ifdef NALAD  
-  nom_func("120");
-#endif          
+  
+	nom_func("120");
+          
   if((klo==1)||(help!=0)||(nikuda==1))return;
   NNm=fr1[nom][3+bit_]; //номер пути
   bit_n=(fr1[NNm][12]&0xF000)>>12;//бит для нечетного КМ
@@ -639,13 +648,13 @@ chet:
   if(napr==0){line(xc,yc-1,xc-5,yc-3);line(xc,yc+1,xc-5,yc+3);}
 }
 //------------------------------------------------------------------
-priem_otpr(int hto,int b_)
+void priem_otpr(int hto,int b_)
 {
   int nj=0,ito,msdv,cstr,c_nv,mesto,ob_pod,bit_pod_my,bit_pod_sos;
   int l_u_l[14],l_u_r[14],r_u_l[14],r_u_r[14],cod_podkl,prf;
-#ifdef NALAD  
-  nom_func("232");
-#endif          
+  
+	nom_func("232");
+          
   if((fr1[hto][1]&(1<<b_))==0)return;
   msdv=fr1[hto][8]*fr1[hto][4];
   for(ito=0;ito<14;ito++)
@@ -798,9 +807,9 @@ ris:
 int chego_posl(int v)
 {
   //если перезапуск и объединение
-#ifdef NALAD  
-  nom_func("19");
-#endif  
+  
+	nom_func("19");
+  
   if((fr3[v][3]==1)&&(fr3[v][4]==1))return(9399+fr1[v][13]);
   //если перезапуск без объединения
   if((fr3[v][3]==1)&&(fr3[v][4]==0))return(9299+fr1[v][13]);
@@ -809,7 +818,7 @@ int chego_posl(int v)
   else return(0);
 }
 /*********************************************************/
-uch_udal(int nuch2,int nuch1,int b_)
+void uch_udal(int nuch2,int nuch1,int b_)
 {
   //изображение второго участка приближения
   //nuch1 - второй участок приближения
@@ -817,9 +826,9 @@ uch_udal(int nuch2,int nuch1,int b_)
   // b_ - бит для первого участка в объекте nuch2
   int smesh=1,ito=0,ind,x1_1,y1_1,x1_2,y1_2,x2,y2,cod,cvt1,cvt2,
   kap_rem,smen_n,bit_my,bit_sos;
-#ifdef NALAD  
-  nom_func("378");
-#endif      
+  
+	nom_func("378");
+      
   smesh=smesh<<b_; //установка тест бита на нужную позицию
   ito=fr1[nuch2][1]&smesh;//проверка значения бита
   if(ito!=smesh) return; //бит сброшен - участок не наблюдается - выход
@@ -899,12 +908,12 @@ uch_udal(int nuch2,int nuch1,int b_)
 #endif
 }
 /********************************************/
-dzezl(int o,int b_)
+void dzezl(int o,int b_)
 {
   int cvet,x,y,smesh=1,ito;
-#ifdef NALAD  
-  nom_func("47");
-#endif  
+  
+	nom_func("47");
+  
   smesh=smesh<<b_;
   ito=fr1[o][1]&smesh;
   if(ito!=smesh) return;
@@ -926,13 +935,13 @@ aa:
   fix(o,b_);
 }
 //-----------------------------------------------
-kontr_perego(int hto,int b_)
+void kontr_perego(int hto,int b_)
 {
   int x,y,msdv,ckon,ito,nj,mesto=0;
   int smesh=1,ob_podkl,bit_podkl;
-#ifdef NALAD  
-  nom_func("131");
-#endif   
+  
+	nom_func("131");
+   
   smesh=smesh<<b_;//сместить указатель на бит
   ito=fr1[hto][1]&smesh;//проверить наличие этого бита в объекте контроля
   if(ito!=smesh) return; //если нет в объекте - выход
@@ -974,12 +983,12 @@ kontr_perego(int hto,int b_)
   }
 }
 /**********************************************************/
-kps_osn(int nom)
+void kps_osn(int nom)
 {
   int smeo=0;
-#ifdef NALAD  
-  nom_func("134");
-#endif   
+  
+	nom_func("134");
+   
   if((nikuda==1)||(help!=0)) return;
 #ifdef KOL_SOO2
   if(nom==KVV2) smeo=0;
@@ -1011,12 +1020,12 @@ kps_osn(int nom)
   outtextxy(297,83+smeo,"O");
 }
 /*************************************************/
-kps_rez(int nom)
+void kps_rez(int nom)
 {
   int smeo=0;
-#ifdef NALAD  
-  nom_func("135");
-#endif   
+  
+	nom_func("135");
+   
   if((nikuda==1)||(help!=0))return;
 	if(nom==K_rez2) smeo=0;
 	else smeo=97;
@@ -1140,12 +1149,12 @@ ris:
 }
 #endif
 //------------------------------------------------
-otkaz_obkt(int obkt,int bit,int ekran)
+void otkaz_obkt(int obkt,int bit,int ekran)
 {
-  int nom_soob,ob_txt;
-#ifdef NALAD  
-  nom_func("203");
-#endif       
+ int nom_soob,ob_txt;
+  
+	nom_func("203");
+       
   if(prorisovka==1)return;
   if((fr1[obkt][1]==46)||(fr1[obkt][1]==45))//если объект связан с ограждением 
   {
@@ -1153,12 +1162,12 @@ otkaz_obkt(int obkt,int bit,int ekran)
     if(fr1[obkt][1]==46)ob_txt=fr1[obkt][4];
     if(fr1[obkt][1]==45)ob_txt=fr1[obkt][8];
     if(ekran==1)w(nom_soob,ob_txt,"");
-    if(get_str(obkt)==0)neisprav_na_disk('@',chudo);
+		if(get_str(obkt,bit)==0)neisprav_na_disk('@',chudo);
   }
   if((fr1[obkt][1]==51)||(fr1[obkt][1]==52))//если объект связан с полуавтоматикой 
   {
     nom_soob=81;
-    if(get_str(obkt)==0)neisprav_na_disk('@',chudo);
+    if(get_str(obkt,bit)==0)neisprav_na_disk('@',chudo);
     if(ekran==1)
     {
       w(nom_soob,999,"");
@@ -1200,9 +1209,9 @@ anal_sogl(int obekt,int bit_)
 int TIMER_SOB(int ob,int tip,int ob_ini)
 {
   int N_time=25,i;
-#ifdef NALAD  
-  nom_func("361");
-#endif    
+  
+	nom_func("361");
+    
   for(i=0;i<25;i++)
   {
     if((N_time==25)&&(TIMER_N[i][0]==0))N_time=i;
@@ -1230,12 +1239,12 @@ int TIMER_SOB(int ob,int tip,int ob_ini)
   if(N_time>=25)return(-1);// выйти, если нет свободных таймеров 
 }
 //----------------------------------------------------------
-sbros_time(int ob1,int ob2)
+void sbros_time(int ob1,int ob2)
 {
   int i;
-#ifdef NALAD
-  nom_func("293");
-#endif
+
+	nom_func("293");
+
   for(i=0;i<25;i++)
   {
     if((TIMER_N[i][0]==ob1)&&(TIMER_N[i][2]==ob2))
@@ -1770,14 +1779,14 @@ analiz_priem(int obekt,int bit_)
 // цвета которых зависят от состояния всех ламп в комплексе
 // максимальные возможности отображения: до 3-х ламп на
 // 8 состояний (цветов) каждая
-lampa_N(int obj,int bit_)
+void lampa_N(int obj,int bit_)
 {
   int cod,x[3],y[3],i,j;
   unsigned int tester,sdvig,cvet[3];
   char NAME_OBJ[30];
-#ifdef NALAD  
-  nom_func("145");
-#endif     
+  
+	nom_func("145");
+     
   for(i=0;i<30;i++)NAME_OBJ[i]=0;
   //получить код состояния объекта
   cod=fr3[obj][0]+fr3[obj][1]*2+fr3[obj][2]*4;
@@ -1798,7 +1807,7 @@ lampa_N(int obj,int bit_)
 //формирование донесения для полученных кодов(применительно к переездам)
   if(cod==0)
   {
-    if((get_str(obj)==0)&&(prorisovka==0))
+    if((get_str(obj,bit_)==0)&&(prorisovka==0))
     {
       neisprav_na_disk('@',chudo);
       w(175,999,chudo);
@@ -1806,7 +1815,7 @@ lampa_N(int obj,int bit_)
   }
   if((cod==5)||(cod==7))
   {
-    if((get_str(obj)==0)&&(prorisovka==0))
+    if((get_str(obj,bit_)==0)&&(prorisovka==0))
     {
       neisprav_na_disk('@',chudo);
       w(169,999,chudo);
@@ -1814,13 +1823,14 @@ lampa_N(int obj,int bit_)
   }
   return;
 }
-//-------------------------------------------------
-ris_blok_uch(int nom,int bit_)
+
+//**********************************
+void ris_blok_uch(int nom,int bit_)
 {
 	int XX,YY,i,j,D,napr,ob_napr,bt_napr,cvtp_o;
-#ifdef NALAD  
-  nom_func("284");
-#endif 
+  
+	nom_func("284");
+ 
 beg:
 	ob_napr = fr1[nom][2];    // объект направления перегона
 	bt_napr = fr1[nom][3]>>8; //бит направления
@@ -1842,15 +1852,15 @@ beg:
 	if(nom == 117){nom = 116;napr = 1;goto beg;}
 	return;
 }
-//-----------------------
-ris_blk(int nm,int ii,int cvtp_o,int npr)
+//************************************************/****
+void ris_blk(int nm,int ii,int cvtp_o,int npr)
 {
   int bit_,cvet1,ij,rad,n_t,d_x,znak;
   char im[4];//имена для перегонных точек 
   for(ij=0;ij<4;ij++)im[ij]=0;//очистить имена для перегонных точек
-#ifdef NALAD  
-  nom_func("283");
-#endif          
+  
+	nom_func("283");
+          
   bit_=ii;
   d_x=fr1[nm][6]&0xff;
   znak=fr1[nm][6]&0xf00;
@@ -1887,8 +1897,8 @@ ris_blk(int nm,int ii,int cvtp_o,int npr)
   moveto(fr1[nm][4]+d_x*bit_-6,fr1[nm][5]-14);
   setcolor(cvet1);outtext(im);
 }
-//-------------------------
-ps_pso(int ob,int tip)
+//*******************************************************
+void ps_pso(int ob,int tip)
 {
 	int pso,
 			ps,
@@ -1903,9 +1913,9 @@ ps_pso(int ob,int tip)
 			i,
 			N_vkl,
 			N_vkl1;
-#ifdef NALAD
+
 	nom_func("255");
-#endif          
+          
   N_o =0;
 	N_vkl=0; 
 	N_vkl1=0;

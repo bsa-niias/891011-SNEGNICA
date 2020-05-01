@@ -2,6 +2,433 @@
 #include"nastroy.h"
 #include <graphics.h>
 //--------------------------------------
+void add(int	a,unsigned	char	b); 	// определена в box.c
+void add_oblom(int	a);               // определена в wr_ne.c
+void add_word(char	a,char  b[20]);   // определена в wr_ne.c
+int	all_null(int	a);                 // определена в station.c
+void ANALIZ_BBKP(void);               // определена в chan_2.c
+int analiz_com_dc(int a);             // определена в chan_2.c
+void ANALIZ_KOM_TUMS(void);           // определена в chan_2.c
+void analiz_otprav(int a,int b);      //
+void analiz_priem(int a,int b);       //
+void analiz_time(void);               // определена в station.c
+void ANALIZ_TUMS(void);               // определена в chan_2.c
+void avto(void);                      // определена в avto.c
+int	avto_marsh(int	a);               // определена в proverki.c
+void barcolor(int	a,int	b);           // определена в datch2.c
+int byla_com(unsigned char a[12]);    // определена в chan_2.c
+int byla_inf_dc(unsigned char a[11]); // определена в chan_2.c
+unsigned char
+		CalculateCRC8(void *a,int b);     // определена в crccalc.c
+void card(void);                      // определена в read_f62.c
+void Change_adresa(void);             // определена в zagr.c
+int	check_sum(unsigned	char	a[12]); // определена в komm_2.c
+int	chego_posl(int	a);               // определена в for_read.c
+void clear_half(void);                // определена в r_f622.c
+void clear_K(void);                   // определена в zagr.c
+void clear_mouse(void);               // определена в osnov.c
+void clscreen(void);                  // определена в box.c
+void com_avtovozvr(int	a);           // определена в strelki.c
+void COM_FROM_DC(void);               // определена в chan_2.c
+void consentr(void);                  // определена в chan_2.c
+int	cvet_matr(void);                  // определена в marsh2.c
+void	del_kursor(int	a);             // определена в keyb.c
+void	den_noch(int	a);               // определена в datch2.c
+int	der(void);												// определена в osn_disk.c
+int diagnoze(unsigned	char a[12],int b);  //определена в box.c
+void	disco(void);                    //определена в box.c
+void	Disk_arc(void);                 //определена в osn_disk.c
+void	dispdatch(int	a,int	b);         //определена в datch2.c
+void	displaypath(int	a,int	b);       //определена в marsh2.c
+void	displaypathuch(int a);          //определена в marsh2.c
+void	displaysignal(int	a,int	b);     //определена в for_read.c
+void	displaystrelka(int	a,int	b,int	c); //определена в strelki.c
+void	dn_au(int	a);                   //определена в station.c
+int	do_it(int	a,unsigned	char	b[12]); //определена в find.c
+void	dr(void);                       //определена в datch2.c
+void	draw_mouse(void);               //определена в osnov.c
+void	dzezl(int	a,int	b);             //определена в for_read.c
+void	electri_platf(int	a);           //определена в find.c
+void	elo_net(int	a);                     //определена в find.c
+void	end_help(void);                 //определена в keyb.c
+int est_com_ARM(int a);               //определена в chan_2.c
+void	fider3dat(int	a,int	b);         //определена в datch2.c
+void	figura(int	a);									//определена в find.c
+void	fin_kom(void);									//определена в chan_2.c
+void	FINAL(void);                    //определена в osn_disk.c
+void	FINAL_(void);                   //определена в keyb.c
+int	find_end(void);                   //определена в proverki.c
+int	find_obj(unsigned	char a,
+unsigned char b,int c,int d);         //определена в box.c
+int	findspu1(int	a,int	b);           //определена в find.c
+void	finish_startMM(void);           //определена в marsh2.c
+void	finish_strelok(void);           //определена в keyb.c
+void	first_razd(int	a);             //station.c
+void	first_second(int	a);           //определена в r_f622.c
+void	fix(int	a,int	b);               //определена в datch2.c
+void	fixation(int	a,int	b);         //определена в raspac.c
+int fix_bad_com(int a);               //определена в chan_2.c
+void fix_poter(int a,int b);          //определена в chan_2.c
+void	fon_pic(void);                  //определена в r_f622.c
+void	FORM_BUF_PVM_OUT(void);					//определена в chan_2.c
+void	form_first_kom(int	a);         //определена в station.c
+int	form_fr4(int	a);                 //определена в chan_2.c
+int	form_koda(int	a,int	b);           //определена в komm_2.c
+int	form_kodop(int	a);               //определена в komm_2.c
+void form_kom_avtod(void);					//определена в proverki.c
+void form_kom_knopka(int	a,int	b);   //определена в proverki.c
+void form_kom_nemarsh(int	a);         //определена в proverki.c
+void form_kom_nk_chk(int	a);         //определена в proverki.c
+void form_kom_prkl(int	a);           //определена в proverki.c
+void form_kom_put(int	a,int	b);       //определена в komm_2.c
+void form_kom_smen(int	a);           //определена в proverki.c
+void form_kom_str(int a,unsigned	char b);//определена в komm_2.c
+void form_kom_vsp(void);              //определена в proverki.c
+int	form_kosig(int	a);               //определена в komm_2.c
+void form_second_kom(int	a);         //определена в station.c
+void formkps(int	a);                 //определена в proverki.c
+void formula(int	a);                 //определена в start2.c
+void fotksig(int	a);                 //определена в komm_2.c
+void fraza(int	a);                   //определена в r_f622.c
+void fraza2(int	a);                   //определена в r_f622.c
+void get_int_vect(void);              //определена в chan_2.c
+void get_p(int	a,int	b,int	c);       //определена в keyb.c
+int	get_str(int	a,int b);             //find.c
+void gri_razd(int	a);                 //определена в station.c
+void h(void);                         //определена в helper.c
+void home(int	a);                     //определена в keyb.c
+void imena(int	a);                   //определена в start2.c
+void in_port(unsigned int a);         //определена в chan_2.c
+void in_port_BBKP(unsigned int	a);   //определена в chan_2.c
+void init(void);                     //определена в chan_2.c
+void init_markery(int	a);           //определена в start2.c
+void Init_TEST_SOOB(int	a);         //определена в osnov.c
+int	ischem(void);                     //определена в chan_2.c
+void ismena(void);                   //определена в osn_disk.c
+void ispr_pvm(int	a,int	b);         //определена в datch2.c
+void k_dso(int a);										//определена в station.c
+void k_fdp(int a);                    //определена в station.c
+void k_per(int	a);                   //определена в station
+void kanal(int	a);                   //определена в r_f622.c
+void kanal_DC(void);                 //определена в datch2.c
+void kanal_SPDLP(void);              //определена в datch2.c
+void kartina(void);                  //определена в r_f622.c
+void keyboard(void);                 //определена в keyb.c
+int	keykey(void);                     //определена в osn_disk.c
+void KM_put(int	a,int	b);             // for_read.c
+void knopa(int	a);                   //определена в station.c
+void knopka(int	a);                 //определена в datch2.c
+void knopka_OK(void);								//определена в station.c
+void knopka_vkl_opove(int	a,int b);	//определена в datch2.c
+void knopka_vkl_vsego(int	a,int	b); //определена в datch2.c
+void kom_dso(int a);                  //определена в station.c
+void kom_fdp(int a);                  //определена в station.c
+void kom_per(int	a);                 //определена в station.c
+void kom_v_bufer(int	a);             //определена в chan_2.c
+int	kom_v_bufer_pvm(int	a,unsigned	char	b);	//определена в proverki.c
+void komplekt(int	a,int	b);           //определена в datch2.c
+void koni(void);                      //определена в proverki.c
+void kontr_perego(int	a,int	b);       //определена в for_read.c
+int	kontroler(unsigned	char	a[12],int	b,int	c,int	d); //raspac.c
+int kotora(int a);                    //определена в wr_ne.c
+void kps_osn(int	a);                 //определена в for_read.c
+void kps_rez(int	a);                 //определена в for_read.c
+void krasit_knopki(int	a,int	b);     //определена в datch2.c
+void krasit_razd(int	a,int	b);       //определена в datch2.c
+void krest(int	a,int	b,int	c);       //определена в raspac.c
+void kvadrat(void);                   //определена в find.c
+void kvv(int	a,int	b);               //определена в datch2.c
+void lampa(int	a,int	b);             //определена в datch2.c
+void lampa_3(int	a,int	b,int c);           //определена в datch2.c
+void lampa_3c(int	a,int	b,int	c);     //определена в datch2.c
+void lampa_5(int a,int b);            //определена в datch2.c
+void lampa_compl(int	a,int	b);       //определена в datch2.c
+void lampa_fr2(int a,int b);          //определена в datch2.c
+void lampa_konc(int	a,int	b);         //определена в datch2.c
+void lampa_N(int a,int b);            //for_read.c
+void lru_lko(int	a,int	b,int	c);     //определена в datch2.c
+void make_avtod(void);                //определена в avto.c
+void make_dn(void);                   //определена в vibor.c
+void make_dso(void);                  //определена в vibor.c
+void make_fdp(void);                  //определена в vibor.c
+void make_gri(void);                  //определена в vibor.c
+void make_knopka(void);               //определена в vibor.c
+void make_knpk2(void);                //определена в vibor.c
+void make_nemarsh(void);              //определена в vibor.c
+void make_neotv(void);                //определена в vibor.c
+void make_ograd(void);
+void make_opoveshenie(void);          //определена в vibor.c
+void make_otvetst(void);              //определена в vibor.c
+void make_per_kompl(void);            //определена в vibor.c
+void make_pereezd(void);              //определена в vibor.c
+void make_put(void);                  //определена в vibor.c
+void make_razdelka(void);             //определена в vibor.c
+void make_signal(void);               //определена в vibor.c
+void make_smena(void);                //определена в vibor.c
+void make_vspom_otpr(void);           //определена в vibor.c
+void make_vspom_priem(void);          //определена в vibor.c
+void marsh1(void);										//определена в station.c
+void marsh2(void);                    //определена в station.c
+int	may_be(int	a,int	b);             //определена в proverki.c
+void mem_mous_fon(void);              //определена в osnov.c
+void menu(void);                      //определена в osnov.c
+int	menu1(void);                      //определена в keyb.c
+void menu_hoz_poezd(int a);           //определена в marsh2.c
+int	mouse(void);                      //определена в osnov.c
+void mouse_init(void);                //определена в osnov.c
+void move_mouse(void);                //определена в osnov.c
+void music1(void);                    //определена в osn_disk.c
+void nach_zagruzka(void);             //определена в start2.c
+void nach_zakr(int	a,int	b);         //определена в vibor.c
+int	nashel(int	a);                   //определена в station.c 
+void neisprav_na_disk(char a,char	b[20]); //определена в wr_ne.c
+void nemar(int	a);                   //определена в datch2.c
+void nemarsh(int	a);                 //определена в station.c
+void neot(int	a);                     //определена в vibor.c
+void nok(int	a);                     //определена в station.c
+void noka(int	a);                     //определена в station.c
+void nokb(int	a);                     //определена в station.c
+void nom_func(char a[5]);             //определена в osnov.c
+void obnov_kur_mouse(int	a,int	b);   //определена в keyb.c
+int	obnov_201_1(int a,int b,unsigned	char c[12],int d);//определена в find.c
+int	obnov_201_2(int a,int b,unsigned	char c[12],int d);//определена в find.c
+int	obnov_201_3(int a,int b,unsigned	char c[12],int d);//определена в find.c
+int	obnov_201_4(int a,int b,unsigned	char c[12],int d);//определена в find.c
+int	obnov_obied(int a,int b,unsigned	char c[12]);      //определена в find.c
+int	obnov_obryv(int a,int b,unsigned	char c[12]);//определена в find.c
+void obrabotka_inf(int a);           //определена в raspac.c
+void ochistka(void);								 //определена в chan_2.c
+void ognev(int	a,int	b,int	c);      //определена в datch2.c
+void OK(int	a,int	b);                //определена в zagr.c
+void okrasklav(int	a);              //определена в vibor.c
+void opoveshe(int	a,int	b);          //определена в station.c
+int	Opred(void);                     //определена в komm_2.c
+void otkaz_obkt(int a,int b,int c);  //определена в for_read.c
+void otkl(int	a);                    //определена в vibor.c
+void otkl_(int	a,int	b);            //определена в avto.c
+void otkrs(void); 									 //определена в station.c
+void otkrsi(void);									 //определена в proverki.c
+void OUT_DC(void);									 //определена в chan_2.c	
+void OUT_SPD(void);                  //определена в station.c
+void out_time(void);                 //определена в box.c
+void p_li(int	a);                    //определена в find.c 2
+void Pam(int a);             //datch2.c
+int	parafaz(int	a);                  //определена в datch2.c
+void perekl_komp(int	a);            //определена в station.c
+void perstr(void);                   //определена в station.c
+void pict_podsvetka(void);           //определена в datch2.c
+void pict1(int	a);                  //определена в find.c
+int pishu_com_dc(unsigned char a[12]); //определена в chan_2.c
+int pishu_podt(int a);                 //определена в chan_2.c
+int pishu_soob(int a);                 //определена в chan_2.c
+void plus_minus(void);                 //определена в proverki.c
+void podtver(void);                    //определена в proverki.c
+int	POISK(void);                       //определена в osn_disk.c
+int poisk_obekt(unsigned char buf[12]);//определена в chan_2.c
+int	poisk_ras(int	a,int	b);            //определена в strelki.c
+void priem_otpr(int	a,int	b);          //определена в for_read.c
+int	priem_pvm(int	a);                  //определена в chan_2.c
+void PRINT_ALL(void);                  //определена в osn_disk.c
+void Printf(int	a,int	b,int	c);				 //определена в osn_disk.c
+void prkl(int	a);                      //определена в station.c
+void prodol(void);                     //определена в osnov.c
+void prodol1(void);                    //определена в osn_disk.c
+void prov_av_str(int	a,int	b,int	c,int	d,int	e); //определена в strelki.c
+int	prov_avail(void);                  //определена в proverki.c
+void prov_avto_si(int	a);              //определена в avto.c
+int	prov_avtod1(int	a);                //определена в avto.c
+int	prov_ele_avtod(int a);						 //определена в avto.c
+void prov_lX(void);                    //определена в start2.c
+int prov_negabarit(int a,int b);       //определена в avto.c
+int prov_negabarit_ohr_pl_mi(int a,int b);//определена в proverki.c
+int prov_negabarit_pl_mi(int a,int b); //определена в proverki.c
+int prov_negabarit_pl_mi2(int a,int b);//определена в proverki.c
+int	prov_si_avtod(int	a,int	b);        //определена в avto.c
+void proverka_NA(void);                //определена в zagr.c
+void proverka_STA(void);               //определена в zagr.c
+void proverka_svyazi(void);            //определена в chan_2.c
+void ps_pso(int	a,int	b);              //определена в for_read.c
+void put_p(int a,int b,int c);         //определена в keyb.c
+int	putec(unsigned	char	a[12],int	b,int	c,int	d); //определена в raspac.c
+void puts1(char *a,unsigned char b,int c,int d);  //определена в osnov.c
+void PVM(int	a, int b);               //r_f622.c
+void rama(void);                       //определена в helper.c
+void ramka(int	a,int	b,int	c,int	d);  //определена в osn_disk.c
+void ramki(int	a);                    //определена в find.c
+void rashifr(int	a,int	b);            //определена в read_f62.c
+int	rasp_fr4(void);                    //определена в chan_2.c
+int	razdelan(int	a,int	b);            //определена в marsh2.c
+int	read_bl_box(void);                 //определена в osn_disk.c
+void read_dzezli(int	a);              //определена в
+int read_int(int hnd); 
+void read_lex(void);                   //определена в
+void read_neisprav(void);              //определена в
+void read_passw(void);                 //определена в
+void read_pereezd(int	a);              //определена в
+void read_slova(int	a);                //определена в
+void read_smen(int	a);                //определена в
+char read_sode(int HNDL,int numbe,char STRK[50]); //R_F622.c
+void read_spdlp(void	*a);             //определена в
+int	read_str(int a,unsigned	char b[50],unsigned	char c[12]);//определена в
+int read_str1(int	a,unsigned char	b[50],
+unsigned char	c[12]);                  //определена в
+void read_t(int	a);                    //определена в
+void read_text1(int	a);                //определена в
+void reading(void);                    //определена в
+void reset_int_vect(void);             //определена в
+void Rezult(int	a,int	b,int	c);        //определена в
+void Rezult_2(int	a,int	b,int	c);      //определена в
+void ris_batarei(int	a,int	b);        //datch2.c
+void ris_blk(int	a,int	b,int	c,int	d); //определена в
+void ris_blok_uch(int	a,int	b);        //определена в
+void ris_nemar(int	a);                //определена в
+void ris_ogr_str(int	a,int	b);        //определена в
+void ris_otv_knop(int	a);              //определена в
+void ris_smen_otv(int	a,int	b);        //определена в
+void ris_sp_str(void);                 //определена в
+void ris_trassa(void);                 //определена в
+void sbros_all(void);                  //определена в
+void SBROS_BIT_TEST_SOOB(int a,int	b); //определена в osnov.c
+void sbros_obmen_pvm(void);            //определена в
+void sbros_time(int	a,int	b);          //определена в
+void sbros_time_tip(int	a);            //определена в
+void sekci(int	a, int b);             //marsh2.c
+void sekos(int	a,int	b);              //определена в
+void set_dc(void);                     //определена в keyb.c
+void set_int_vect(void);               //определена в
+void set_timers(void);                 //определена в
+void set_tums(void);                   //определена в vibor.c
+void set_vvod(void);                   //определена в
+void shapka(void);                     //определена в
+void shl(void);                        //определена в
+void show_kursor(int	a);              //определена в
+int	signale(unsigned	char	a[12],int	b,int	c,int	d);//определена в
+void sigo(int	a,int	b,int	c,int	d);   //определена в
+void slom_interf(int	a);             //определена в
+void slom_sign(int	a);               //определена в
+void slom_uch(int	a,	char	b);       //определена в
+void smen_napr(int	a);               //определена в
+void smena(int	a);                   //определена в
+void snyato_avto(int	a);             //определена в
+void snyato_chet(void);               //определена в
+void snyato_nechet(void);             //определена в
+int	sogl_otkr(int	a);                 //определена в
+void spisok_prikazov(void);           //определена в
+int	starit(void);                     //определена в
+void start_port(int a);               //определена в
+void start_time_date(void);           //определена в
+int	str_Makst(int	a);                 //определена в
+int	strelka(int	ako,int	b);           //определена в
+int	strelka_v_makete(void);           //определена в
+int	strelok(unsigned char	a[12],int	b,int	c,int	d); //определена в
+void Styki(void);                     //определена в
+void t(int a);                        //FOR_READ.C
+int	t_dz(int	a);                     //определена в
+int	t_put(int	a);                     //определена в
+int	t_sig(int	a);                     //определена в
+int	t_spu(int	a);                     //определена в
+int t_str(int a,int b);               //определена в avto.c
+int	t_uch(int	a);                     //определена в
+void tel_vkl_vikl(int	a);             //определена в
+void tele(int	a);                     //определена в
+void test_deshifr(int	a,int	b);       //определена в
+int	test_elem(int	a,int	b);           //определена в
+void test_marsh(int	a);               //определена в
+void test_mo(void);                   //определена в
+int	test_mp(void);                    //определена в
+void test_not_ra(int	a);             //определена в
+void test_otvetstv(void);             //определена в
+void test_port_pvm(void);             //определена в
+void test_prigol_otm(int	a);         //определена в
+void test_ra_fini(int	a);             //определена в
+int	TEST_SUM_SOOB(void);              //определена в
+int	test_time(void);                  //определена в
+int	test_time1(long	a);               //определена в
+int test_virt_time(void);             //определена в osn_disk.c
+void time20sec(int	a);               //определена в
+int	TIMER_SOB(int	a,int	b,int	c);     //определена в for_read.c
+int	tst_chet(int	a);                 //определена в
+int	tst_dz(int	a,int	b);             //определена в
+int	tst_fix(int	a,int	b);             //определена в
+int	tst_nal_sig(void);                //определена в
+int	tst_pos(int	a);                   //определена в
+int	tst_put(int	a,int	b);             //определена в
+int	tst_sig(int	a,int	b);             //определена в
+int	tst_sigogo(int	a);               //определена в
+int	tst_spu(int	a,int	b);             //marsh2.c
+int	tst_str(int	a,int	b);             //определена в
+int	tst_str_av(int	a,int	b);         //определена в
+int	tst_str1(int	a);                 //определена в
+int	tst_strelok(int	a);               //определена в
+int	tst_uch(int	a,int	b);             //определена в
+void tst_zvuk(void);                  //определена в
+void tu_tc(void);                     //for_read.c
+void TUMS_MARSH(void);                //station.c
+void t_p_pvm(int a);                  //определена в
+void uch_udal(int	a,int	b,int	c);     //определена в
+int	uchastic(unsigned	char	a[12],int	b,int	c,int	d); //определена в
+void ukazka(void);                    //определена в
+void UKG(int	a);                     //определена в
+void uksps(int	a);                   //определена в
+int	upak_fr4(int	a);                 //определена в chan_2.c
+int	uze(int	a,int	b);                 //определена в
+void v_o_ma(int	a);                   //определена в
+int	v_spiske(int	a);                 //определена в
+int	vibor(int	a);                     //определена в
+void vidacha(int	a);                 //определена в
+void vidacha_BBKP(int	a);             //определена в
+void vio_vi(void);                    //определена в
+void vkl_(int	a,int	b);               //определена в
+void vkl_avto(void);                  //определена в
+void vkl_dn(int	a);                   //определена в
+void vkl_kno(int	a,int	b);           //определена в
+void vkl_knop(int	a);                 //определена в
+void vkl_nemarsh(int	a);             //определена в
+void vkl_neot(int	a);                 //определена в
+void vkl_opoveshe(int	a);             //определена в
+void vkl_otkl_maket(int	a);           //определена в
+void voper(void);                     //определена в
+void vopr_mar(void);                  //определена в
+void vopros(int	a,int	b,int	c,unsigned char	d[8]); //определена в
+void vuhod(void);                     //определена в
+void vuhod1(void);                    //определена в
+int	vyborklav(void);                  //определена в
+void w(int	a,int	b,	char	cc[20]);  //определена в
+unsigned long	int	wait(void);         //определена в
+void what_is_new(void);               //определена в
+void whole_finish(void);              //определена в
+void WIN_CARD(void);                  //определена в
+void WIN_HELP(void);                  //определена в
+void WIN_MAIN(void);                  //определена в
+void WIN_MAIN(void);                  //определена в
+void WIN_NEISPRAV(void);              //определена в
+void WIN_OTV(void);                   //определена в
+void WIN_RAZD(void);                  //определена в
+void WIN_SOOB(void);                  //определена в
+void WIN_VOPROS(void);                //определена в
+unsigned long int wait(void);         //определена в
+void wind_w(int a,int b,int c,int d,int e,int f,int g,int h); //FOR_READ.c
+void work(void);                      //определена в
+void z1(int	a);                       //определена в
+void zad_marsh(void);                 //определена в
+void zad_marsh_avto(void);            //определена в
+int	ZAGO_MPSU(int	a);                 //определена в
+void zagruzen(void);                  //определена в
+void zakroy(int	a);                   //определена в
+void zakrsi(void);                    //определена в
+int	zamknut(int	a,int	b);             //marsh2.c
+int	zamknuto(int	a,int	b,int c);     //proverki.c
+int	zanyat(int	a,int	b);             //определена в
+int	zanyato(int	a,int	b);             //определена в
+void ZAP_BUF_SPD(void);               //определена в
+int	zap_matr(int	a);                 //определена в
+void Zona_k(void);                    //определена в
+void zona_opov(int	a,int	b);         //определена в
+void zp_zp(int	a);                   //определена в
+void zvuk_vkl(int	a,	int	b);         //определена в
+void ZZagruzka(void);                 //определена в
+
+//--------------------------------------
 extern unsigned long int
 BAZ_ADR1,
 BAZ_ADR11,
@@ -100,9 +527,9 @@ extern int den;
 extern int den1;
 extern int DISK;
 extern int down;
+extern int DSP_SHN;
 extern int DU;
 extern int dv;
-extern int DVA_MO;
 extern int ELE;
 extern int END;
 extern int end_avto;
@@ -231,6 +658,7 @@ extern int NOM_NEXT;
 extern int nomer;
 extern int NOMER_ARMA;
 extern int NOMER_FOR_FR4;
+extern int notHDD;
 extern int number;
 extern int OB_PRER;
 extern int obnov;
@@ -264,6 +692,7 @@ extern int poka;
 extern int povt1;
 extern int povt1;
 extern int povt2;
+//extern int PREDUPR;
 extern int priem_;
 extern int PRIEM_FR4;
 extern int PRKL;
@@ -340,7 +769,9 @@ extern int vozvr;
 extern int vrem;
 extern int vspz;
 extern int vtora;
+extern int vvod_dc;
 extern int vvod_set;
+extern int vvod_tums;
 extern int vysv;
 extern int vysvv;
 extern int vzvod;
@@ -370,6 +801,7 @@ extern int zalet;
 extern int zapr;
 extern int zapret[skoko_stoek];
 extern int zapret_sos[skoko_stoek];
+extern int zapret_otlad;
 extern int zapretvybora;
 extern int ZAPROS_FR4;
 extern int zapusk;

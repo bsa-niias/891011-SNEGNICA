@@ -26,12 +26,12 @@ int strelka_v_makete()
 }
 
 //-------------------------------------------------------
-vkl_otkl_maket(int nom)
+void vkl_otkl_maket(int nom)
 {
   int nomer;
-#ifdef NALAD  
-  nom_func("401");
-#endif        
+  
+	nom_func("401");
+        
   if(DISK!=0)return;
   if(markery[nom][7]!=1)
   { w(17,999,"");//ЭТО НЕ СТРЕЛКА 
@@ -47,13 +47,13 @@ vkl_otkl_maket(int nom)
 }
 
 //-------------------------------------------------------
-v_o_ma(int nom)
+void v_o_ma(int nom)
 {
   int BUK,para;
   unsigned char BUKA;
-#ifdef NALAD  
-  nom_func("386");
-#endif      
+  
+	nom_func("386");
+      
   if(DISK!=0)return;
   if(klaval==13)
   {
@@ -100,12 +100,12 @@ v_o_ma(int nom)
 }
 
 //-----------------------------------------------------
-otkl(int nomer)
+void otkl(int nomer)
 { int BUK,x23,y23,para,kudo,avtr,ui=0;
   unsigned char BUK1;
-#ifdef NALAD  
-  nom_func("205");
-#endif       
+  
+	nom_func("205");
+       
   if(DISK!=0)return;
   home(modi);
   if((STATUS==0)||(STATUS==2))
@@ -176,14 +176,14 @@ vsi:
 }
 
 //-----------------------------------------------------------
-nach_zakr(int nomer,int otkuda)
+void nach_zakr(int nomer,int otkuda)
 {
 //otkuda=0-закрытие для движения
 //otkuda=1-остальное
   int x13,y13,kudo,kuk=2,BUKA;
-#ifdef NALAD  
-  nom_func("178");
-#endif
+  
+	nom_func("178");
+
   if(ZAGRUZKA!=0)return;
   if((klo==1)||(help>0)||(nikuda==1))return;
   if(fr1[nomer][0]!=1) return;
@@ -285,7 +285,7 @@ int test_mp()
 /*-----------------------------------------------------------------*/
 /*процедура организации реакции системы на выбор оператором сигнала   */
 /*-----------------------------------------------------------------*/
-make_signal()
+void make_signal()
 {
 	int mp,ii;
 	mp=markery[modi][6];
@@ -429,11 +429,11 @@ make_signal()
   return;
 }
 //-----------------------------------------------------
-make_put()
+void make_put()
 { int nomer,avtr;
-#ifdef NALAD  
-  nom_func("159");
-#endif
+  
+	nom_func("159");
+
   if(DISK!=0)return;
 #ifdef AVTOD
   avtr=prov_ele_avtod(nomer);
@@ -459,12 +459,12 @@ make_put()
     return;
 }
 /******************************************************************/
-zakroy(int nn)
+void zakroy(int nn)
 {
   int zoz=0,zo=0,xc,yc,nomer,BUK=0xC0,BUKn=0xCf;
-#ifdef NALAD  
-  nom_func("427");
-#endif          
+  
+	nom_func("427");
+          
   if(DISK!=0)return;
   if(klaval==13)
   //НЕВОЗМОЖНА ВЫДАЧА КОМАНДЫ С РЕЗЕРВНОЙ ПЭВМ
@@ -517,11 +517,11 @@ end:
   return;
 }
 /**********************************************************/
-make_smena()
+void make_smena()
 {
-#ifdef NALAD  
-  nom_func("162");
-#endif     
+  
+	nom_func("162");
+     
   if(DISK!=0)return;
   if(uprav==1)poka=0;
   if(oppp==0)smen_napr(fr1[markery[modi][6]][9]);
@@ -529,11 +529,11 @@ make_smena()
   return;
 }
 //-------------------------------------------------
-make_razdelka()
+void make_razdelka()
 {  // для резервной машины нет выполнения
-#ifdef NALAD  
-  nom_func("160");
-#endif     
+  
+	nom_func("160");
+     
   if(DISK!=0)return;
   if(STATUS!=1){w(140,999,"");soob_for_oper=1;return;}
   if(TELEUP!=1)return;//при отключенном телеуправлении нет выполнения
@@ -571,13 +571,13 @@ make_razdelka()
 }
 //---------------------------------------------------------
 //процедура инициализации выдаычи ответственной команды
-make_otvetst()
+void make_otvetst()
 {
   int isp,pred;//номера объекта исполнительного
   int bit_p,bit_i;//номера битов предварительной и исполнительной команд
-#ifdef NALAD  
-  nom_func("156");
-#endif       
+  
+	nom_func("156");
+       
   if(DISK!=0)return;//при просмотре архива нет выполнения
   // для резервной машины нет выполнения
   if(STATUS!=1){w(140,999,"");soob_for_oper=1;return;}
@@ -608,30 +608,30 @@ make_otvetst()
   }
 }
 //-----------------------------------------------------
-make_neotv()
+void make_neotv()
 {
-#ifdef NALAD  
-  nom_func("154");
-#endif     
-  if(DISK!=0)return;
-  poka=0;
-  if(oppp==0)
-  {
-    vkl_neot(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    neot(markery[modi][6]);
-    zapretvybora=0;
-  }
+
+	nom_func("154");
+
+	if(DISK!=0)return;
+	poka=0;
+	if(oppp==0)
+	{
+		vkl_neot(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		neot(markery[modi][6]);
+		zapretvybora=0;
+	}
 }
 //-------------------------------------------------------
-vkl_neot(int nom)
+void vkl_neot(int nom)
 {
-#ifdef NALAD  
-  nom_func("399");
-#endif    
+  
+	nom_func("399");
+    
   if(fr1[nom][6]!=9999)//если есть текст
   {
     setfillstyle(1,14),setcolor(4);
@@ -640,11 +640,11 @@ vkl_neot(int nom)
   oppp=1;puti=1;return;
 }
 //-------------------------------------------------------------
-neot(int nom)
+void neot(int nom)
 { unsigned int bit_akt,zn_akt,i,koda;
-#ifdef NALAD  
-  nom_func("184");
-#endif 
+
+	nom_func("184");
+
 	if(klaval == 13)
 	{
 		bit_akt = (fr1[nom][4]&0xff00)>>8;
@@ -673,11 +673,11 @@ out:
 }
 //------------------------------------------------------------------
 
-make_pereezd()
+void make_pereezd()
 {
-#ifdef NALAD  
-  nom_func("158");
-#endif     
+  
+	nom_func("158");
+     
   if(DISK!=0)return;
   poka=0;
   if(oppp==0)
@@ -692,22 +692,22 @@ make_pereezd()
   }
 }
 /**********************************************/
-vkl_kno(int nom,int CCV)
+void vkl_kno(int nom,int CCV)
 {
-  int to=0,too=0,D=0;
-  int xc,yc;
-  char klopo[6]="";
-#ifdef NALAD  
-  nom_func("396");
-#endif      
-  if((nikuda==1)||(klo==1)||(help>0))return;
-  for(to=0;to<6;to++)klopo[to]=0;
-  xc=markery[nom][4]-4;
-  yc=markery[nom][5]-4;
-  setfillstyle(SOLID_FILL,CCV);
-  if((pusto&3)!=0)setfillstyle(SOLID_FILL,LIGHTCYAN);
-  if(nom==MAKET)
-  {
+	int to=0,too=0,D=0;
+	int xc,yc;
+	char klopo[6]="";
+
+	nom_func("396");
+
+	if((nikuda==1)||(klo==1)||(help>0))return;
+	for(to=0;to<6;to++)klopo[to]=0;
+	xc=markery[nom][4]-4;
+	yc=markery[nom][5]-4;
+	setfillstyle(SOLID_FILL,CCV);
+	if((pusto&3)!=0)setfillstyle(SOLID_FILL,LIGHTCYAN);
+	if(nom==MAKET)
+	{
 		setfillstyle(LTBKSLASH_FILL,CCV);
 		bar(xc-17,yc,xc+25,yc+10);
 		for(to=0;to<kol_OSN;to++)
@@ -734,190 +734,190 @@ vkl_kno(int nom,int CCV)
 	}
 }
 //-----------------------------------------------------
-make_knopka()
+void make_knopka()
 {
-#ifdef NALAD  
-  nom_func("151");
-#endif     
-  if(DISK!=0)return;
-  poka=0;
-  if(oppp==0) { vkl_knop(markery[modi][6]); zapretvybora=1; }
-  else { knopa(markery[modi][6]); zapretvybora=0;}
+
+	nom_func("151");
+
+	if(DISK!=0)return;
+	poka=0;
+	if(oppp==0) { vkl_knop(markery[modi][6]); zapretvybora=1; }
+	else { knopa(markery[modi][6]); zapretvybora=0;}
 }
 //-------------------------------------------------------
-make_knpk2()
+void make_knpk2()
 {
-#ifdef NALAD  
-  nom_func("152");
-#endif     
-  if(DISK!=0)return;
-  poka=0;
-  if(oppp==0) { vkl_knop(markery[modi][6]); zapretvybora=1; }
-  else { knopa(markery[modi][6]); zapretvybora=0;}
+
+	nom_func("152");
+
+	if(DISK!=0)return;
+	poka=0;
+	if(oppp==0) { vkl_knop(markery[modi][6]); zapretvybora=1; }
+	else { knopa(markery[modi][6]); zapretvybora=0;}
 }
 //-------------------------------------------------------
-make_nemarsh()
+void make_nemarsh()
 {
-#ifdef NALAD  
-  nom_func("153");
-#endif     
-  if(DISK!=0)return;
-  poka=0;
-  if(oppp==0)
-  {
-    vkl_nemarsh(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    nemarsh(markery[modi][6]);
-    zapretvybora=0;
-  }
+
+	nom_func("153");
+
+	if(DISK!=0)return;
+	poka=0;
+	if(oppp==0)
+	{
+		vkl_nemarsh(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		nemarsh(markery[modi][6]);
+		zapretvybora=0;
+	}
 }
 //----------------------------------------------------------
-make_dn()
+void make_dn()
 {
-#ifdef NALAD  
-  nom_func("149");
-#endif   
-  if(DISK!=0)return;
-  if (uprav==1) poka=0;
-  if(oppp==0)
-  {
-    vkl_dn(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    dn_au(markery[modi][6]);
-    zapretvybora=0;
-  }
+
+	nom_func("149");
+
+	if(DISK!=0)return;
+	if (uprav==1) poka=0;
+	if(oppp==0)
+	{
+		vkl_dn(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		dn_au(markery[modi][6]);
+		zapretvybora=0;
+	}
 }
 //----------------------------------------------------
 
-make_opoveshenie()
+void make_opoveshenie()
 {
-#ifdef NALAD  
-  nom_func("155");
-#endif     
-  if(DISK!=0)return;
-  if (uprav==1) poka=0;
-  if (oppp==0)
-  {
-    vkl_opoveshe(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    opoveshe(markery[modi][6],0);
-    zapretvybora=0;
-  }
+
+	nom_func("155");
+
+	if(DISK!=0)return;
+	if (uprav==1) poka=0;
+	if (oppp==0)
+	{
+		vkl_opoveshe(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		opoveshe(markery[modi][6],0);
+		zapretvybora=0;
+	}
 }
 //--------------------------------------------
-make_per_kompl()
+void make_per_kompl()
 {
-#ifdef NALAD  
-  nom_func("157");
-#endif     
-  if(DISK!=0)return;
-  if (oppp==0)
-  {
-    perekl_komp(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    prkl(markery[modi][6]);
-    zapretvybora=0;
-  }
+
+	nom_func("157");
+
+	if(DISK!=0)return;
+	if (oppp==0)
+	{
+		perekl_komp(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		prkl(markery[modi][6]);
+		zapretvybora=0;
+	}
 
 }
 //--------------------------------------------
 #ifdef OGRAD
-make_ograd()
+void make_ograd()
 {
-  if(DISK!=0)return;
-  if(oppp==0)
-  {
-    kom_ograd(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    k_ograd(markery[modi][6]);
-    zapretvybora=0;
-  }
+	if(DISK!=0)return;
+	if(oppp==0)
+	{
+		kom_ograd(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		k_ograd(markery[modi][6]);
+		zapretvybora=0;
+	}
 }
 #endif
 //--------------------------------------------------
-make_gri()
+void make_gri()
 {
-  int IV,nn1,nn2;
-#ifdef NALAD  
-  nom_func("150");
-#endif     
-  if(DISK!=0)return;
-  if(fr1[point][1]==301)
-  {
-    nn1=point;
-    nn2=fr1[point][3];
-    if((fr3[nn1][2]!=0)||(fr3[nn2][2]!=0)){ w(15,999,"");  return; }
-  }
-  if(gri==0)
-  {
-    if(uprav==1)poka=0;
-    if(fr3[point][2]==0)
-    { w(20,999,"?"); //включить выдержку времени ?
-      zapretvybora=1; gri=1; vih_vopr=1;
-      return;
-    }
-    else w(15,999,""); //комплект искусственного размыкания занят
-  }
-  home(modi);
-  zapretvybora=0;
-  gri=0;
-  return;
+	int IV,nn1,nn2;
+
+	nom_func("150");
+
+	if(DISK!=0)return;
+	if(fr1[point][1]==301)
+	{
+		nn1=point;
+		nn2=fr1[point][3];
+		if((fr3[nn1][2]!=0)||(fr3[nn2][2]!=0)){ w(15,999,"");  return; }
+	}
+	if(gri==0)
+	{
+		if(uprav==1)poka=0;
+		if(fr3[point][2]==0)
+		{ w(20,999,"?"); //включить выдержку времени ?
+			zapretvybora=1; gri=1; vih_vopr=1;
+			return;
+		}
+		else w(15,999,""); //комплект искусственного размыкания занят
+	}
+	home(modi);
+	zapretvybora=0;
+	gri=0;
+	return;
 }
 #ifdef POLUAVTOMAT
 //---------------------------------------------------------
-make_dso(int nom)
+void make_dso(int nom)
 {
-  if(DISK!=0)return;
-  if(oppp==0)
-  {
-    kom_dso(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    k_dso(markery[modi][6]);
-    zapretvybora=0;
-  }
+	if(DISK!=0)return;
+	if(oppp==0)
+	{
+		kom_dso(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		k_dso(markery[modi][6]);
+		zapretvybora=0;
+	}
 }
 /********************************************/
 make_fdp(int nom)
 {
-  if(DISK!-0)return;
-  if(oppp==0)
-  {
-    kom_fdp(markery[modi][6]);
-    zapretvybora=1;
-  }
-  else
-  {
-    k_fdp(markery[modi][6]);
-    zapretvybora=0;
-  }
+	if(DISK!-0)return;
+	if(oppp==0)
+	{
+		kom_fdp(markery[modi][6]);
+		zapretvybora=1;
+	}
+	else
+	{
+		k_fdp(markery[modi][6]);
+		zapretvybora=0;
+	}
 }
 #endif
 /********************************************/
-ris_ogr_str(int nbn,int BUKv)
+void ris_ogr_str(int nbn,int BUKv)
 { //процедура изображения на имени ограничений наложенных на стрелку
-  int x2_3,y2_3,in,im,len_str,ij,sp;
+	int x2_3,y2_3,in,im,len_str,ij,sp;
 	char im_str[5];
-#ifdef NALAD  
-  nom_func("286");
-#endif          
+
+	nom_func("286");
+          
   in=0;im=0;
   while(pako[nbn][in]!=':')in++;//сместиться на имя стрелки
   in++;
@@ -993,7 +993,7 @@ ob4:          x2_3=x2_3-(len_str*7);y2_3=y2_3+4;
   }
 }
 //------------------------------------------
-okrasklav(int irs) /* одного из всех кнопок */
+void okrasklav(int irs) /* одного из всех кнопок */
 {
   int xz,zzc=9999;
   if((klo==1)||(help!=0)||(nikuda==1)) return;
@@ -1019,7 +1019,7 @@ okrasklav(int irs) /* одного из всех кнопок */
   }
 }
 //----------------------------------------------------------
-set_timers()
+void set_timers()
 {
   unsigned char vvod[2]={0,0};
   unsigned long tiki;
@@ -1118,7 +1118,187 @@ begin:
   }
 }
 //-------------------------------------
-make_vspom_otpr()
+#ifndef WORK
+void set_vvod()
+{
+	unsigned char vvod[4];
+	int OB,BIT,ZNACH,zapret;
+
+	nom_func("300");
+
+	if(DISK!=0)return;
+begin:
+	setfillstyle(1,2);setcolor(15);bar(480,1,640,47);rectangle(481,2,639,46);
+	outtextxy(494,4,"УСТАНОВКА ДАННЫХ");
+	outtextxy(484,16,"ОБЪЕКТ БИТ ЗНАЧЕНИЕ");
+	gotoxy(30,2);
+	setfillstyle(1,7);bar(492,30,522,40);bar(540,30,560,40);bar(580,30,600,40);
+	gets(vvod);
+	outtextxy(493,31,vvod);OB=atoi(vvod);
+	if(OB>=kol_VO)goto begin;
+	gets(vvod);outtextxy(541,31,vvod);BIT=atoi(vvod);
+	if(BIT>11)goto begin;
+	gets(vvod);outtextxy(581,31,vvod);ZNACH=atoi(vvod);
+	if(ZNACH>1)goto begin;
+	fr3[OB][BIT]=ZNACH;
+	vvod_set=0;
+	if(fr1[OB][0]==1)displaystrelka(OB,BIT,0);
+	if(fr1[OB][0]==2)
+	{
+		if(fr1[OB][1]==11)kvv(OB,BIT);
+		if(fr1[OB][1]==12)tel_vkl_vikl(OB);
+		if(fr1[OB][1]==13)komplekt(OB,BIT);
+		if(fr1[OB][1]==911)Pam(OB);
+		if(fr1[OB][1]==6)test_marsh(OB);
+		if(fr1[OB][1]>1000)
+		{
+			if(fr1[OB][1]==9999)return;
+			if(BIT<2)test_deshifr(OB,BIT);
+			if((BIT>1)&&(BIT<5))dispdatch(OB,BIT);
+		}
+		else displaysignal(OB,BIT);
+	}
+	if(fr1[OB][0]==3)
+ sekci(OB,BIT);
+	if(fr1[OB][0]==4)displaypathuch(OB);
+	if(fr1[OB][0]==5)displaypath(OB,BIT);
+	zapretvybora=zapret_otlad;
+	return;
+}
+//-----------------------------------------------------------------
+/******************************************\
+* Процедура прямого ввода сообщений ТУМСа  *
+\******************************************/
+void set_tums(void)
+{
+	char r_tums[11],a=0;
+	int OB,i;
+
+	nom_func("309");
+
+	if(DISK!=0)return;
+begin:
+	for(i=0;i<11;i++)r_tums[i]=0;
+	setfillstyle(1,2);setcolor(15);bar(480,1,640,47);rectangle(481,2,639,46);
+	outtextxy(494,4,"СООБЩЕНИЕ ТУМС");
+	outtextxy(484,16,"ТУМС  ЗНАЧЕНИЕ");
+	gotoxy(30,2);
+
+	//изображение окошек ввода
+	setfillstyle(1,7);bar(492,30,522,40);bar(540,30,600,40);
+	//ввод номера ТУМСа
+	gets(r_tums);
+	outtextxy(493,31,r_tums);
+	OB=atoi(r_tums);
+	if(OB>=skoko_stoek)goto begin;
+	if(OB<0)goto begin;
+	i=0;
+	while(1)
+	{
+		a=getch();
+		if(a==13)break;
+		if(a==8)
+		{
+			if(i>0)
+			{
+				i--;
+				r_tums[i]=0;
+				goto txt;
+			}
+		}
+		r_tums[i+1]=0;
+		r_tums[i++]=a;
+txt:
+		bar(540,30,600,40);
+		outtextxy(541,31,r_tums);
+	}
+/*
+	gets(r_tums);
+	outtextxy(541,31,r_tums);
+*/
+#ifdef NEW_FORMAT
+	if(strlen(r_tums)>10)goto begin;
+	r_tums[10]=check_sum(r_tums);
+	r_tums[11]=')';
+	for(i=0;i<12;i++)BUF_IN[OB][i]=r_tums[i];
+	ANALIZ[OB]=1;
+	konec[OB]=11;
+#else
+	if(strlen(r_tums)>9)goto begin;
+	r_tums[9]=check_sum(r_tums);
+	r_tums[10]=')';
+	for(i=0;i<11;i++)BUF_IN[OB][i]=r_tums[i];
+	ANALIZ[OB]=1;
+	konec[OB]=10;
+#endif
+	vvod_tums=0;
+	t(0);
+	return;
+}
+//-----------------------------------------------------------------
+/************************************\
+* Процедура прямого ввода команд ДЦ  *
+\************************************/
+void set_dc(void)
+{
+	char r_dc[11],a=0;
+	int OB,i;
+
+	nom_func("309");
+
+	if(DISK!=0)return;
+begin:
+	setfillstyle(1,2);setcolor(15);bar(480,1,640,47);rectangle(481,2,639,46);
+	outtextxy(494,4,"КОМАНДА ДЦ");
+	gotoxy(30,2);
+
+	//изображение окошек ввода
+	setfillstyle(1,7);bar(540,30,600,40);
+	i=0;
+	while(1)
+	{
+		a=getch();
+		if(a==13)break;
+		if(a==8)
+		{
+			if(i>0)
+			{
+				i--;
+				r_dc[i]=0;
+				goto txt;
+			}
+		}
+		r_dc[i+1]=0;
+		r_dc[i++]=a;
+txt:
+		bar(540,30,600,40);
+		outtextxy(541,31,r_dc);
+	}
+#ifdef NEW_FORMAT
+	if(strlen(r_dc)>10)goto begin;
+	r_dc[10]=check_sum(r_dc);
+	r_dc[11]=')';
+	for(i=0;i<12;i++)BUF_IN_DC[i]=r_dc[i];
+	ANALIZ_DC=1;
+	konec[OB]=11;
+#else
+	if(strlen(r_dc)>9)goto begin;
+	r_dc[9]=check_sum(r_dc);
+	r_dc[10]=')';
+	for(i=0;i<11;i++)BUF_IN_DC[i]=r_dc[i];
+	ANALIZ_DC=1;
+	konec_dc=10;
+#endif
+	vvod_dc=0;
+	t(0);
+	return;
+}
+
+#endif
+
+
+//-------------------------------------
+void make_vspom_otpr()
 {
 	if(DISK!=0)return;  //----------------------------------------- seg022:346D- seg022:3475
 	if(uprav==1)poka=0; //---------------------------------------- seg022:347D- seg022:348A
@@ -1206,7 +1386,7 @@ make_vspom_otpr()
 	}
 }
 //===================================================================
-make_vspom_priem()
+void make_vspom_priem()
 {
 	if(DISK!=0) //----------------------------------------------------- seg022:37A3
 		return;

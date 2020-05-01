@@ -2,7 +2,7 @@
 #include<bios.h>
 #include"bla.h"
 /*******************************************************************/
-displaystrelka(int oi,int bt_,int povtor)
+void displaystrelka(int oi,int bt_,int povtor)
 {
 	int ri,
 			colc[16],
@@ -13,9 +13,9 @@ displaystrelka(int oi,int bt_,int povtor)
 			sp_s,
 			sp_s1,
 			zm_sp;
-#ifdef NALAD
+
 	nom_func("42");
-#endif
+
 	if(fr3[oi][5]==1)
 	{
 		if(tst_fix(oi,5)){slom_interf(oi);fix(oi,5);}
@@ -203,7 +203,7 @@ vyh:
 }
 #ifdef AVTOVOZVRAT
 //-----------------------------------------------------------
-prov_av_str(int strf,int uchf,int mspf,int m_b,int param)
+void prov_av_str(int strf,int uchf,int mspf,int m_b,int param)
 {//проверка стрелки на наличие автовозврата и выдача команды при необходимости
  //strf - объект для стрелки
  //uchf - объект для охранного участка СП
@@ -211,9 +211,9 @@ prov_av_str(int strf,int uchf,int mspf,int m_b,int param)
  //m_b - номер бита для объекта МСП
  //param - признак объекта, по которому прошло изменение
 	int x,y,ra,wr,poH=0,x_kir,y_kir,kod,lu,b_lu,MSP,B_MSP,ij,hod;
-#ifdef NALAD
+
 	nom_func("241");
-#endif
+
 	if((klo==1)||(help>0)||(nikuda==1))return;
 	wr = 0;
 	hod = 0;
@@ -403,9 +403,9 @@ risun:
 int poisk_ras (int nomer,int otkuda)// вход с номером объекта, указанным переходом
 {
   int oi,dvig,klp=9999,klop=9999;
-#ifdef NALAD
-  nom_func("231");
-#endif
+
+	nom_func("231");
+
   klop=nomer;
   if(fr1[klop][0]==6) // если это переход
   { if(fr1[klop][1]==otkuda)//если ссылка туда откуда пришли
@@ -440,7 +440,7 @@ aa:
   return(klop);
 }
 //----------------------------------
-com_avtovozvr(int wr)
+void com_avtovozvr(int wr)
 {
 	int poH;
 	if(coAV[wr].Fl_kom>1) //если флаг взведен

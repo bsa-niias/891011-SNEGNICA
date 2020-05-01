@@ -1,10 +1,10 @@
 #include"bla.h"
 #include<bios.h>
-form_kom_put(int poin,int kod)
+void form_kom_put(int poin,int kod)
 { int nomer,i18,j18,n=0,mar,SDVIG=0,FN=0,FIN=0,OGR=0;
-#ifdef NALAD  
-  nom_func("79");
-#endif    
+  
+	nom_func("79");
+    
   n=poin;
   mar=fr1[poin][9];
   for(i18=0;i18<11;i18++)buf_ko_p[i18]=0;
@@ -50,15 +50,15 @@ form_kom_put(int poin,int kod)
   else buf_ko_p[j18+4]=124;
   buf_ko_p[9]=check_sum(buf_ko_p);
   buf_ko_p[0]='(';buf_ko_p[10]=')';flms=1;
-  kom_v_bufer_pvm(1,"p");
+  kom_v_bufer_pvm(1,'p');
 }
 //-----------------------------------------------------
-form_kom_str(int poin,unsigned char kod)
+void form_kom_str(int poin,unsigned char kod)
 { //формирование команды для передачи команд ограничения стрелок
   int nomer,podegr,i18,j18,n=0,SDVIG=0,FN=0,FIN=0,nnom=9999;
-#ifdef NALAD  
-  nom_func("81");
-#endif        
+  
+	nom_func("81");
+        
   disco();
   for(i18=0;i18<11;i18++)buf_ko_p[i18]=0;//очистить буфер команд
   buf_ko_p[2]='S';//установить код группы "стрелки"
@@ -106,7 +106,7 @@ form_kom_str(int poin,unsigned char kod)
   buf_ko_p[0]='(';//заполнить начало и конец команды скобками-ограничителями
   buf_ko_p[10]=')';
   flms=1;//установить признак-требование передачи в соседнюю ПЭВМ
-  if(kom_v_bufer_pvm(1,"C")==-1)//если вызов процедуры неудачен
+  if(kom_v_bufer_pvm(1,'C')==-1)//если вызов процедуры неудачен
   {
     MY_COM=0;//сбросить признак наличия в ПЭВМ команды для соседа
     MY_INF=0;//сбросить признак наличия в ПЭВМ информации для соседа
@@ -121,9 +121,9 @@ zad2_marsh()
 { //процедура задания сквозного маршрута через две стойки
 #ifdef KOL_SOO2
   int vv=0,vmv=0;
-#ifdef NALAD
-  nom_func("422");
-#endif
+
+	nom_func("422");
+
   if(DISK!=0)return;
   buf_ko[2]='b';//записать в буфер для первой и второй стоек код поездного
   buf_ko_mm[2]='b';
@@ -177,9 +177,9 @@ int vibor(int pot)
 {
   //выбор кода команды для указания объекта, в зависимости от номера байта
   int nomer,n=0,SDVIG=0,FN=0,FIN=0,i11,j11;
-#ifdef NALAD  
-  nom_func("388");
-#endif      
+  
+	nom_func("388");
+      
   if(DISK!=0)return(9999);
   n=pot;
   if(fr1[n][0]==2)
@@ -249,9 +249,9 @@ int check_sum(unsigned char num[11])
 {              /* складывает все байты по модулю 2 */
   unsigned char sum=0;
   int i22;
-#ifdef NALAD  
-  nom_func("18");
-#endif  
+  
+	nom_func("18");
+  
   for(i22=1;i22<9;i22++)
   sum=sum^num[i22];
   sum=sum|0x40;
@@ -262,9 +262,9 @@ int form_kosig(int kod)
 { //процедура формирования команд раздельного управления для объектов
   //группы "сигнал"
   int nomer,podgr,i18,j18,SDVIG=0,FN=0,FIN=0,n=0;
-#ifdef NALAD  
-  nom_func("83");
-#endif        
+  
+	nom_func("83");
+        
   if(DISK!=0)return;
   buf_ko[2]='E';//заполнить группу
   n=point;//зафиксировать объект выбранный оператором
@@ -301,9 +301,9 @@ int form_kosig(int kod)
 int form_koda(int nob,int invr)
 {
   int nobi=0;
-#ifdef NALAD  
-  nom_func("73");
-#endif      
+  
+	nom_func("73");
+      
   if((fr1[nob][1]!=166)&&(fr1[nob][1]!=27))nobi=fr1[nob][11];
   else nobi=(fr1[nob][3]&0xf000)>>12;
   switch(nobi)
@@ -333,13 +333,13 @@ int form_koda(int nob,int invr)
 
 }
 //-----------------------------------------------------------
-fotksig(int koda)
+void fotksig(int koda)
 { //процедура формирования команды открытия сигнала
   //в раздельном режиме и для передачи в резервную ПЭВМ
   int j;
-#ifdef NALAD  
-  nom_func("88");
-#endif        
+  
+	nom_func("88");
+        
   if(DISK!=0)return;
   for(j=0;j<11;j++)buf_ko_p[j]=0;//очистка буфера команд
   ot=0;vkl_kno(0,8);
@@ -357,9 +357,9 @@ fotksig(int koda)
 int Opred()
 {
   int iks,jks,lom,FN=0,FIN=0;
-#ifdef NALAD
-  nom_func("202");
-#endif
+
+	nom_func("202");
+
   if(fr1[point][13]==1){FN=0;FIN=STR1;}
 #ifdef KOL_SOO2
   else{FN=STR1;FIN=FN+STR2;}

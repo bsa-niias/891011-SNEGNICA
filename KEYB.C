@@ -6,38 +6,38 @@
 #include<graphics.h>
 #include<conio.h>
 //------------------------------------------------
-nachalo()
+void nachalo()
 {
-#ifdef NALAD  
-  nom_func("179");
-#endif   
-  if(zabeg==0) zapretvybora=0;
-  zagruzen();
+
+	nom_func("179");
+
+	if(zabeg==0) zapretvybora=0;
+	zagruzen();
  }
 //-----------------------------------------
-end_help()
+void end_help()
 {
-#ifdef NALAD  
-  nom_func("50");
-#endif
-  help=0;
-  if (tst==2) uprav=1;
-  else uprav=0;
-  setfillstyle(1,7);
-  bar(0,0,639,479);
-  prorisovka=1;
-  nachalo();
-  prodol();
-  prorisovka=0;
-  return;
+
+	nom_func("50");
+
+	help=0;
+	if (tst==2) uprav=1;
+	else uprav=0;
+	setfillstyle(1,7);
+	bar(0,0,639,479);
+	prorisovka=1;
+	nachalo();
+	prodol();
+	prorisovka=0;
+	return;
 }
 /**********************************/
-home(int ii3)
+void home(int ii3)
 {
-  int coox,cooy;
-#ifdef NALAD  
-  nom_func("102");
-#endif          
+	int coox,cooy;
+  
+	nom_func("102");
+          
   if(DISK!=0)return;
   mouser=0;
   if(ii3==-1&&i3==-1) return;
@@ -45,29 +45,29 @@ home(int ii3)
   coox=markery[ii3][4];cooy=markery[ii3][5];
   del_kursor(ii3);
 a:
-  setcolor(7);outtextxy(37,46,"█████████");
+	setcolor(7);outtextxy(45,46,"█████████");	
 //putimage(65,35,ukazat,0);
   i3=-1;modi=-1;pat=-1;
 }
 
 //-----------------------------------------------------
-show_kursor(int gde)
-{ //gde-номер объека в markery - требуемое место для размещения маркера  
-  //probel_left - номер символа в имени, где заканчиваются пробелы слева - число пробелов слева 
-  //probel_right - номер символа в имени, с которого начинаются пробелы справа
-  int i,j,xk,yk,D,lp,lp1,ele,probel_left,probel_right;
-  char Imya[20],name[20];
-#ifdef NALAD  
-  nom_func("303");
-#endif
-  for(xk=0;xk<20;xk++){Imya[xk]=0;name[xk]=0;}
-  //получить координаты экрана для объекта, куда выполняется перенос маркера
-  xk=markery[gde][4];yk=markery[gde][5];
+void show_kursor(int gde)
+{ //gde-номер объека в markery - требуемое место для размещения маркера
+	//probel_left - номер символа в имени, где заканчиваются пробелы слева - число пробелов слева
+	//probel_right - номер символа в имени, с которого начинаются пробелы справа
+	int i,j,xk,yk,D,lp,lp1,ele,probel_left,probel_right;
+	char Imya[20],name[20];
+
+	nom_func("303");
+
+	for(xk=0;xk<20;xk++){Imya[xk]=0;name[xk]=0;}
+	//получить координаты экрана для объекта, куда выполняется перенос маркера
+	xk=markery[gde][4];yk=markery[gde][5];
 #ifdef MOUSE
-  if(MOUSE_ON!=0)
-  {
-    for(i=0;i<mouse_all;i++)if(mouse_mark[i][0]==gde)break;
-    if(i<mouse_all)
+	if(MOUSE_ON!=0)
+	{
+		for(i=0;i<mouse_all;i++)if(mouse_mark[i][0]==gde)break;
+		if(i<mouse_all)
     { regs.x.ax=4;
       regs.x.cx=mouse_mark[i][1];
       regs.x.dx=mouse_mark[i][2];
@@ -94,7 +94,7 @@ fin:  regs.x.ax=4;
         else
         if(strlen(pako[ele])-probel_left+probel_right>0)
         {probel_right=0;probel_left=0;}
-      }
+			}
     }
     // скорректировать координату на величину пробелов
     xk=xk+(probel_left-probel_right)*7;
@@ -129,7 +129,7 @@ fin:  regs.x.ax=4;
       setfillstyle(1,1);bar(xk-1,yk-1,xk+D*7-1,yk+7);
     }
     if(markery[gde][7]==1)// если это стрелка 
-    { D=markery[gde][6];
+		{ D=markery[gde][6];
       if(fr3[D][5]==1)setcolor(LIGHTCYAN);//для отсутствия достоверной информации
       else
       if(fr3[D][0]==fr3[D][1]) setcolor(12);// если есть потеря контроля - красный цвет
@@ -164,7 +164,7 @@ fin:  regs.x.ax=4;
   else // если это особый экранный объект
   { //если вариантная кнопка или вспомогательная смена направления
     if((markery[gde][7]>=7)&&(markery[gde][7]<=9))
-    { setlinestyle(0,0,0);setcolor(15);
+		{ setlinestyle(0,0,0);setcolor(15);
       rectangle(xk-5,yk-5,xk+5,yk+5);rectangle(xk-6,yk-6,xk+6,yk+6);
     }
     if(markery[gde][7]>7)
@@ -193,20 +193,20 @@ fin:  regs.x.ax=4;
       }
     }
   }
-  setcolor(7);outtextxy(37,46,"██████████");
+	setcolor(7);outtextxy(45,46,"██████████");
   if(gde!=-1)
   { if(markery[gde][7]==1)
     {strcpy(name,"СТ");strcat(name,Imya);strcpy(Imya,name);}
     else
     if(markery[gde][7]<100)
-    { strcpy(name,Imya);
+		{ strcpy(name,Imya);
       if(strlen(name)==0&&gde!=VN1
 #ifdef KOL_SOO2
       &&gde!=VN2
 #endif
       )
       if(markery[gde][6]>kol_OSN)
-      { get_str(markery[gde][6]);
+      { get_str(markery[gde][6],0);
         strcpy(name,chudo);
       }
       else strcpy(name,pako[markery[gde][6]]);
@@ -216,63 +216,63 @@ fin:  regs.x.ax=4;
   }
 }
 //----------------------------------------------
-get_p(int xa,int ya,int DD)
+void get_p(int xa,int ya,int DD)
 {
-  int bi,bj;
-#ifdef NALAD  
-  nom_func("98");
-#endif         
-  if(Fla_no_pp==1) return;
-  for(bj=0;bj<9;bj++)for(bi=0;bi<DD*7+1;bi++)
-  kadr[bj][bi]=getpixel(xa+bi,ya+bj);
-  for(bj=0;bj<9;bj++)for(bi=DD*7+1;bi<50;bi++)kadr[bj][bi]=0;
+	int bi,bj;
+
+	nom_func("98");
+
+	if(Fla_no_pp==1) return;
+	for(bj=0;bj<9;bj++)for(bi=0;bi<DD*7+1;bi++)
+	kadr[bj][bi]=getpixel(xa+bi,ya+bj);
+	for(bj=0;bj<9;bj++)for(bi=DD*7+1;bi<50;bi++)kadr[bj][bi]=0;
 }
 /***********************************************/
-put_p(int xa,int ya,int DD)
+void put_p(int xa,int ya,int DD)
 {
-  int bi,bj;
-#ifdef NALAD  
-  nom_func("256");
-#endif          
-  for(bj=0;bj<9;bj++)for(bi=0;bi<DD*7+1;bi++)
-  putpixel(xa+bi,ya+bj,kadr[bj][bi]);
+	int bi,bj;
+
+	nom_func("256");
+
+	for(bj=0;bj<9;bj++)for(bi=0;bi<DD*7+1;bi++)
+	putpixel(xa+bi,ya+bj,kadr[bj][bi]);
 }
 //----------------------------------
-ukazka()
+void ukazka()
 {
-#ifdef NALAD  
-  nom_func("381");
-#endif    
+  
+	nom_func("381");
+    
      setcolor(4);outtext(" <<<");
 }
 //------------------------------------
-read_passw()
+void read_passw()
 {
-  unsigned long tt,tt1;
-  int aaq=0,a,col;
-#ifdef NALAD  
-  nom_func("270");
-#endif          
-  aaq=klaval;
-  if(aaq==0)
-  {
-    getch();
+	unsigned long tt,tt1;
+	int aaq=0,a,col;
+
+	nom_func("270");
+
+	aaq=klaval;
+	if(aaq==0)
+	{
+		getch();
 fin:
-    w(119,999,"");//НЕПРАВИЛЬНО НАБРАН ПАРОЛЬ
-    zvuk_vkl(1,18);
-    flag_paro=0;
-    schet=0;
-    strcpy(password,"");
-    return;
-  }
-  else
-  {
-    if(schet>6)return;
-    else
-    {
-      password[schet]=aaq;schet++;
-      if(schet==6)
-      {
+		w(119,999,"");//НЕПРАВИЛЬНО НАБРАН ПАРОЛЬ
+		zvuk_vkl(1,18);
+		flag_paro=0;
+		schet=0;
+		strcpy(password,"");
+		return;
+	}
+	else
+	{
+		if(schet>6)return;
+		else
+		{
+			password[schet]=aaq;schet++;
+			if(schet==6)
+			{
 #ifndef DEMONSTR
         if((strcmp(password,SLOVO)==0)&&(flag_paro<4))
 #else
@@ -281,7 +281,7 @@ fin:
         { klaval=55;
           if(flag_paro==1)
           {
-            bil_bil=0;
+						bil_bil=0;
             iqw=90;
             read_neisprav();
             nikuda=1;
@@ -308,31 +308,31 @@ fin:
           closegraph();
           exit(0);
         }
-        else goto fin;
+				else goto fin;
       }
     }
     return;
   }
 }
 //---------------------------------------------------------
-finish_strelok()
+void finish_strelok()
 {
-#ifdef NALAD  
-  nom_func("61");
-#endif  
-  vspz=0;avap=0;vib_ma=0;vibeg=0;vih_vopr=0;osya=0;
-  first_col=0;AVARI=0;maket=0;net_kontro=0;ot=0;
-  vkl_kno(VSPZ,8);
-  vkl_kno(MAKET,8);
-  vkl_kno(AViA,8);
-  zapretvybora=0;
+
+	nom_func("61");
+
+	vspz=0;avap=0;vib_ma=0;vibeg=0;vih_vopr=0;osya=0;
+	first_col=0;AVARI=0;maket=0;net_kontro=0;ot=0;
+	vkl_kno(VSPZ,8);
+	vkl_kno(MAKET,8);
+	vkl_kno(AViA,8);
+	zapretvybora=0;
 }
 //-------------------------------------------------------
-FINAL_()
+void FINAL_()
 {
-#ifdef NALAD  
-  nom_func("57");
-#endif  
+  
+	nom_func("57");
+  
      ochistka();
      finish_startMM();
 #ifdef WORK
@@ -360,12 +360,12 @@ int menu1
 // 5 - отмена/конец маршрута/вариантная точка
 // 6 - отправлен четный(нечетный) ХП /не было четного(нечетного) ХП
 {
-  unsigned char punkt1[60],punkt2[60],punkt3[60];
-  int pnkt1,pnkt2,pnkt3,strelka,i,j;
-  long bb;
-#ifdef NALAD  
-  nom_func("169");
-#endif         
+	unsigned char punkt1[60],punkt2[60],punkt3[60];
+	int pnkt1,pnkt2,pnkt3,strelka,i,j;
+	long bb;
+
+	nom_func("169");
+         
   if(DISK!=0)return;
   pnkt1=220;
   perezap=2;
@@ -386,7 +386,7 @@ int menu1
               }
             }
             pnkt3=57;break;
-    case 2: pnkt2=63;pnkt3=64;break;// стрелку в плюс-стрелку в минус
+		case 2: pnkt2=63;pnkt3=64;break;// стрелку в плюс-стрелку в минус
     case 3: strelka=markery[i3][6]; // выключить из управления/закрыть движения
             if((fr4[strelka][0]&1)==0)pnkt2=59;
             else pnkt2=61;
@@ -421,7 +421,7 @@ int menu1
   }
   if((punkt_N==3)&&(pnkt3==-1))punkt_N=2;
   i=max(strlen(punkt1),strlen(punkt2));
-  if(pnkt3!=-1)i=max(i,strlen(punkt3));
+	if(pnkt3!=-1)i=max(i,strlen(punkt3));
   if(punkt_N==1)setfillstyle(1,10);
   else setfillstyle(1,2);
   setcolor(15);
@@ -456,7 +456,7 @@ int menu1
       int86(0x33,&regs,&regs);
       regs.x.ax=8;//задать границы для мыши по вертикали
       regs.x.cx=5;
-      regs.x.dx=26;
+			regs.x.dx=26;
       int86(0x33,&regs,&regs);
     }
   }
@@ -491,7 +491,7 @@ int menu1
     switch(menu_N)
     {
       case 1: //поездной/маневровый/два белых
-              {
+							{
                 if((uprav==1)&&(ot==0))
                 {
                   if(punkt_N==2)mane=0;//поездной
@@ -526,7 +526,7 @@ int menu1
                   else oper='A';
                   net_kontro=2;
                   perstr();
-                  menu_N=0;
+									menu_N=0;
                   punkt_N=0;
                   return;
                 }
@@ -561,7 +561,7 @@ int menu1
 #endif
                 return;
               }
-      case 4: //включить запрет монтерам/выключить оповещение
+			case 4: //включить запрет монтерам/выключить оповещение
               {
                 //если включить запрет монтерам или отключить оповещение
                 if(punkt_N==2)
@@ -596,7 +596,7 @@ int menu1
 
                     menu_N=0;
                     return;
-                  case 2: // выбран пункт "конец маршрута"
+									case 2: // выбран пункт "конец маршрута"
                     END=find_end();
                     TEST=0;
                     i=may_be(nach_marsh,fr1[nach_marsh][1]);
@@ -631,7 +631,7 @@ pl:                   w(134,999,"");//ТОЧКА КОНЦА МАРШРУТА УКАЗАНА НЕВЕРНО
                         home(modi);
                         whole_finish();
                         klaval=-1;
-                        vozvr=0;poka=0; me_uk=0; End_vara=0;
+												vozvr=0;poka=0; me_uk=0; End_vara=0;
                         menu_N=0;
                         return;
                       }
@@ -666,19 +666,19 @@ pl:                   w(134,999,"");//ТОЧКА КОНЦА МАРШРУТА УКАЗАНА НЕВЕРНО
       case 6: //отправлен четный(нечетный)/не было четного(нечетного) ХП
               {
                 break;
-              }
-    default:  break;
-    }
-    t(0);menu_N=0;return;
-  }
+							}
+		default:  break;
+		}
+		t(0);menu_N=0;return;
+	}
 }
 //---------------------------------------
-WIN_MAIN()
+void WIN_MAIN()
 {
   int a,col,objk,strlk;
-#ifdef NALAD  
-  nom_func("416");
-#endif        
+  
+	nom_func("416");
+        
   if(DISK!=0)return;
   if(klaval==0)
   {
@@ -708,7 +708,7 @@ met1: klaval=-1;
 Metka_A:
     if(PRIEM_FR4==1)return;
     ot=0;vspz=0;maket=0;avap=0;
-    switch(klaval)
+		switch(klaval)
     {
       case 59:  if((STATUS!=1)||(DU==1)||(TELEUP==0))return;//F1 - марш/раздельный
                 del_kursor(pat);
@@ -743,7 +743,7 @@ RAZD:             uprav=0;tst=0;i3=1;
                 else
                 {
                   sbros_all();
-                  flag_paro=1;
+									flag_paro=1;
                   strcpy(password,"");
                   w(118,999,"");
                 }
@@ -757,6 +757,15 @@ RAZD:             uprav=0;tst=0;i3=1;
                   w(118,999,"");
                   return;
                 }
+#ifndef WORK
+			case 65:                            //F7- прямой ввод сообщения ТУМС
+            vvod_tums=15;
+						return;
+
+     case 66:  
+						vvod_dc=15;								//F8 - прямой ввод команд ДЦ
+						return;
+#endif								
       case 67:  if(podsvetka==0)podsvetka=1;
                 else podsvetka=0;
                 pict_podsvetka();
@@ -771,14 +780,17 @@ RAZD:             uprav=0;tst=0;i3=1;
                   return;
                 }
 #endif
-                inportb(0x43);
-                FINAL_();
-                DISK=0xF;
+                if(notHDD==0)
+								{	
+									inportb(0x43);
+									FINAL_();
+									DISK=0xF;
+								}	
                 return;
       case 79:  //end
 #ifdef WORK
                 if(STATUS==1)
-                {
+								{
                   zvuk_vkl(1,20l);
                   w(165,999,"");
                   return;
@@ -813,7 +825,7 @@ RAZD:             uprav=0;tst=0;i3=1;
                 else STOP=0;
                 return;*/
 #ifndef WORK
-      case 71:
+			case 71:
 #ifdef DEMONSTR
               if(STAT==0)
               {
@@ -848,7 +860,7 @@ RAZD:             uprav=0;tst=0;i3=1;
               return;
              }
 #endif
-    case 27: home(modi);show_kursor(-1);
+		case 27: home(modi);show_kursor(-1);
     case 32: sbros_all();nosound();t(0);return;
     case 9:  if((otv_kom==1)||(DU==1))return;
              if(STATUS==1)Zona_k();
@@ -883,7 +895,7 @@ RAZD:             uprav=0;tst=0;i3=1;
                 w(17,999,"!");
                 soob_for_oper=1;
                 return;
-              }
+							}
              }
              if(vozvr==2)
              {
@@ -918,7 +930,7 @@ RAZD:             uprav=0;tst=0;i3=1;
                           del_kursor(MAKET);
                           del_kursor(i3);
                           modi=-1;
-                          old_modi=-1;
+													old_modi=-1;
                           i3=-1;
                           pat=-1;
                           home(i3);
@@ -953,7 +965,7 @@ Metka_B:                  zapretvybora=0;
                           regs.x.cx=590;
                           regs.x.dx=50;
                           int86(0x33,&regs,&regs);
-                          X_m=590;Y_m=50;
+													X_m=590;Y_m=50;
                           obnov_kur_mouse(590,50);
                           menu1();
                           return;
@@ -988,7 +1000,7 @@ Metka_B:                  zapretvybora=0;
                           {
                             case 0:     if(ot==0)
                                         {
-                                          ot=1;
+																					ot=1;
                                           vkl_kno(0,10);
                                           danet=0;
                                         }
@@ -1023,7 +1035,7 @@ Metka_B:                  zapretvybora=0;
                                             w(164,999,"");
                                             home(i3);
                                             return;
-                                          }
+																					}
                                           poka=0;
                                           avap=1;
                                           vkl_kno(AViA,14);
@@ -1058,7 +1070,7 @@ Metka_B:                  zapretvybora=0;
                                         else
                                         {
                                           modi=str_Makst(strlk);
-                                          vkl_otkl_maket(modi);
+																					vkl_otkl_maket(modi);
                                           zapretvybora=1;
                                           return;
                                         }
@@ -1093,21 +1105,23 @@ Metka_B:                  zapretvybora=0;
     default: return;
   }
 Metka_C:
-  klaval=-1;
-  return;
+	klaval=-1;
+	return;
 }
 //-------------------------------------
-keyboard()
+void keyboard()
 {
   int j1,i;
-#ifdef NALAD
-  nom_func("118");
-#endif
+
+	nom_func("118");
+
   if(DISK!=0)return;
   prorisovka=0;
   if(timer_set==15){set_timers();return;}
 #ifndef WORK  
   if(vvod_set==15){set_vvod();return;}
+	if(vvod_tums==15){set_tums();return;}
+	if(vvod_dc==15){set_dc();return;}	
 #endif  
   if(help>0){klaval=getch();WIN_HELP();return;}
   if(flag_paro>0){klaval=getch();read_passw();return;}
@@ -1167,7 +1181,7 @@ keyboard()
     sbros_all();
     if(klaval==27)
     {
-      home(i3);
+			home(i3);
       clear_mouse();
       mouse_init();
       return;
@@ -1196,26 +1210,26 @@ m_win:
   return;
 }
 //--------------------------------------
-WIN_SOOB()
+void WIN_SOOB()
 {
-  int i;
-#ifdef NALAD  
-  nom_func("420");
-#endif          
-  if(DISK!=0)return;
-  soob_for_oper=0;
-  if(sbros==1){sbros_all();sbros=0;t(0);}
-  return;
+	int i;
+
+	nom_func("420");
+
+	if(DISK!=0)return;
+	soob_for_oper=0;
+	if(sbros==1){sbros_all();sbros=0;t(0);}
+	return;
 //if(uprav==0)return;
 //  else t(0);
 }
 //------------------------------------
-WIN_VOPROS()
+void WIN_VOPROS()
 {
   int j1;
-#ifdef NALAD  
-  nom_func("421");
-#endif          
+  
+	nom_func("421");
+          
   if(DISK!=0)return;
   if((klaval==32)||(klaval==27))
   {
@@ -1245,7 +1259,7 @@ WIN_VOPROS()
 #endif
     }
     if(vibeg==1){perstr();klaval=-1;}
-    if(vibeg>1)
+		if(vibeg>1)
     {
       TEST=0;
 			otkrs();
@@ -1280,20 +1294,20 @@ WIN_VOPROS()
       if(MOUSE_ON!=0)
       {
         for(j1=0;j1<12;j1++)line_old_gor_kurs[j1]=0;
-        for(j1=0;j1<40;j1++)line_old_vert_kurs[j1]=0;
-      }
+				for(j1=0;j1<40;j1++)line_old_vert_kurs[j1]=0;
+			}
 #endif
-      vih_vopr=0;
-      return;
-    }
-  }
+			vih_vopr=0;
+			return;
+		}
+	}
 }
 //------------------------------------
 #ifdef KANALS
-WIN_KANAL()
+void WIN_KANAL()
 {
-  if(DISK!=0)return;
-  klaval=getch();
+	if(DISK!=0)return;
+	klaval=getch();
   if(klaval!=0)return;
   else klaval=getch();
   if(klaval==133)
@@ -1306,26 +1320,26 @@ WIN_KANAL()
 }
 #endif
 //------------------------------------
-WIN_HELP()
+void WIN_HELP()
 {
-#ifdef NALAD  
-  nom_func("415");
-#endif        
-  vio_vi();
+
+	nom_func("415");
+
+	vio_vi();
 }
 //------------------------------------
-WIN_NEISPRAV()
+void WIN_NEISPRAV()
 {
-#ifdef NALAD  
-  nom_func("417");
-#endif        
-  if(DISK!=0)return;
-  klaval=getch();
-  if(klaval!=0)return;
-  else klaval=getch();
-  switch(klaval)
-  {
-    case  63: nikuda=0;
+
+	nom_func("417");
+
+	if(DISK!=0)return;
+	klaval=getch();
+	if(klaval!=0)return;
+	else klaval=getch();
+	switch(klaval)
+	{
+		case  63: nikuda=0;
               if(tst==2)uprav=1;
               else uprav=0;
               if(n_1>0)close(n_1);n_1=0;
@@ -1347,11 +1361,11 @@ WIN_NEISPRAV()
   }
 }
 //------------------------------------
-WIN_CARD()
+void WIN_CARD()
 {
-#ifdef NALAD
-  nom_func("414");
-#endif
+
+	nom_func("414");
+
   if(DISK!=0)return;
   klaval=getch();
   if(klaval!=0)return;
@@ -1381,15 +1395,20 @@ WIN_CARD()
 //------------------------------------
 //в программу входим при нажатии клавиш после активизации разделки,
 //то есть при zalet==1
-WIN_RAZD()
+void WIN_RAZD()
 {
-#ifdef NALAD
-  nom_func("419");
-#endif        
+
+	nom_func("419");
+        
   //выдана предварительная, но не выполнена
   if(DISK!=0)return;
   klaval=getch();
+#ifndef WORK
+	if(klaval==0)klaval=getch();
+  if(klaval==71)vvod_set=15;
+#else	
   if(klaval==0)getch();
+#endif	
   if(klaval==32)
   {
     fr3[point][9]=0;
@@ -1402,7 +1421,7 @@ WIN_RAZD()
   if(fr3[point][0]==0)//если предварительная не выдавалась
   {
     w(11,point,"");//ВЫДАНА ПРЕДВАРИТЕЛЬНАЯ КОМАНДА
-    first_razd(i3);//выдать предварительную команду в ТУМС
+		first_razd(i3);//выдать предварительную команду в ТУМС
     return;
   }
 fin1:
@@ -1416,24 +1435,38 @@ fin1:
   else
   {
     zalet=0;
-    was[markery[i3][7]-10]=0;
-    fr3[point][9]=0;
-    vtora=0;
-    home(modi);
-    return;
-  }
+		was[markery[i3][7]-10]=0;
+		fr3[point][9]=0;
+		vtora=0;
+		home(modi);
+		return;
+	}
 }
 //------------------------------------
-WIN_OTV()
+void WIN_OTV()
 {
   int pred,isp,b_p,b_i,mark1,mark2;
-#ifdef NALAD  
-  nom_func("418");
-#endif          
+  
+	nom_func("418");
+          
   if(DISK!=0)return;
   klaval=getch();
-  if(klaval==0)getch();
-  if(fr1[point][1]!=31)return;
+	if(klaval==0)
+	{
+#ifdef WORK
+		getch();
+#else
+		klaval=getch();
+		if(klaval==71)
+		{
+			vvod_set=15;
+			return;
+		}
+#endif
+	} 
+	
+	
+	if(fr1[point][1]!=31)return;
   if(klaval==32){fr3[point][9]=0;zapusk=0; sbros_all(); return;}
   if(klaval!=13)return;
   pred=fr1[point][2]; isp=fr1[point][3];
@@ -1461,12 +1494,12 @@ fin1:
 }
 
 //--------------------------------------------
-sbros_all()
+void sbros_all()
 {
   int i,ijk;
-#ifdef NALAD  
-  nom_func("290");
-#endif
+  
+	nom_func("290");
+
 	vspz=0;avap=0;vib_ma=0;vibeg=0;vih_vopr=0;osya=0;
 	first_col=0;AVARI=0;maket=0;net_kontro=0;ot=0;vrem=0;
 	zalet=0;vtora=0;zabeg=0;zapusk=0;
@@ -1496,19 +1529,19 @@ sbros_all()
   finish_startMM();
   whole_finish();
   old_punkt=-1;
-  zakr=0;
-  sbros1=1;
-  soob_for_oper=0;
-  klaval=-1;
+	zakr=0;
+	sbros1=1;
+	soob_for_oper=0;
+	klaval=-1;
 }
 //------------------------------------------------------------
-del_kursor(int gde)
+void del_kursor(int gde)
 {
   int xk,yk,D,lp,lp1,ele,i,j,probel_left,probel_right;
   char Imya[20]="";
-#ifdef NALAD  
-  nom_func("32");
-#endif      
+  
+	nom_func("32");
+      
   for(xk=0;xk<20;xk++)Imya[xk]=0;
   if(gde!=-1)//если курсор не дома
   { xk=markery[gde][4];yk=markery[gde][5];
@@ -1538,7 +1571,7 @@ del_kursor(int gde)
           { if(probel_left>probel_right)
             { if(strlen(pako[ele])-probel_left+probel_right==0)
               {probel_left=0; probel_right=0;}
-              else
+							else
               if(strlen(pako[ele])-probel_left+probel_right>0)
               {probel_right=0; probel_left=0;}
             }
@@ -1573,7 +1606,7 @@ del_kursor(int gde)
       { //settextstyle(DEFAULT_FONT,HORIZ_DIR,0);
         setcolor(8); outtextxy(xk,yk,Imya);
       }
-      else
+			else
       if((markery[gde][7]==4)||(markery[gde][7]==5))// путь или участок пути
       { D=markery[gde][6];
         if(fr4[D][2]==1) setcolor(LIGHTRED);
@@ -1608,7 +1641,7 @@ del_kursor(int gde)
           else
           { setlinestyle(0,0,0); setcolor(7);
             rectangle(xk-5,yk-5,xk+5,yk+5);
-            rectangle(xk-6,yk-6,xk+6,yk+6);
+						rectangle(xk-6,yk-6,xk+6,yk+6);
           }
       }
     }
@@ -1617,17 +1650,17 @@ del_kursor(int gde)
 }
 //---------------------------------------------------
 #ifdef MOUSE
-obnov_kur_mouse(int XX,int YY)
+void obnov_kur_mouse(int XX,int YY)
 {
-#ifdef NALAD  
-  nom_func("189");
-#endif 
-  if(MOUSE_ON==0)return;
-  setlinestyle(0,0,0);setcolor(15);//##
-  X_m_old=XX;Y_m_old=YY;
-  mem_mous_fon();//##
-  line(XX-6,YY,XX+6,YY);line(XX,YY-4,XX,YY+4);//##
-  getimage(XX-6,YY,XX+6,YY,line_gor_kurs);//##
-  getimage(XX,YY-4,XX,YY+4,line_vert_kurs);//##
+
+	nom_func("189");
+
+	if(MOUSE_ON==0)return;
+	setlinestyle(0,0,0);setcolor(15);//##
+	X_m_old=XX;Y_m_old=YY;
+	mem_mous_fon();//##
+	line(XX-6,YY,XX+6,YY);line(XX,YY-4,XX,YY+4);//##
+	getimage(XX-6,YY,XX+6,YY,line_gor_kurs);//##
+	getimage(XX,YY-4,XX,YY+4,line_vert_kurs);//##
 }
 #endif

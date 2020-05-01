@@ -7,9 +7,9 @@ int findspu1(int ga,int tu)
 {
   int shag,strelk_=0,perehod=0,up=0;
   if(tu>1){tu=tu-2;up=1;}
-#ifdef NALAD
-  nom_func("59");
-#endif
+
+	nom_func("59");
+
   if(tu==0)shag=1;//если вход на стрелку четный
   else shag=-1; //если вход на стрелку нечетный
 beg:
@@ -90,7 +90,7 @@ beg1:
   }
 }
 //-----------------------------------------
-p_li(int nom)
+void p_li(int nom)
 {
   int gol=0,//переменная для радиуса "глаз" шлагбаума
   bit_iz,// номер бита для извещения
@@ -98,9 +98,9 @@ p_li(int nom)
   cvt_iz, //цвет для извещения
   cvt_zak,//цвет для закрытия
   l_p;//длина переезда
-#ifdef NALAD  
-  nom_func("214");
-#endif    
+  
+	nom_func("214");
+    
   if((klo==1)||(help!=0)||(nikuda==1))return;
   l_p=fr1[nom][6];
   if(fr1[nom][2]!=9999)bit_iz=fr1[nom][2];
@@ -149,9 +149,9 @@ p_li(int nom)
 //-----------------------------
 picture()
 {
-#ifdef NALAD  
-  nom_func("222");
-#endif        
+  
+	nom_func("222");
+        
   pict1(1);
 #ifdef KOL_SOO2
   pict1(2);
@@ -159,14 +159,14 @@ picture()
 }
 int pamjat;
 /****************************/
-pict1(int WHO)//прорисовка объектов из стойки WHO
+void pict1(int WHO)//прорисовка объектов из стойки WHO
 {
 	int K,jt;
 	int falsv;
 	char bbb[15]="";
-#ifdef NALAD
+
 	nom_func("220");
-#endif
+
 	for(pamjat=0;pamjat<kol_VO;pamjat++)//проход по всем основным элементам
 	{
 		if((fr1[pamjat][13]==WHO)||(fr1[pamjat][13]>kol_OSN))//если объект не из другой стойки
@@ -222,9 +222,9 @@ pict1(int WHO)//прорисовка объектов из стойки WHO
 Styki()
 {
   int i,j;
-#ifdef NALAD  
-  nom_func("324");
-#endif          
+  
+	nom_func("324");
+          
   for(i=0;i<kol_STY;i++)
   {
       setlinestyle(0,0,0);setcolor(8);
@@ -233,22 +233,29 @@ Styki()
 }
 #endif
 //-------------------------------------------------------------
-kvadrat()
+void kvadrat()
 {
-#ifdef NALAD  
-  nom_func("139");
-#endif 
+  
+	nom_func("139");
+ 
   if(STATUS==2){setfillstyle(1,8);bar(10,45,32,50);}
   else
     if(STATUS==0){setfillstyle(1,14);bar(10,45,32,50);}
     else { setfillstyle(1,10); bar(10,45,32,50);}
+	if(DSP_SHN == 0)
+	{
+		bar(4,44,42,51);
+		moveto(4,44);
+		outtext("арм_шн");
+	}
+	return;	
 }
 //---------------------------------------------------------
-whole_finish()
+void whole_finish()
 {
-#ifdef NALAD  
-  nom_func("413");
-#endif        
+  
+	nom_func("413");
+        
    End_vara=0;
    mane=0;manevro=0;manevr=0;
    zapretvybora=0;first_col=0;povt1=0;povt2=0;poka=0;n_m=0;puti=0;
@@ -256,15 +263,21 @@ whole_finish()
 	 siv=0;osya=0;
    nach_marsh=end_marsh=half_marsh=nach0_marsh=0;
    ukaz_trass=0;
-   while(trassa[ukaz_trass]!=0xffff)fr3[trassa[ukaz_trass++]][6]=0;
+	 while(trassa[ukaz_trass]!=0xffff)
+	 {
+		 fr3[trassa[ukaz_trass]&0xfff][6]=0;
+		 ukaz_trass++;
+		 if(ukaz_trass>=100)break;
+	 }
+	 return;
 }
 //----------------------------------------------------------
 int test_sost_(int ob)
 {
   int ei,ej,KOKO;
-#ifdef NALAD  
-  nom_func("352");
-#endif    
+  
+	nom_func("352");
+    
   for(ej=9;ej<=10;ej++)
   if(fr3[ob][ej]==1) return(1);
   return(0);
@@ -396,9 +409,9 @@ int obnov_lu(int pek,int ri,unsigned char blum[11])
 {
 	int i,jk;
 	unsigned char  iok;
-#ifdef NALAD
+
 	nom_func("192");
-#endif     
+     
   jk=0;
   if(ri>2)return;
   for(i=0;i<5;i++)
@@ -418,9 +431,9 @@ obnov_lv(int pek,int ri,unsigned char blum[11])
 {
   int i,jk;
   unsigned char iov;
-#ifdef NALAD  
-  nom_func("193");
-#endif     
+  
+	nom_func("193");
+     
   jk=0;
   if(ri>2)return;
   for(i=0;i<5;i++)
@@ -439,9 +452,9 @@ obnov_lv(int pek,int ri,unsigned char blum[11])
 obnov_ly(int pek,int ri,unsigned char blum[11],int tip)
 { int i,jk;
   unsigned char iok;
-#ifdef NALAD  
-  nom_func("194");
-#endif     
+  
+	nom_func("194");
+     
   if(ri>3)return;
   jk=0;
   for(i=0;i<4;i++)
@@ -481,9 +494,9 @@ obnov_ly(int pek,int ri,unsigned char blum[11],int tip)
 obnov_lz(int pek,int ri,unsigned char blum[11],int tip)
 { int i,jk;
   unsigned char iok;
-#ifdef NALAD  
-  nom_func("195");
-#endif     
+  
+	nom_func("195");
+     
   if(ri>3)return;
   jk=0;
   for(i=0;i<4;i++)
@@ -524,9 +537,9 @@ obnov_lz(int pek,int ri,unsigned char blum[11],int tip)
 obnov_lc(int pek,int ri,unsigned char blum[11],int tip)
 { int i,jk;
   unsigned char iok;
-#ifdef NALAD  
+  
   nom_func("190");
-#endif   
+
   if(ri>3)return;
   jk=0;
   for(i=0;i<4;i++)
@@ -566,9 +579,9 @@ obnov_lc(int pek,int ri,unsigned char blum[11],int tip)
 obnov_ls(int pek,int ri,unsigned char blum[11],int tip)
 { int i,jk;
   unsigned char iok;
-#ifdef NALAD  
-  nom_func("191");
-#endif   
+  
+	nom_func("191");
+   
   if(ri>3)return;
   jk=0;
   for(i=0;i<4;i++)
@@ -606,13 +619,13 @@ obnov_ls(int pek,int ri,unsigned char blum[11],int tip)
 }
 //-------------------------------------------------
 FILE *sfs;
-read_text1(int QQ)
+void read_text1(int QQ)
 {
 
   int kodd=0;
-#ifdef NALAD  
-  nom_func("276");
-#endif          
+  
+	nom_func("276");
+          
   sfs=fopen("dat\\text1.img","r");
   if(sfs==NULL) return;
 aa:
@@ -624,7 +637,7 @@ aa:
     case 1: read_slova(QQ);goto aa;
     case 22: electri_platf(QQ); goto aa;
     case 2: ramki(0);goto aa;
-    case 6: elo(QQ); goto aa;
+		case 6: elo_net(QQ); goto aa;	
     case 3: read_pereezd(QQ); goto aa;
     case 5: read_dzezli(QQ);  goto aa;
     case 4: read_smen(QQ); goto aa;
@@ -637,15 +650,15 @@ aa:
 	sfs=NULL;
 }
 /******************************************************************/
-read_slova(int SD)
+void read_slova(int SD)
 {
   int symb=0;
   int x,y,sty,cv,gk;
   char slovo[60]="";
   char slo[60]="";
-#ifdef NALAD  
-  nom_func("272");
-#endif         
+  
+	nom_func("272");
+         
   if((klo==1)||(help!=0)||(nikuda==1))return; 
   symb=fgetc(sfs);
   while(symb!='#')
@@ -670,12 +683,12 @@ read_slova(int SD)
   }
 }
 /*******************************************************/
-electri_platf(int SD)
+void electri_platf(int SD)
 {
   int xkv,ykv,dxkv,dykv,xgol,ygol,sty,cv,dxp,dxm,dym,dyp,symb=0;
-#ifdef NALAD  
-  nom_func("48");
-#endif
+  
+	nom_func("48");
+
   if((klo==1)||(help!=0)||(nikuda==1))return;
   symb=fgetc(sfs);
   while(symb!='#')
@@ -695,14 +708,14 @@ electri_platf(int SD)
   }
 }
 /*****************************************************************/
-ramki(int lines)
+void ramki(int lines)
 {
   int xkv,ykv,dxkv,dykv,sty,cv,wi;
   int symb=0;
   char znak;
-#ifdef NALAD  
-  nom_func("261");
-#endif          
+  
+	nom_func("261");
+          
   if((klo==1)||(help!=0)||(nikuda==1))return;
   symb=fgetc(sfs);
   while(symb!='#')
@@ -717,35 +730,37 @@ ramki(int lines)
     if(symb!='@') break;
   }
 }
-/*****************************************************/
-elo(int SD)
+//--------------------------------------------------------
+/******************************************************\
+* Процедура установки постоянных ограничений по данным        *
+* из файла text1.img. Рисуется однократно при загрузке   *
+\******************************************************/
+void elo_net(int SD)
 {
-  int xkv,ykv,dxkv,dykv,sty,cv;
-  int symb=0;
-#ifdef NALAD  
-  nom_func("49");
-#endif  
-  if((klo==1)||(help!=0)||(nikuda==1))return;
-  symb=fgetc(sfs);
-  while(symb!='#')
-  {
-    fscanf(sfs,"%d %d %d %d %d %d",&sty,&cv,&xkv,&ykv,&dxkv,&dykv);
-    xkv=xkv+SD;
-    setcolor(cv);
-    setlinestyle(0,0,sty);
-    line(xkv,ykv,dxkv,dykv);
-    fgetc(sfs);
-    symb=fgetc(sfs);
-    if(symb!='@') break;
-  }
+	int n_ob,n_fr4,cod;
+	int symb=0;
+
+	nom_func("49");
+
+	if((klo==1)||(help!=0)||(nikuda==1))return;
+	symb=fgetc(sfs);
+	while(symb!='#')
+	{
+		fscanf(sfs,"%d %d %d",&n_ob,&n_fr4,&cod);
+		fr4[n_ob][n_fr4] = cod;
+		fgetc(sfs);
+		symb=fgetc(sfs);
+		if(symb!='@') break;
+	}
+	return;
 }
 /*****************************************************************/
-read_smen(int SD)
+void read_smen(int SD)
 {
   int o,symb=0;
-#ifdef NALAD  
-  nom_func("273");
-#endif          
+  
+	nom_func("273");
+          
   if((klo==1)||(help!=0)||(nikuda==1))return;
   symb=fgetc(sfs);
   while(symb!='#')
@@ -773,12 +788,12 @@ read_smen(int SD)
   }
 }
 /*********************************************/
-read_dzezli()
+void read_dzezli()
 {
   int x1,y1,o,symb=0;
-#ifdef NALAD  
-  nom_func("267");
-#endif          
+  
+	nom_func("267");
+          
   if((klo==1)||(help!=0)||(nikuda==1))return;
   symb=fgetc(sfs);
   while(symb!='#')
@@ -790,12 +805,12 @@ read_dzezli()
   }
 }
 //--------------------------------------
-read_pereezd()
+void read_pereezd()
 {
 int symb=0,o,x1p,y1p,dli;
-#ifdef NALAD  
-  nom_func("271");
-#endif        
+  
+	nom_func("271");
+        
 if((klo==1)||(help!=0)||(nikuda==1))return;
 symb=fgetc(sfs);
 while(symb!='#')
@@ -812,12 +827,12 @@ while(symb!='#')
   }
 }
 //---------------------------------------------------------
-figura(int tip)
+void figura(int tip)
 {
   int poli[20],cv,symb=0,i;
-#ifdef NALAD  
-  nom_func("54");
-#endif  
+  
+	nom_func("54");
+  
   if((klo==1)||(help!=0)||(nikuda==1))return;
   symb=fgetc(sfs);
   while(symb!='#')
@@ -842,9 +857,9 @@ int get_str(int nm,int bt_)
 //имя объекта в переменной chudo
   int g1,co_pro=0,h1,dlip=0,mn=0,i,cod;
   char loo[40]="",chu[20]="";
-#ifdef NALAD
+
   nom_func("99");
-#endif
+
   if(bt_==5)return(1);
   strcpy(loo,pako[nm]); //скопировать строку имен
   dlip=strlen(loo);//получить длину всей строки

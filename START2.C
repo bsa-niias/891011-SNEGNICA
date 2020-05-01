@@ -9,26 +9,26 @@
 #include<graphics.h>
 void *fai;
 unsigned int speed_spdlp; 
-nach_zagruzka()
+void nach_zagruzka()
 {
 	int yt,lo;
 	modi=-1;pat=-1;i3=-1;
-#ifdef NALAD
+
 	nom_func("177");
-#endif
+
 	prorisovka=1;
 	zagruzen();
 	prorisovka=0;
 	for(lo=0;lo<skoko_stoek;lo++){sboy_ts[lo]=0;otkaz_ts[lo]=0;}
 }
 //------------------------------------------------
-zagruzen()
+void zagruzen()
 {
 	int i,lj,X,qi3;
 	long time1,time2;
-#ifdef NALAD
+
 	nom_func("426");
-#endif
+
 	setcolor(3);
 	i3=-1;
 	read_text1(0);
@@ -55,7 +55,7 @@ zagruzen()
   for(lj=Start_R;lj<Start_R+WAZO;lj++)
   {
     krasit_razd(lj,0);krasit_razd(lj,2);
-  }
+	}
   krasit_knopki(Start_R+WAZO,2);
   knopka(KS1);
 #ifdef KOL_SOO2
@@ -86,28 +86,20 @@ zagruzen()
   Styki();
 #endif
   zapretvybora=0; i3=-1; pat=-1;
-  if(DISK==0){knopka_OK();out_k();}
-  kvadrat();
+	if(DISK==0)knopka_OK();
+	kvadrat();
 }
 /************************************************/
-out_k()
-{
-#ifdef NALAD  
-  nom_func("211");
-#endif       
-// putimage(65,35,ukazat,COPY_PUT);
-}
-/***********************************/
-imena(int ib)
-{ //процедура вывода на экран имени указанного объекта, а также 
-  //вывода подсветки курсора и рамки, если объект выбран оператором
-  int ix=0,iy=0,ele=0,ix1=0,iy1=0,lp,lp1;
-  char imya[20]="";
-  int D=0,elo=0,NNBO;
-#ifdef NALAD
-  nom_func("103");
-#endif
-  if((klo==1)||(help!=0)||(nikuda==1))return;
+void imena(int ib)
+{ //процедура вывода на экран имени указанного объекта, а также
+	//вывода подсветки курсора и рамки, если объект выбран оператором
+	int ix=0,iy=0,ele=0,ix1=0,iy1=0,lp,lp1;
+	char imya[20]="";
+	int D=0,elo=0,NNBO;
+
+	nom_func("103");
+
+	if((klo==1)||(help!=0)||(nikuda==1))return;
 //    settextstyle(DEFAULT_FONT,HORIZ_DIR,1);
 	setcolor(8);//обычный серый шрифт
 	NNBO=ib;//запомнить номер выбранного объекта управления
@@ -263,7 +255,7 @@ ob2:              ix1=ix;iy1=iy-11;
 ob3:              ix1=ix;iy1=iy+5;
                 }
                 else //вход четный
-                {
+								{
                   if(OBRAT==-1) goto ob3;
 ob4:              ix1=ix-(D*7)+2; iy1=iy+5;
                 }
@@ -296,31 +288,31 @@ fin:
     if(fr1[ele][0]==1) //если стрелка
     {
       outtext(imya);   //написать имя
-      if((i3!=-1)&&(markery[i3][6]==ele))//если маркер на стрелке
+			if((i3!=-1)&&(markery[i3][6]==ele))//если маркер на стрелке
 
-      {
-        Fla_no_pp=1;
-        show_kursor(i3);//нарисовать курсор
-        Fla_no_pp=0;
-      }
-    }
-    //для всего
-    if(markery[NNBO][7]!=7)//если не вариантная кнопка
-    {
-      markery[NNBO][4]=ix1;//заполнить координаты
-      markery[NNBO][5]=iy1;
-    }
-  }
+			{
+				Fla_no_pp=1;
+				show_kursor(i3);//нарисовать курсор
+				Fla_no_pp=0;
+			}
+		}
+		//для всего
+		if(markery[NNBO][7]!=7)//если не вариантная кнопка
+		{
+			markery[NNBO][4]=ix1;//заполнить координаты
+			markery[NNBO][5]=iy1;
+		}
+	}
 }
 /*****************************************************/
-init_markery(int ie)
+void init_markery(int ie)
 {
   int ix=0,iy=0,ele=0,ix1=0,iy1=0,lp,lp1;
   int D=0,elo=0;
   char imya[20]="";
-#ifdef NALAD  
-  nom_func("107");
-#endif          
+  
+	nom_func("107");
+          
   if((nikuda==1)||(klo==1)||(help!=0))return;
   if(markery[ie][7]==7)//если вариантная точка 
   {
@@ -346,7 +338,7 @@ init_markery(int ie)
     if(fr1[lp][1]==0)
     {
       if(OBRAT==1)D=1;
-      else  D=2;
+			else  D=2;
     }
     else
     {
@@ -379,7 +371,7 @@ init_markery(int ie)
         if(OBRAT==-1) goto a1; //если у нечетных сигналов имена слева
 a2:     ix1=ix+9;
         iy1=iy-12;
-      }
+			}
       else //сигнал под путем
       {
         if(OBRAT==-1) goto a2; //если у четных сигналов имена справа
@@ -412,7 +404,7 @@ a3:     ix1=ix+9;
     D=strlen(pako[ele]);
     while(pako[ele][lp]!=':') lp++;
     lp++;
-    for(lp1=0;lp1<20;lp1++)imya[lp1]=0;
+		for(lp1=0;lp1<20;lp1++)imya[lp1]=0;
     lp1=0;
     while(lp<D)
     {
@@ -445,7 +437,7 @@ ob3:    ix1=ix+7;
         iy1=iy+4;
       }
       else
-      {
+			{
         if(OBRAT==-1) goto ob3;
 ob4:    ix1=ix-(D*7)+6;
         iy1=iy+4;
@@ -454,141 +446,96 @@ ob4:    ix1=ix-(D*7)+6;
   }
 fin:
   markery[ie][4]=ix1+div(10*D,2);
-  markery[ie][5]=iy1+7;
-  return;
+	markery[ie][5]=iy1+7;
+	return;
+}
+
+//*********************************
+int read_int(int hnd)
+{
+	int in=0,j=0,itog = 0,cifra[5];
+	unsigned char *chislo="0000000000",prob;
+	prob = 0;
+	for(j=0;j<10;j++)chislo[j]=0;
+	for(j=0;j<5;j++)cifra[j] = 0;
+	while(1)
+	{
+		j = read(hnd,&chislo[in],1);
+		if(chislo[in] == 0x20)break;
+		in++;
+		if(in==10)break;
+	}
+	if(chislo[1] == 'x')
+	{
+		for(j=2;j<5;j++)
+		{
+			switch (chislo[j])
+			{	
+				case 48:
+				case 49:
+				case 50:
+				case 51:
+				case 52:
+				case 53:
+				case 54:
+				case 55:	
+				case 56:
+				case 57: cifra[j] = chislo[j] - 48;
+								 continue;
+
+				case 65:
+				case 66:
+				case 67:
+				case 68:
+				case 69:
+				case 70: cifra[j] = chislo[j] - 55;
+        				 continue;	
+
+				default: return(-1);
+			}
+		}
+		itog = cifra[2]*256+cifra[3]*16+cifra[4];
+	}
+	else itog = atoi(chislo);
+	while(prob!='\n')read(hnd,&prob,1);
+	return(itog);
 }
 /*******************************************/
-formula(int fu)
+void formula(int fu)
 {
-	unsigned char *chislo="0000000000",prob;
+
 	long hh;
 	int KUP=0,ind=0,in=0,inn=0,NB=0;
 	unsigned int speed,speed11,speed_pvm,speed_bbkp;
-#ifdef NALAD
+
 	nom_func("87");
-#endif
-	for(inn=0;inn<10;inn++)chislo[inn]=0xf;
-	inn=0;
+
 	setcolor(8);
 	len=(kol_VO+1)*6;//определение длины файла для ограничений
 	//выполнение чтения файла tranc.svs
-	in=0;
-	hh=lseek(fu,0,0l);
-	while(chislo[in-1]!=0x20)read(fu,&chislo[in++],1);
-	DVA_MO=atoi(chislo);
-  while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-  if(DVA_MO!=0)//если установлен признак наличия модемов
-  {
-    clrscr();
-    moveto(8,80);
-    outtext("В данном случае первый параметр в файле tranc.svs должен быть равен 0");
-    getch();
-    exit(1);
-  }
+	in = 0;
+	hh = lseek(fu,0,0l);
 
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  //считывание адреса для ТУМС-1
-  BAZ_ADR1=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
+	DSP_SHN = read_int(fu);
 
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  speed=atoi(chislo);//считывание скорости для ТУМС-1
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-	//считывание адреса для ТУМС-2
-  BAZ_ADR11=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  speed11=atoi(chislo);//считывание скорости для ТУМС-2
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  //считывание адреса для ББКП
-  BAZ_ADR2=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  speed_bbkp=atoi(chislo);//считывание скорости для ББКП
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-	//считывание адреса для кнопки ОК
-  BAZ_ADR3=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-	//считывание адреса для обмена ПЭВМ
-  BAZ_ADR4=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  speed_pvm=atoi(chislo);//считывание скорости для обмена ПЭВМ
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-	//считывание адреса для СПДЛП
-  BAZ_ADR6=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  speed_spdlp=atoi(chislo);//считывание скорости для СПДЛП
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-	//считывание адреса переключателя ОСН/РЕЗ
-  BAZ_ADR5=(chislo[2]-48)*256+(chislo[3]-48)*16+chislo[4]-48;
-  while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  NB=atoi(chislo);//считывание вектора прерывания
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  TEST_N=atoi(chislo);//считывание признака фиксации ЛС/ЗС
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  MODE_KN=atoi(chislo);//считывание флага способа включения кнопки ОК
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
-  in=0;prob=0;
-  while(chislo[in-1]!=32)read(fu,&chislo[in++],1);
-  chislo[in]=0;
-  PROV_SCB=atoi(chislo);//считывание флага проверки СЦБ
-	while(prob!='\n')read(fu,&prob,1);//поиск конца строки
-
+	//считывание адреса для ТУМС-1
+	BAZ_ADR1= read_int(fu);
+	speed =  read_int(fu);//считывание скорости для ТУМС-1
+	BAZ_ADR11 = read_int(fu);//считывание адреса для ТУМС-2
+	speed11 =  read_int(fu);//считывание скорости для ТУМС-2
+	BAZ_ADR2 = read_int(fu);//считывание адреса для ББКП
+	speed_bbkp = read_int(fu);//считывание скорости для ББКП
+	BAZ_ADR3 = read_int(fu);//считывание адреса для кнопки ОК //считывание адреса для кнопки ОК
+	BAZ_ADR4 = read_int(fu);//считывание адреса для обмена ПЭВМ
+	speed_pvm = read_int(fu);//считывание скорости для обмена ПЭВМ
+	BAZ_ADR6 = read_int(fu);//считывание адреса для СПДЛП
+	speed_spdlp = read_int(fu);//считывание скорости для СПДЛП
+	BAZ_ADR5 = read_int(fu);//считывание адреса переключателя ОСН/РЕЗ
+  NB = read_int(fu);//считывание вектора прерывания
+	TEST_N = read_int(fu);//считывание признака фиксации ЛС/ЗС
+	MODE_KN = read_int(fu);//считывание флага способа включения кнопки ОК
+	PROV_SCB = read_int(fu);//считывание флага проверки СЦБ
+	notHDD = read_int(fu);//считывание флага наличия НДД-диска
 	//задание делителей для заданной скорости
 	switch(speed)
 	{
@@ -608,7 +555,7 @@ formula(int fu)
 	}
 #ifdef KOL_SOO2
 	switch(speed11)
-	{
+	{         3
 		case 300:    ml_ba2=0x80; st_ba2=0x01; break;
 		case 600:    ml_ba2=0xc0; st_ba2=0x00; break;
 		case 1200:   ml_ba2=0x60; st_ba2=0x00; break;
@@ -657,23 +604,32 @@ formula(int fu)
 	}
 	switch(NB)
 	{
-	 case 1 : V=0x0c; break;
-	 case 2 : V=0x0b; break;
-	 default: clrscr(); moveto(80,80);
-						outtext("Неизвестный вектор прерывания");
-						getch();
-						exit(1);
+		case 3  : V=0x0b; break;
+		case 4  : V=0x0c; break;
+		case 5	: V=0x0d; break;
+		case 6	: V=0x0e; break;
+		case 7	: V=0x0f; break;
+		case 9	: V=0x71; break;
+		case 10 : V=0x72; break;
+		case 11 : V=0x73; break;
+		case 12 : V=0x74; break;
+		case 15 : V=0x77; break;
+		default: clrscr(); moveto(80,80);
+							outtext("Неизвестный вектор прерывания");
+							getch();
+							exit(1);
 	}
+	return;
 }
 /******************************************/
-read_lex()
+void read_lex()
 {
-  int ddo=0;
-  int i=0,j=0,u=0;
+	int ddo=0;
+	int i=0,j=0,u=0;
   char cvet;
-#ifdef NALAD  
-  nom_func("268");
-#endif          
+  
+	nom_func("268");
+          
 #ifdef lex_lex//если выполняется конвертация файла lex.lex
   fai=fopen("dat\\lex.lex","r");
   file_soob=creat("dat\\lex.bin",S_IREAD | S_IWRITE | O_BINARY);
@@ -699,7 +655,7 @@ read_lex()
     }
     j=0;
     u=0;
-    fscanf(fai,"%d",&soob.COlo);
+		fscanf(fai,"%d",&soob.COlo);
     for(u=0;u<60;u++)soob.lex[u]=~soob.lex[u];
     write(file_soob,soob.lex,60);
     cvet=soob.COlo;
@@ -720,19 +676,19 @@ end:
 #endif
 }
 //-------------------------------------------------
-prov_lX()
+void prov_lX()
 { long t_lu=0L,t_lv=0L,t_ly=0L,t_lz=0L,t_lc=0L;
-  int vi=0,Nmp=0;
-#ifdef NALAD  
-  nom_func("246");
-#endif          
-  for(Nmp=0;Nmp<skoko_stoek;Nmp++)
-  { if(time_lu[Nmp]!=0L)
-    { t_lu=biostime(0,0L);
-      if((t_lu-time_lu[Nmp])>=40L)
-      { for(vi=0;vi<=14;vi++)if(mas_lu[Nmp][vi]<3)mas_lu[Nmp][vi]=0;
-        for(vi=0;vi<=2;vi++)lu[Nmp][vi]='@';
-        time_lu[Nmp]=0L;
+	int vi=0,Nmp=0;
+
+	nom_func("246");
+
+	for(Nmp=0;Nmp<skoko_stoek;Nmp++)
+	{ if(time_lu[Nmp]!=0L)
+		{ t_lu=biostime(0,0L);
+			if((t_lu-time_lu[Nmp])>=40L)
+			{ for(vi=0;vi<=14;vi++)if(mas_lu[Nmp][vi]<3)mas_lu[Nmp][vi]=0;
+				for(vi=0;vi<=2;vi++)lu[Nmp][vi]='@';
+				time_lu[Nmp]=0L;
       }
     }
     if(time_lv[Nmp]!=0L)
@@ -753,29 +709,29 @@ prov_lX()
     }
     if(time_lz[Nmp]!=0L)
     { t_lz=biostime(0,0L);
-      if((t_lz-time_lz[Nmp])>=40L)
-      { for(vi=0;vi<=15;vi++)if(mas_lz[Nmp][vi]<3)mas_lz[Nmp][vi]=0;
-        for(vi=0;vi<=3;vi++)lz[Nmp][vi]='@';
-        time_lz[Nmp]=0L;
-      }
-    }
-    if(time_lc[Nmp]!=0L)
-    { t_lc=biostime(0,0L);
-      if((t_lc-time_lc[Nmp])>=40L)
-      { for(vi=0;vi<=15;vi++)if(mas_lc[Nmp][vi]<3)mas_lc[Nmp][vi]=0;
-        for(vi=0;vi<=3;vi++)lc[Nmp][vi]='@';
-        time_lc[Nmp]=0L;
-      }
-    }
-  } /* for */
+			if((t_lz-time_lz[Nmp])>=40L)
+			{ for(vi=0;vi<=15;vi++)if(mas_lz[Nmp][vi]<3)mas_lz[Nmp][vi]=0;
+				for(vi=0;vi<=3;vi++)lz[Nmp][vi]='@';
+				time_lz[Nmp]=0L;
+			}
+		}
+		if(time_lc[Nmp]!=0L)
+		{ t_lc=biostime(0,0L);
+			if((t_lc-time_lc[Nmp])>=40L)
+			{ for(vi=0;vi<=15;vi++)if(mas_lc[Nmp][vi]<3)mas_lc[Nmp][vi]=0;
+				for(vi=0;vi<=3;vi++)lc[Nmp][vi]='@';
+				time_lc[Nmp]=0L;
+			}
+		}
+	} /* for */
 }
 //---------------------------------------------------------------
-z1(int WHO)
+void z1(int WHO)
 {
   int ip,lj,TELL,KSS,KVVv,i33;
-#ifdef NALAD  
-  nom_func("424");
-#endif          
+  
+	nom_func("424");
+          
   if(WHO==1) { TELL=TEL1; KSS=KS1; KVVv=KVV1;}
 #ifdef KOL_SOO2
   else { TELL=TEL2; KSS=KS2; KVVv=KVV2;}
@@ -803,7 +759,7 @@ z1(int WHO)
 #ifdef kol_STY
   Styki();
 #endif
-  kvadrat();
+	kvadrat();
   //if(zapret[WHO-1]==1||zapret_otv[WHO-1]==1)
   //{
   //  if(WHO==1)w(172,999," 1 ТУМС");
@@ -821,7 +777,7 @@ z1(int WHO)
 	/*i3 =-1;*/
 }
 /******************************************/
-read_spdlp(void *fai)
+void read_spdlp(void *fai)
 {
 	//выполнение чтения файла spdlp.dat
 	int inn,in1,fu;

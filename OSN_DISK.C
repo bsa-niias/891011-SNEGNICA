@@ -17,15 +17,15 @@ sss,zahod,zapr;
 unsigned char buf[skoko_stoek][11],data[30];
 unsigned date, time;
 unsigned long int wait();
-Disk_arc()
+void Disk_arc()
 {
   int d,fl,errorcod,ohoho=0,iNt=0,ic,po1,po2,po3,po4,po5,po6,po7,sddf;
 	long td,T2;
 	char nA[4]="",dob_str[10]="";
 	struct SREGS sreg;
-#ifdef NALAD
+
 	nom_func("37");
-#endif
+
 	DISK=0xF;
 #ifndef WORK
   iNt=creat("dat\\fr3.bin",S_IWRITE|O_BINARY);
@@ -104,7 +104,8 @@ repit:
 	nach_zagruzka();//прорисовка стартовой картинки
 	menu();
 	perekluch=0;
-  for(ohoho=0;ohoho<20;ohoho++)data[ohoho]=0;
+	pusto = 0;
+	for(ohoho=0;ohoho<20;ohoho++)data[ohoho]=0;
 	if((klo==0)&&(nikuda==0)&&(help==0))
   {
 	  strcpy(data," АРХИВ ЗА ");
@@ -124,8 +125,13 @@ met0://----------------------------------------------- время
 		int86(0x10,&regs,&regs);
 		setbkcolor(7);
 		setcolor(12);outtextxy(25,15,data);setcolor(4);outtextxy(26,16,data);
-		if(pusto==0xff00)dr();
-		if(pusto==1)for(ic=0;ic<kol_VO;ic++)fr3[ic][5]=1;
+
+		if(pusto==0xff00)
+			dr();
+
+		if(pusto==1)
+			for(ic=0;ic<kol_VO;ic++)fr3[ic][5]=1;
+
 		prov_lX();
 		tu_tc();
 		kvadrat();
@@ -150,14 +156,13 @@ fdf1:
   opred_new=opred;
   opred=opred_old;
   if((pusto&3)!=0)//если была потеря связи
-  { if(klo==1) kartina();
-    else  if(nikuda==0&&help==0)  zagruzen();
-    w(138,999,"");//ОТСУТСТВУЕТ СВЯЗЬ С МПСУ
-    delay(2000);
-  }
+	{ if(klo==1) kartina();
+		else  if(nikuda==0&&help==0)  zagruzen();
+		w(138,999,"");//ОТСУТСТВУЕТ СВЯЗЬ С МПСУ
+	}
   T2=biostime(0,0l);
 cikl:
-  if(cikl_obnov>=kol_VO)cikl_obnov=0;
+	if(cikl_obnov>=kol_VO)cikl_obnov=0;
   if((klo==0)&&(nikuda==0))
   {
 	  prorisovka=1;
@@ -165,8 +170,8 @@ cikl:
 	  {
 		  switch(fr1[cikl_obnov][0])
   		{
-    		case 1: displaystrelka(cikl_obnov,obnov);break;
-		    case 3: sekci(cikl_obnov,obnov);break;
+				case 1: displaystrelka(cikl_obnov,obnov,0);break;
+				case 3: sekci(cikl_obnov,obnov);break;
   		  case 2: if(fr1[cikl_obnov][1]==13)komplekt(cikl_obnov,obnov);
     		        else  displaysignal(cikl_obnov,obnov);
       		      break;
@@ -225,9 +230,9 @@ fdf2:
 //----------------------------------------------------------------
 analiz(int gog)
 {
-#ifdef NALAD  
-  nom_func("5");
-#endif  
+  
+	nom_func("5");
+  
   switch(gog)
   { case 131: STATUS=1;slom_interf(7400);//"Г"
               if(perekluch!=2){ispr_pvm(0,0);ispr_pvm(0,NEISPRAVEN);}
@@ -289,9 +294,9 @@ analiz(int gog)
 //---------------------------------------------
 int der()
 {
-#ifdef NALAD
-  nom_func("35");
-#endif
+
+	nom_func("35");
+
   b_u=box_uk;
   b_h0=b_h1;
   b_m0=b_m1;
@@ -312,12 +317,10 @@ int der()
 	return(0);
 }
 //--------------------------------------------------
-ismena()
-{ int xcx,d=0,fox=0;
-  char r[80];
-#ifdef NALAD
-  nom_func("111");
-#endif
+void ismena()
+{
+	nom_func("111");
+
   ismena_=1;
   return;
 }
@@ -325,9 +328,9 @@ ismena()
 int keykey()
 {
   int out;
-#ifdef NALAD
-  nom_func("119");
-#endif
+
+	nom_func("119");
+
   klaval=getch();
 	if(flag_paro!=0)
 	{
@@ -347,12 +350,12 @@ vx:
   return(0);
 }
 //-------------------------------------------------
-music1()
+void music1()
 {
   int i;
-#ifdef NALAD
-  nom_func("176");
-#endif
+
+	nom_func("176");
+
   for(i=0;i<4;i++){sound(600);delay(50);nosound();sound(1000);delay(70);nosound();}    
 }
 //--------------------------------------------------
@@ -360,9 +363,9 @@ int POISK()
 { long len_file,delta,delta0,ij;
   int minut,min,chas,sek,ik;
   char tq[3]="",opr[10]="";
-#ifdef NALAD
-  nom_func("229");
-#endif
+
+	nom_func("229");
+
   opred=0;
   len_file=filelength(box_uk);
   minut=bb_h*60+bb_mi-12;
@@ -370,7 +373,7 @@ int POISK()
   chas=minut/60;min=minut%60;delta0=len_file/2;delta=delta0;
   while(1)
   { ij=lseek(b_u,delta,0);
-    while(opred!=13)read(b_u,&opred,1);
+		while(opred!=13)read(b_u,&opred,1);
     read(b_u,&opr,10);opred=0;
     for(ik=0;ik<2;ik++)tq[ik]=opr[ik+1];
     tq[ik]=0;chas=atoi(tq);
@@ -395,13 +398,13 @@ int POISK()
   }
 }
 //------------------------------------------
-PRINT_ALL()
+void PRINT_ALL()
 {
   int gogi=0,i,i1;
   char soobs[12]="",gog[2];
-#ifdef NALAD
-  nom_func("235");
-#endif
+
+	nom_func("235");
+
   setfillstyle(1,cvv);setcolor(1);
   bar(35,26,180,36);moveto(35,26);
   Printf(b_h0,b_m0,b_s0);//вывод на экран текущего времени
@@ -455,24 +458,24 @@ PRINT_ALL()
   }
 }
 //----------------------------------------------------------------
-Printf(int g4,int g5,int g6)
+void Printf(int g4,int g5,int g6)
 {
-  int e=0;
-  char AAq[5]="";
-#ifdef NALAD
-  nom_func("237");
-#endif          
-  setcolor(1);
-  itoa(g4,AAq,10);if(g4<10) outtext("0");outtext(AAq);outtext(":");
-  itoa(g5,AAq,10);if(g5<10) outtext("0");outtext(AAq);outtext(":");
-  itoa(g6,AAq,10);if(g6<10) outtext("0");outtext(AAq);outtext(" ");
+	int e=0;
+	char AAq[5]="";
+
+	nom_func("237");
+
+	setcolor(1);
+	itoa(g4,AAq,10);if(g4<10) outtext("0");outtext(AAq);outtext(":");
+	itoa(g5,AAq,10);if(g5<10) outtext("0");outtext(AAq);outtext(":");
+	itoa(g6,AAq,10);if(g6<10) outtext("0");outtext(AAq);outtext(" ");
 }
 //--------------------------------------
-prodol1()
+void prodol1()
 {
-#ifdef NALAD  
-  nom_func("240");
-#endif        
+  
+	nom_func("240");
+        
   if (vrem==5) uprav=1;
   setcolor(3);
   if(perekluch==1) poka=0;
@@ -486,19 +489,19 @@ prodol1()
   {bar(40,40,170,50); moveto(40,40);outtext("ПОШАГОВЫЙ  РЕЖИМ ");}
 }
 //---------------------------------------------------------------
-ramka(int x1,int y1,int x2,int y2)
+void ramka(int x1,int y1,int x2,int y2)
 {
-  int j;
-#ifdef NALAD  
-  nom_func("260");
-#endif          
-  setfillstyle(SOLID_FILL,8);
-  bar(x1*7,y1*7,x2*7,y2*7);
-  setcolor(WHITE);
-  setlinestyle(0,0,0);
-  rectangle(x1*7+2,y1*7+2,x2*7-2,y2*7-2);
-  rectangle(x1*7+4,y1*7+4,x2*7-4,y2*7-4);
-  if(x1<10)
+	int j;
+
+	nom_func("260");
+
+	setfillstyle(SOLID_FILL,8);
+	bar(x1*7,y1*7,x2*7,y2*7);
+	setcolor(WHITE);
+	setlinestyle(0,0,0);
+	rectangle(x1*7+2,y1*7+2,x2*7-2,y2*7-2);
+	rectangle(x1*7+4,y1*7+4,x2*7-4,y2*7-4);
+	if(x1<10)
   {
     setfillstyle(SOLID_FILL,8);
     bar(x1*7+30*7+10,y2*7-10,x1*7+30*7+20+115,y2*7);
@@ -513,9 +516,9 @@ int read_bl_box()
   int i,fls,ik,ogr=0;
   unsigned long int pozic;
   unsigned char symbos,ss[3],tq[3],opr[25];
-#ifdef NALAD
-  nom_func("265");
-#endif
+
+	nom_func("265");
+
   read(b_u,&opred1,1);symbos=opred1;//прочитать один символ
 oba:
   while(eof(b_u)!=1)//если не достигнут конец файла
@@ -603,9 +606,9 @@ povtor:
 int Scan(int ik,int ig,int Maxim)
 { int I=0,iks=0,i;
   char sloo[8]="",sluo[8]="",ch[2]="";
-#ifdef NALAD
-  nom_func("295");
-#endif
+
+	nom_func("295");
+
   I=0;iks=ik;moveto(iks,ig);
   while(ch[0]!=13)
   { if(I>5){setfillstyle(SOLID_FILL,8);bar(ik,ig,ik+56,ig+8);return(-1);}
@@ -636,14 +639,14 @@ enn:;
   return(I);
 }
 //------------------------------------------------------
-spisok_prikazov()
+void spisok_prikazov()
 {
   int bz1,bz2,bb,n,nn,nnn,kol,nil,i,spara,ura,uu,STR,UCH,PUT,SIG,UPR,ST;
   char slv[10]="";
   unsigned char kim;
-#ifdef NALAD
-  nom_func("316");
-#endif
+
+	nom_func("316");
+
   /******** обычные сигналы ***************/
   if(buf[0][1]=='Z')
   goto Z;
@@ -666,7 +669,7 @@ signal:
     else t_com[1]=biostime(0,0l);
     if(nnn<kol_OSN&&fr1[nnn][8]!=666)
     { if(buf[0][n+4]=='A'||buf[0][n+4]=='B')
-      w(132,nnn,"");//выдана команда на открытие сигнала
+			w(132,nnn,"");//выдана команда на открытие сигнала
       else
         if(buf[0][n+4]=='F'||buf[0][n+4]=='E')
         w(137,nnn,"");//выдана команда на отмену маршута от сигнала
@@ -696,7 +699,7 @@ signal:
             { if(buf[0][n+4]=='X')w(9,999,otopri[fr1[nnn][11]]);
               else
                 if(buf[0][n+4]=='T')w(10,999,otopri[fr1[nnn][12]]);
-              return;
+							return;
             }
           }
           else
@@ -726,7 +729,7 @@ signal:
                           else
                             if(fr3[fr1[nnn][2]][1]==1)w(2,999,otopri[fr1[nnn][4]]);
                         }
-                        return;
+												return;
               case 66:  if(markery[fr1[nnn][12]][7]==333)
                         { if(buf[0][n+4]=='A') w(25,999,"");
                           else w(24,999,"");
@@ -756,7 +759,7 @@ signal:
     //маршруты----------------------------------
     if(buf[0][2]=='a'||buf[0][2]=='b')
     { if(kim==2){SIG=SIG2;ST=SIG1;SMI=STR2;}
-      else {SIG=SIG1;ST=0;SMI=STR1;}
+			else {SIG=SIG1;ST=0;SMI=STR1;}
       n=buf[0][4]-64;
       for(i=SMI+ST;i<SIG+SMI+ST;i++)
       if(buf[0][3]==podgruppa[i-ST]) nnn=i-SMI;
@@ -781,12 +784,12 @@ F:  if(buf[0][2]=='F')
       { ura=buf[0][n+4]&0x04;
         if(ura==0x04){fr4[nnn][2]=1;w(115,nnn,"");}
         else {fr4[nnn][2]=0;w(114,nnn,"");}
-        displaypathuch(nnn,nnn);
+				displaypathuch(nnn);
         disco();
       }
       else
       { if(fr1[nnn][1]==301)
-        { w(19,999,"");
+				{ w(19,999,"");
           fr3[nnn][9]=9;
           return;
         }
@@ -803,7 +806,7 @@ F:  if(buf[0][2]=='F')
             ura=buf[0][n+4]&0x04;
             if(ura==0x04){fr4[nnn][2]=1;w(115,nnn,"");}
             else {fr4[nnn][2]=0;w(114,nnn,"");}
-            displaypathuch(nnn,nnn);
+            displaypathuch(nnn);
             disco();
           }
         }
@@ -816,7 +819,7 @@ C:  if(buf[0][2]=='C')
       for(i=SMI+ST;i<STR+SMI+ST;i++)
       if(buf[0][3]==podgruppa[i-ST]) nn=i;
       else if(i>=STR+SMI+ST) return;
-      for(i=4;i<=8;i++)
+			for(i=4;i<=8;i++)
       if(buf[0][i]!=124&&buf[0][i]!='@') n=i-4;
       else if(i>8) return;
       nnn=spstr[nn][n];
@@ -834,7 +837,7 @@ qwe:    ura=buf[0][n+4]&0x01;
         nach_zakr(nnn,1);
         if(fr1[nnn][12]!=9999&&spara==0)
         { TEST=2;
-          nnn=poisk_ras(fr1[nnn][2]);
+					nnn=poisk_ras(fr1[nnn][2],fr1[nnn][12]);
           if(nnn!=9999){spara=1;goto qwe;}
         }
         spara=0;
@@ -846,7 +849,7 @@ qwe:    ura=buf[0][n+4]&0x01;
         if(ura==0x01){hop=3;w(123,nnn,"");hop=0;}
         else {hop=4;w(123,nnn,"");hop=0;}
       }
-      return;
+			return;
     }
 I:  if(buf[0][2]=='I'&&buf[0][10]==')')
     { if(kim==2){PUT=PUT2;ST=PUT1;SMI=STR2+SIG2+UCH2;}
@@ -863,7 +866,7 @@ I:  if(buf[0][2]=='I'&&buf[0][10]==')')
       ura=buf[0][n+4]&0x04;
       if(ura==0x04){fr4[nnn][2]=1;w(115,nnn,"");}
       else {fr4[nnn][2]=0;w(114,nnn,"");}
-      displaypath(nnn);
+			displaypath(nnn,0);
       disco();
     }
 Z:
@@ -876,7 +879,7 @@ Z:
                   if(buf[0][3]=='A'){na=1;cha=0;}
                   else
                     if(buf[0][3]=='B'){na=0;cha=1;}
-                    else
+										else
                       if(buf[0][3]=='C'){na=1;cha=1;}
                 if(na==1)
                 { for(uu=0;uu<N_str;uu++)otkl_(N_strel[uu],1);
@@ -906,62 +909,98 @@ Z:
                 if(cha==1)vkl_kno(CHACHA,10);
                 else vkl_kno(CHACHA,8);
                 break;
-      default:return;
+			default:return;
     }
 #endif
-    return;
+		return;
  L:
-  if(buf[0][2]=='L')
-  { if(kim==2)
-    { if(buf[0][2]=='L'&&buf[0][3]=='K')
-      if(buf[0][5]=='D') slom_interf(11201);
-    }
-    else
-    { if(buf[0][2]=='L'&&buf[0][3]=='V')
-      if(buf[0][5]=='D') slom_interf(11200);
-    }
-    w(41,999,"");
-  }
-  return;
+	if(buf[0][2]=='L')
+	{ if(kim==2)
+		{ if(buf[0][2]=='L'&&buf[0][3]=='K')
+			if(buf[0][5]=='D') slom_interf(11201);
+		}
+		else
+		{ if(buf[0][2]=='L'&&buf[0][3]=='V')
+			if(buf[0][5]=='D') slom_interf(11200);
+		}
+		w(41,999,"");
+	}
+	return;
 }
 //----------------------------------------------------------
 int starit()
 {
-  int xcx,d=0,fox;
-  char r[80]="",name_file[25],d_str[10];
-#ifdef NALAD
-  nom_func("317");
-#endif
-  for(d=0;d<25;d++)name_file[d]=0;
+	int xcx,i,j,dd=0, dm=0, dy=0;
+	char name_file[25],d_str[10];
+
+	nom_func("317");
+
+	for(i=0;i<25;i++)name_file[i]=0;
+
 qwqw:
-  dubl=0;cleardevice();ramka(1,9,79,28);
+	dubl = 0;
+	cleardevice();
+	ramka(1,9,79,28);
 d2:
-  if(d==-2)return(-2);
-  moveto(20,80);outtext("Введите дату: число - ");d=Scan(170,80,31);
-  if((d<1)||(d>31)){putch(7);bar(170,80,180,90);goto d2;}
-  bb_d=d;
+
+	if(dd==-2)return(-2);
+
+	moveto(20,80);
+	outtext("Введите дату: число - ");
+	dd=Scan(170,80,31);
+
+	if((dd<1)||(dd>31))
+	{
+		putch(7);
+		bar(170,80,180,90);
+		goto d2;
+	}
+	bb_d=dd;
 d3:
-  if(d==-2)return(-2);
-  moveto(20,88); outtext("              месяц - ");d=Scan(170,88,12);
-  if((d<1)||(d>12)){putch(7);bar(170,88,200,98);goto d3;}
-  bb_m=d;
+
+
+	if(dm==-2)return(-2);
+	moveto(20,88);
+	outtext("              месяц - ");
+	dm = Scan(170,88,12);
+
+	if((dm<1)||(dm>12))
+	{
+		putch(7);
+		bar(170,88,200,98);
+		goto d3;
+	}
+	bb_m = dm;
+
 d4:
-  if(d==-2)return(-2);
-  moveto(20,96); outtext("                год - ");d=Scan(170,96,3000);
-  if(d<100)d=2000+d;
-  if((d>2100)||(d<2000)){putch(7);bar(170,96,210,106);goto d4;}
-  bb_y=d;
-  strcpy(name_file,"result\\");
-  itoa(bb_d,d_str,10);
-  if(bb_d<10)strcat(name_file,"0");strcat(name_file,d_str);
-  itoa(bb_m,d_str,10);
-  if(bb_m<10)strcat(name_file,"0");strcat(name_file,d_str);
-  strcat(name_file,".ogo");
+	if(dy == -2)return(-2);
+	moveto(20,96);
+	outtext("                год - ");
+	dy = Scan(170,96,2100);
+	if(dy<100)dy=2000+dy;
+
+	if((dy>2100)||(dy<2000))
+	{
+		putch(7);
+		bar(170,96,210,106);
+		goto d4;
+	}
+	bb_y=dy;
+
+	strcpy(name_file,"result\\");
+	itoa(bb_d,d_str,10);
+	if(bb_d<10)strcat(name_file,"0");
+	strcat(name_file,d_str);
+	itoa(bb_m,d_str,10);
+
+	if(bb_m<10)strcat(name_file,"0");
+	strcat(name_file,d_str);
+	strcat(name_file,".ogo");
 again:
-  box_uk=open(name_file,O_RDWR|O_BINARY);
-  na=_dos_getftime(box_uk,&date,&time);
-  date=(date>>9)+1980;
-  if((bb_y!=date)||box_uk<0)
+	box_uk=open(name_file,O_RDWR|O_BINARY);
+	na=_dos_getftime(box_uk,&date,&time);
+	date=(date>>9)+1980;
+	if((bb_y!=date)||box_uk<0)
   {
     moveto(20,165);setcolor(12);
     outtext("Информации на указанную дату нет, для продолжения нажмите <Enter>");
@@ -969,46 +1008,45 @@ again:
   }
 d11:
   dayy_=bb_d;monn_=bb_m;yearr_=bb_y;
-  moveto(20,104);
-  outtext("Введите коэф.ускорения (1-18) ");
-  moveto(270,104);outtext("18-максимум скорости,1-реальная");
-  d=Scan(250,104,18);
-  if((d<1)||(d>18)){putch(7);bar(250,104,260,114);goto d11;}
-  to_chislo=d;
+	moveto(20,104);  outtext("Введите коэф.ускорения (1-18) ");
+	moveto(270,104);outtext("18-максимум скорости,1-реальная");
+	dd = Scan(250,104,18);
+	if((dd<1)||(dd>18)){putch(7);bar(250,104,260,114);goto d11;}
+	to_chislo = dd;
 d5:
-  if(d==-2)return(-2);
-  moveto(20,112);outtext("Введите время: часы  - ");d=Scan(170,112,23);
-  if(d<0){putch(7);bar(170,112,200,122);goto d5;}
-  bb_h=d;
+	if(dd==-2)return(-2);
+	moveto(20,112);outtext("Введите время: часы  - ");dd=Scan(170,112,23);
+	if(dd<0){putch(7);bar(170,112,200,122);goto d5;}
+	bb_h=dd;
 d6:
-  if(d==-2)return(-2);
-  moveto(20,120);outtext("             минуты - ");d=Scan(170,120,59);
-  if(d<0){putch(7);bar(170,120,180,150);goto d6;}
-  bb_mi=d;
-  b_u=box_uk;
-  if(POISK()>1)
-  {
-    putch(7);moveto(50,168); setcolor(LIGHTRED);
-    outtext(" ДАННЫЕ НЕ НАЙДЕНЫ, ПОПРОБУЙТЕ ИЗМЕНИТЬ ВРЕМЯ, ЕЩЕ РАЗ? (y/n)");
+	if(dd==-2)return(-2);
+	moveto(20,120);outtext("             минуты - ");dd=Scan(170,120,59);
+	if(dd<0){putch(7);bar(170,120,180,150);goto d6;}
+	bb_mi=dd;
+	b_u=box_uk;
+	if(POISK()>1)
+	{
+		putch(7);moveto(50,168); setcolor(LIGHTRED);
+		outtext(" ДАННЫЕ НЕ НАЙДЕНЫ, ПОПРОБУЙТЕ ИЗМЕНИТЬ ВРЕМЯ, ЕЩЕ РАЗ? (y/n)");
 wqwq:
-    xcx=getch();
+		xcx=getch();
 		if(xcx=='y'){if(box_uk>0)close(box_uk);box_uk=0;goto qwqw;}
-    else
-    {
-      if(xcx=='n'){FINAL();return(-1);}
-      else goto wqwq;
-    }
-  }
-  else box_uk=b_u;
-  read_bl_box();
-  return(0);
+		else
+		{
+			if(xcx=='n'){FINAL();return(-1);}
+			else goto wqwq;
+		}
+	}
+	else box_uk=b_u;
+	read_bl_box();
+	return(0);
 }
 //----------------------------------------------------------
 int vyborklav()
 { int a,col,vi=0,vj=0,driver,mode,errorcode;
-#ifdef NALAD
-  nom_func("406");
-#endif
+
+	nom_func("406");
+
   if(klaval==0){a=getch();t(0);}
   if(klaval!=0)return(0);
   if((nikuda==0)&&(klo==0)&&(help==0))
@@ -1132,9 +1170,9 @@ as4:  case 81 : bil_bil=1;
 unsigned long int wait()
 {
   unsigned long int t1=0l,t2=0l,tt=0l;
-#ifdef NALAD
-  nom_func("408");
-#endif
+
+	nom_func("408");
+
   t1=(b_h1*3600l)+(b_m1*60l)+b_s1;
   t2=(b_h0*3600l)+(b_m0*60l)+b_s0;
   tt=(t1-t2)*18L;
@@ -1142,12 +1180,12 @@ unsigned long int wait()
   return(tt); // тиков между сообщениями
 }
 //-------------------------------------------------------------
-work()
+void work()
 {
   int ij,knl;
-#ifdef NALAD  
-  nom_func("423");
-#endif
+  
+	nom_func("423");
+
   if(buf[0][1]&0x02==2)knl=1;
   else knl=0;
   for(ij=0;ij<11;ij++)bu[knl][ij]=buf[0][ij];
@@ -1155,12 +1193,12 @@ work()
   else {spisok_prikazov();flagoutmsg=0;}
 }
 //------------------------------------------------------------------
-FINAL()
+void FINAL()
 {
 	int hndl;
-#ifdef NALAD
-  nom_func("56");
-#endif
+
+	nom_func("56");
+
   nosound();
 	if(box_uk>0)close(box_uk);
 	if(b_u==box_uk)b_u=0;

@@ -7,11 +7,11 @@
 #include<sys/stat.h>
 #include<stdlib.h>
 //---------------------------------------------
-vuhod()
+void vuhod()
 {
-#ifdef NALAD
-  nom_func("4051");
-#endif
+
+	nom_func("4051");
+
 //settextstyle(DEFAULT_FONT,HORIZ_DIR,0);
 setlinestyle(0,0,0);
 setcolor(8);
@@ -31,11 +31,11 @@ setcolor(8);outtext("',назад - '");setcolor(MAGENTA);outtext("PgUp");
 setcolor(8);outtext("'");
 }
 //-----------------------------------------------------------
-vuhod1()
+void vuhod1()
 {
-#ifdef NALAD
-  nom_func("405");
-#endif
+
+	nom_func("405");
+
 //settextstyle(DEFAULT_FONT,HORIZ_DIR,0);
 setlinestyle(0,0,0);
 setcolor(8);
@@ -48,11 +48,11 @@ setcolor(8);outtext("',назад - '");setcolor(MAGENTA);outtext("PgUp");
 setcolor(8);outtext("'");
 }
 /*************************************************/
-shl()
+void shl()
 {
-#ifdef NALAD
-  nom_func("302");
-#endif
+
+	nom_func("302");
+
   setlinestyle(0,0,0); setcolor(8); line(8,213,630,213);
   moveto(4*8,220);outtext("ДАТА");
   moveto(15*8,220);outtext("ВРЕМЯ");
@@ -64,25 +64,25 @@ shl()
   line(630,213,630,234);line(8,234,630,234);
 }
 /*****************************************************/
-clear_half()
+void clear_half()
 {
-#ifdef NALAD
-  nom_func("23");
-#endif  
-  setfillstyle(SOLID_FILL,getbkcolor());
-  bar(0,210,getmaxx(),getmaxy());
+
+	nom_func("23");
+
+	setfillstyle(SOLID_FILL,getbkcolor());
+	bar(0,210,getmaxx(),getmaxy());
 }
 /******************************************************/
-fon_pic()
+void fon_pic()
 {
-  char AAq[2]="";
-#ifdef NALAD  
-  nom_func("69");
-#endif    
-  /****     это фон для картинки     ************/
-  setfillstyle(SOLID_FILL,getbkcolor());
-  bar(32,5,getmaxx()-32,205);
-  setfillstyle(CLOSE_DOT_FILL,YELLOW);
+	char AAq[2]="";
+
+	nom_func("69");
+
+	/****     это фон для картинки     ************/
+	setfillstyle(SOLID_FILL,getbkcolor());
+	bar(32,5,getmaxx()-32,205);
+	setfillstyle(CLOSE_DOT_FILL,YELLOW);
   bar(32,5,getmaxx()-32,205);
   setcolor(MAGENTA);
   setlinestyle(0,0,0);
@@ -107,7 +107,7 @@ fon_pic()
   outtextxy(263,150,"Т");
   outtextxy(263,158,"У");
   outtextxy(263,166,"М");
-  outtextxy(263,174,"С");
+	outtextxy(263,174,"С");
   outtextxy(263,182," ");
   outtextxy(263,188,"1");
   rectangle(282,122,347,147);
@@ -119,23 +119,30 @@ fon_pic()
   if(NOMER_ARMA==1) outtext("2");
   else outtext("1");
   moveto(130,70);
-  outtext("ПЭВМ");
-  itoa(NOMER_ARMA,AAq,10);
-  outtext(AAq);
+	if(DSP_SHN == 0)
+	{	
+		outtext("АРМ ШН");
+	}
+	else
+	{
+		outtext("ПЭВМ");
+		itoa(NOMER_ARMA,AAq,10);
+		outtext(AAq);
+	}	
   setcolor(8);
   setlinestyle(0,0,3);
   rectangle(467,87,507,133);
   rectangle(127,87,167,133);
 }
 /************************************************/
-sost_komplect(int KKS)
+void sost_komplect(int KKS)
 {
-  char slovo1[10],slovo2[10];
-  int color1=0,color2=0,cod;
-  int smeo=0;
-#ifdef NALAD  
-  nom_func("315");
-#endif          
+	char slovo1[10],slovo2[10];
+	int color1=0,color2=0,cod;
+	int smeo=0;
+
+	nom_func("315");
+          
 	if(KKS==KS1) smeo=97;
   else smeo=0;
   cod=fr3[KKS][0]+fr3[KKS][1]*2+fr3[KKS][2]*4;
@@ -162,7 +169,7 @@ sost_komplect(int KKS)
     case 6: color2=4;color1=12;
             strcpy(slovo1,"НЕИСПР");strcpy(slovo2,"НЕИСПР");
             break;
-    case 7: color2=12;color1=4;
+		case 7: color2=12;color1=4;
             strcpy(slovo1,"НЕИСПРАВ");strcpy(slovo2,"ИСПРАВ");
             break;
   }
@@ -184,18 +191,18 @@ x:
   outtextxy(295,56+smeo,"ЭВМ 2");
 }
 //----------------------------------------
-kanal(int kakoi)
+void kanal(int kakoi)
 {
-  int st1=0,st2=0,cl1=0,cl11=0,cl2=0,cl22=0;
-  char  right[2]={'\x10'}, /* ts */
-        left[2]={'\x11'}; /* ty */
-#ifdef NALAD  
-  nom_func("114");
-#endif                
-  if(kakoi==0)  /* свой */
-  {
-    setcolor(7);
-    setlinestyle(3,0,0);
+	int st1=0,st2=0,cl1=0,cl11=0,cl2=0,cl22=0;
+	char  right[2]={'\x10'}, /* ts */
+				left[2]={'\x11'}; /* ty */
+
+	nom_func("114");
+
+	if(kakoi==0)  /* свой */
+	{
+		setcolor(7);
+		setlinestyle(3,0,0);
 #ifdef KOL_SOO2
     line(200,75,275,75);
     line(200,100,200,75);
@@ -223,7 +230,7 @@ kanal(int kakoi)
     else {cl11=RED;st2=3;}
     setlinestyle(st2,0,0);
     line(167,120,200,120);
-    line(200,120,200,145);
+		line(200,120,200,145);
     line(200,145,275,145);
     setcolor(cl11);
     outtextxy(215,142,left); //ТС для ТУМС-1
@@ -257,13 +264,13 @@ kanal(int kakoi)
     else cl2=cl22=8;
     setcolor(7);
     setlinestyle(3,0,0);
-    line(355,145,430,145);
-    line(430,145,430,120);
-    line(430,120,466,120);
+		line(355,145,430,145);
+		line(430,145,430,120);
+		line(430,120,466,120);
 #ifdef KOL_SOO2
-    line(355,75,430,75);
-    line(430,75,430,100);
-    line(430,100,466,100);
+		line(355,75,430,75);
+		line(430,75,430,100);
+		line(430,100,466,100);
     setcolor(8);
     setlinestyle(st1,0,0);
     line(355,75,430,75);
@@ -286,56 +293,55 @@ kanal(int kakoi)
   }
 }
 //-----------------------------------
-PVM(int no,int is)
+void PVM(int no,int is)
 {
 char right[2]={'\x10'}, /* ts */
-     left[2]={'\x11'}; /* ty */
-#ifdef NALAD  
-  nom_func("258");
-#endif        
+		 left[2]={'\x11'}; /* ty */
+	int Xp = 128;
+	nom_func("258");
 if(no==0)
 {
-   /* своя ПЭВМ */
-      if(STATUS==0) setfillstyle(SOLID_FILL,YELLOW);
-      else
-  if(STATUS==2) setfillstyle(SOLID_FILL,8);
-		 else setfillstyle(SOLID_FILL,GREEN);
-   bar(128,88,166,132);
+	 /* своя ПЭВМ */
+			if(STATUS==0) setfillstyle(SOLID_FILL,YELLOW);//если резервная
+			else
+	if(STATUS==2) setfillstyle(SOLID_FILL,8);//если ШН
+		 else setfillstyle(SOLID_FILL,GREEN);//если основная
+	 bar(Xp,88,166,132);
 }
 else
 {
 /* соседняя ПЭВМ */
-   if(is==1) setfillstyle(SOLID_FILL,RED);
-   else
-     if(STATUS==1) setfillstyle(SOLID_FILL,YELLOW);
-  else
-    if(STATUS==2) setfillstyle(SOLID_FILL,8);
-       else setfillstyle(SOLID_FILL,GREEN);
-   bar(468,88,506,132);
+	 if(is==1) setfillstyle(SOLID_FILL,RED);//если неисправна
+	 else
+		 if(STATUS==1) setfillstyle(SOLID_FILL,YELLOW);//если резервная
+	else
+		if(STATUS==2) setfillstyle(SOLID_FILL,8);//если ШН
+			 else setfillstyle(SOLID_FILL,GREEN);
+	 bar(Xp+340,88,Xp+378,132);
 
 }
 /* канал ПЭВМ-ПЭ ВМ */
 
 setcolor(8);
 if(is==1)  setlinestyle(3,0,0);
-  else setlinestyle(0,0,0);
-line(167,110,464,110);
+	else setlinestyle(0,0,0);
+	line(Xp+39,110,Xp+336,110);
 
 /* стрелки между ПЭВМ */
 if(is==1) setcolor(RED);
-  else setcolor(GREEN);
-outtextxy(250,107,left);
+	else setcolor(GREEN);
+outtextxy(Xp+122,107,left);
 setcolor(GREEN);
-outtextxy(377,107,right);
+outtextxy(Xp+249,107,right);
 }
 /***************************************************/
-kartina()
+void kartina()
 {
-  char right[2]={'\x10'}, /* ts */
-  left[2]={'\x11'}; /* ty */
-#ifdef NALAD  
-  nom_func("117");
-#endif          
+	char right[2]={'\x10'}, /* ts */
+	left[2]={'\x11'}; /* ty */
+  
+	nom_func("117");
+          
 	if((nikuda==1)||(help!=0)) return;
   if(klo==0) fon_pic();
   /* сост ПЭВМ */
@@ -361,12 +367,12 @@ kartina()
 
 }
 //------------------------------------------------------------
-first_second(int nom)
+void first_second(int nom)
 {
-  int nnom,jv,aoar;
-#ifdef NALAD  
-  nom_func("63");
-#endif    
+	int nnom,jv,aoar;
+  
+	nom_func("63");
+    
   if((nom==KS1)||(nom==KS2))
   {
     nnom=0;
@@ -382,21 +388,21 @@ first_second(int nom)
       case 1: slom_interf(8010+nnom);break;//все исправно основной 2
       case 2: slom_interf(8020+nnom);break;//основной 1 неисправен 1
       case 3: slom_interf(8030+nnom);break;//основной 2 неисправен 1
-      case 4: slom_interf(8040+nnom);break;//основной 1 неисправен 2
-      case 5: slom_interf(8050+nnom);break;//основной 2 неисправен 2
-      case 6: slom_interf(8060+nnom);break;//основной 1 неисправен 1 и 2
-      case 7: slom_interf(8070+nnom);break;//основной 2 неисправен 1 и 2
-    }
-    old_aoar[nnom]=aoar;
-  }
+			case 4: slom_interf(8040+nnom);break;//основной 1 неисправен 2
+			case 5: slom_interf(8050+nnom);break;//основной 2 неисправен 2
+			case 6: slom_interf(8060+nnom);break;//основной 1 неисправен 1 и 2
+			case 7: slom_interf(8070+nnom);break;//основной 2 неисправен 1 и 2
+		}
+		old_aoar[nnom]=aoar;
+	}
 }
 //----------------------------------
-fraza2(int inde)
+void fraza2(int inde)
 {
 	char AAq[2]="";
-#ifdef NALAD
-  nom_func("90");
-#endif        
+
+	nom_func("90");
+        
   switch(inde)
   {
     case 7000: outtext("отказ ТС-1"); break;
@@ -425,26 +431,26 @@ fraza2(int inde)
     case 7160: outtext("восст.ТУ-1 соседней ПЭВМ"); break;
 		case 7161: outtext("восст.ТУ-2 соседней ПЭВМ"); break;
     case 7170: outtext("разреш.ТУ-1 соседней ПЭВМ"); break;
-    case 7171: outtext("разреш.ТУ-2 соседней ПЭВМ"); break;
-    case 7200: outtext("восст. связь ПЭВМ1=ПЭВМ2"); break;
-    case 7300: outtext("нет связи ПЭВМ1-ПЭВМ2");break;
-    case 7400: outtext("данная ПЭВМ-основная");break;
-    case 7500: outtext("данная ПЭВМ-резервная");break;
-    case 7600: outtext("не определен статус ПЭВМ "); break;
-    case 7700: outtext("выдан запрос в основ.ПЭВМ");break;
-    case 7800: outtext("отказано в передаче ПЭВМ");break;
-    case 7900: outtext("получен отказ от ПЭВМ");break;
-    case 7940: outtext("реконфиг.1-го кан. соседней ПЭВМ");break;
-    case 7950: outtext("реконфиг.2-го кан. соседней ПЭВМ");break;
-    default:  break;
-  }
+		case 7171: outtext("разреш.ТУ-2 соседней ПЭВМ"); break;
+		case 7200: outtext("восст. связь ПЭВМ1=ПЭВМ2"); break;
+		case 7300: outtext("нет связи ПЭВМ1-ПЭВМ2");break;
+		case 7400: outtext("данная ПЭВМ-основная");break;
+		case 7500: outtext("данная ПЭВМ-резервная");break;
+		case 7600: outtext("не определен статус ПЭВМ "); break;
+		case 7700: outtext("выдан запрос в основ.ПЭВМ");break;
+		case 7800: outtext("отказано в передаче ПЭВМ");break;
+		case 7900: outtext("получен отказ от ПЭВМ");break;
+		case 7940: outtext("реконфиг.1-го кан. соседней ПЭВМ");break;
+		case 7950: outtext("реконфиг.2-го кан. соседней ПЭВМ");break;
+		default:  break;
+	}
 }
 //------------------------------------------------
-fraza(int inde)
+void fraza(int inde)
 {
-#ifdef NALAD  
-  nom_func("89");
-#endif
+  
+	nom_func("89");
+
   switch(inde)
   {
     case 8000: outtext("1й и 2й исправны,осн.МПСУ1");break;
@@ -462,9 +468,9 @@ char read_sode(int HNDL,int numbe,char STRK[50])
 {
 	char STr[17],bukv;
 	int j;
-#ifdef NALAD
+
 	nom_func("274");
-#endif
+
 	if((numbe>=4000)&&(numbe<4010))//объединение групп
 	{
 		for(plo=0;plo<=14;plo++)
@@ -579,5 +585,5 @@ char read_sode(int HNDL,int numbe,char STRK[50])
 			if(mlc[plu]==13)break;
 		}
 	}
-}
+}
 //-------------------------------------------------------------------

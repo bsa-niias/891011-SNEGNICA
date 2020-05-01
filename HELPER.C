@@ -5,37 +5,37 @@
 int f_hlp,punkt,pozic_x,pozic_y,N_HELP;
 //---------------------------
 
-h()
+void h()
 {
-  int w;
-#ifdef NALAD  
-  nom_func("101");
-#endif          
-  clscreen(); setfillstyle(SOLID_FILL,8);
-  bar(0,0,getmaxx(),getmaxy());
-  rama();
-  help=1;
+	int w;
+
+	nom_func("101");
+
+	clscreen(); setfillstyle(SOLID_FILL,8);
+	bar(0,0,getmaxx(),getmaxy());
+	rama();
+	help=1;
 }
 //--------------------------
-rama()
+void rama()
 {
-#ifdef NALAD  
-  nom_func("259");
-#endif          
-  setfillstyle(SOLID_FILL,8);
-  bar(0,0,639,479);
-  setcolor(3);
-  rectangle(2,2,638,478);
-  rectangle(4,4,636,476);
+
+	nom_func("259");
+
+	setfillstyle(SOLID_FILL,8);
+	bar(0,0,639,479);
+	setcolor(3);
+	rectangle(2,2,638,478);
+	rectangle(4,4,636,476);
 }
 //------------------------------------------------
-vio_vi()
+void vio_vi()
 {
   int step=0;
   char bukva[2]="";
-#ifdef NALAD  
-  nom_func("392");
-#endif      
+  
+	nom_func("392");
+      
   if(klaval==27)
   {
     if(help==2)
@@ -179,7 +179,7 @@ m1: if(help==3)
   if(help==3)
   {
     outtextxy(600,450,"PgDn");
-    outtextxy(620,460,"");
+    outtextxy(620,460,"");
     return;
   }
 m2:

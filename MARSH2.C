@@ -4,12 +4,12 @@
 #include<stdio.h>
 #include<alloc.h>
 #include<math.h>
-finish_startMM()
+void finish_startMM()
 {
   int objekt,jj;
-#ifdef NALAD  
-  nom_func("60");
-#endif  
+  
+	nom_func("60");
+  
   if(((komanda2[0]==0)&&(fr1[trassa[0]][13]==1))||
   ((komanda2[1]==0)&&(fr1[trassa[0]][13]==2)))
   for(ukaz_trass=0;ukaz_trass<100;ukaz_trass++)
@@ -39,9 +39,9 @@ int tst_str(int S,int polog) // проверка состояния стрелки
 {
   int U;
   char op[5]="";
-#ifdef NALAD  
-  nom_func("371");
-#endif
+  
+	nom_func("371");
+
   if(fr3[S][5]==1){ w(72,S,"");return(1);}//непарафазность = неисправна стрелка 
   if(fr3[S][0]==fr3[S][1]){w(127,S,"");return(1);}//НЕ ИМЕЕТ КОНТРОЛЯ СТРЕЛКА
   if(fr4[S][2]==1){w(71,S,"");return(1);}//ЗАПРЕЩЕНО ДВИЖЕНИЕ ПО СТРЕЛКЕ 
@@ -98,9 +98,9 @@ figovo:
 int zanyat(int pu,int avto)
 {
   int op=pu;
-#ifdef NALAD
-  nom_func("431");
-#endif
+
+	nom_func("431");
+
   if(fr3[pu][0]==0) return(0);//если свободен - выйти с разрешением
 
    //если аварийный перевод стрелок и маркер на стрелке - разрешить
@@ -122,9 +122,9 @@ int zanyat(int pu,int avto)
 int zamknut(int pu,int avt)
 {
 	int MSP,BIT_MSP;
-#ifdef NALAD
+
 	nom_func("429");
-#endif
+
 
 	if((fr3[pu][1]!=0)||(fr3[pu][12]!=0))//участок замкнут
 	{
@@ -181,9 +181,9 @@ int zamknut(int pu,int avt)
 //----------------------------------------------------------
 int razdelan(int pu,int av)
 {
-#ifdef NALAD
+
 	nom_func("264");
-#endif
+
 	if(fr3[pu][2]==0) return(0);
 	if(av!=1)
 	{
@@ -198,9 +198,9 @@ int tst_spu(int P,int avt)
   int k;//номер объекта в массиве BEDA
   unsigned int Test;
   char op[13];
-#ifdef NALAD  
-  nom_func("370");
-#endif    
+  
+	nom_func("370");
+    
   for(k=0;k<10;k++)if((BEDA[k]&0xfff)==P)break;
   if(k==10)for(k=0;k<10;k++)if(BEDA[k]==0)break;
   if(k==10)for(k=0;k<10;k++)BEDA[k]=0;
@@ -239,9 +239,9 @@ brak:
 int zap_matr(int object)
 {
   int pereskok,ukaz_tek,ukaz_zap,tek_obkt,i,j,shag;
-#ifdef NALAD  
-  nom_func("434");
-#endif       
+  
+	nom_func("434");
+       
   for(i=0;i<10;i++)for(j=0;j<5;j++)SP_STR[i][j]=0xFFFF;
   tek_obkt=object;
   ukaz_tek=0;
@@ -524,9 +524,9 @@ k11:    if(fr1[tek_obkt][0]!=1)//если не вышли на стрелку
 int v_spiske(int ob)
 {
   int i;
-#ifdef NALAD  
-  nom_func("387");
-#endif      
+  
+	nom_func("387");
+      
   for(i=1;i<10;i++)
   if(SP_STR[i][0]==ob)return(i);
   return(0);
@@ -537,9 +537,9 @@ int cvet_matr()
 {
   int prohod=0,cod,cvet_sp,SP,STREL,stroka_str,ukaz_strok=0,i,cvet_strel,
   str_plus,str_minus,avto_voz,msp,bt_msp;
-#ifdef NALAD
-  nom_func("29");
-#endif
+
+	nom_func("29");
+
   SP=SP_STR[ukaz_strok][0];//получить номер объекта для СП
   cod=fr3[SP][0]+//занятость
   fr3[SP][1]*2+//замкнутость
@@ -692,13 +692,13 @@ c_metka:
 }
 /***********************************************************/
 //процедура рисования стрелки и СП
-ris_sp_str()
+void ris_sp_str()
 {
 	int objekt,ob_dop,pol_dop,cvet,coor[16],ukaz_str=0,i,wid,tip,
 	coor1[16],znak_vet,znak_vhod,dx=0,dy=0,dlinax=0,dlinay=0;
-#ifdef NALAD
+
 	nom_func("288");
-#endif
+
 	while(SP_STR[ukaz_str][0]!=0xFFFF)//пройти по всем строкам
 	{
 		objekt=SP_STR[ukaz_str][0];//получить объект
@@ -899,42 +899,43 @@ ris_sp_str()
   return;
 }
 //---------------------------------------------------------
-ris_trassa()
+void ris_trassa()
 {
-  int ind,tst;
-#ifdef NALAD  
-  nom_func("289");
-#endif          
-  for(ind=0;ind<100;ind++)
-  {
-    if(trassa[ind]==0xFFFF)break;
-    if(fr1[trassa[ind]][0]==1)displaystrelka(trassa[ind]&0xFFF,0,0);
-    if(fr1[trassa[ind]][0]==3)sekci(trassa[ind]);
-    if(fr1[trassa[ind]][0]==4)displaypathuch(trassa[ind]);
-    if(fr1[trassa[ind]][0]==5)displaypath(trassa[ind],10);
-  }
+	int ind,tst;
+
+	nom_func("289");
+
+	for(ind=0;ind<100;ind++)
+	{
+		if(trassa[ind]==0xFFFF)break;
+		if(fr1[trassa[ind]][0]==1)displaystrelka(trassa[ind]&0xFFF,0,0);
+		if(fr1[trassa[ind]][0]==3)sekci(trassa[ind],9999);
+		if(fr1[trassa[ind]][0]==4)displaypathuch(trassa[ind]);
+		if(fr1[trassa[ind]][0]==5)displaypath(trassa[ind],10);
+	}
 }
 //-------------------------------------------------------
-displaypath(int oik,int bot)
+void displaypath(int oik,int bot)
 { //процедура отображения на экране путей для изменения состояния бита bot
   int x1,y1,x2,y2,x3,y3,y4,x4,xl,xr,xc,yc,nom,R,pm,
-  bit_npo_chpo,znach,cod,napr,ob_km,bit_km;
-  char noo[5],cod_ni_chi=0;
-#ifdef NALAD  
-  nom_func("39");
-#endif      
-  if((klo==1)||(help!=0)||(nikuda==1))return;
-  if(bot==5)
+	bit_npo_chpo,znach,cod,napr,ob_km,bit_km;
+	char noo[5],cod_ni_chi=0;
+	int poly[10];
+	nom_func("39");
+      
+	if((klo==1)||(help!=0)||(nikuda==1))return;
+	if(bot==5)
   if(fr3[oik][5]==1)slom_interf(oik);// если выявлена непарафазность
+ 
   if((bot==4)&&(TELEUP==1))//если бит ложной занятости
-
-	{
+	{//если информация о КМ не в информации о пути
 		if(fr3[oik][4]==1)
 		{
 			if(tst_fix(oik,4))slom_uch(oik,'З');// если получена ложная занятость
 			fix(oik,4);
     }
   }
+	
   if((bot==3)&&(TELEUP==1))//если бит ложной свободности
   { // если изменения в бите ложной свободности
    if((fr3[oik][3]==1)&&(TEST_N==0))
@@ -943,15 +944,19 @@ displaypath(int oik,int bot)
    	fix(oik,3);
    }
   }
+	
   if(bot!=5)pooo[oik]=0L;//если изменения не в бите непарафазности сброс таймера
-  setlinestyle(0,0,3);// установить толстую линию
-  //взять координаты
+  
+	setlinestyle(0,0,3);// установить толстую линию
+  
+	//взять координаты
   x1=fr2[oik][0];y1=fr2[oik][1];x2=fr2[oik][2];y2=fr2[oik][3];
   x3=fr2[oik][4];y3=fr2[oik][5];x4=fr2[oik][6];y4=fr2[oik][7];
-  setcolor(cvv);// установить цвет фона
+	setcolor(cvv);// установить цвет фона
   line(x1,y1,x2,y2);// стереть путь
-  if(x3!=0) line(x3,y3,x4,y4);
-  if(fr1[oik][7]<8888)// если это участок приближения автоблокировки
+	if(x3!=0) line(x3,y3,x4,y4);
+  
+	if(fr1[oik][7]<8888)// если это участок приближения автоблокировки
   {
     nom=fr1[oik][7];// взять номер для участка приближения
     uch_udal(nom,oik,0);// нарисовать участок приближения
@@ -981,9 +986,9 @@ displaypath(int oik,int bot)
       if(fr1[oik][7]==8888)// если это участок приближения полуавтоматики
       {
         nom=fr1[oik][9];//датчик занятия перегона по приему НПО/ЧПО
-        bit_npo_chpo=fr1[oik][10];//бит НПО/ЧПО
+				bit_npo_chpo=fr1[oik][10];//бит НПО/ЧПО
         znach=fr1[oik][11];//значения НПО/ЧПО бита для приема
-        napr=fr1[oik][12];//направления для приема
+				napr=fr1[oik][12];//направления для приема
         cod=fr3[nom][bit_npo_chpo]*2+fr3[oik][0];//совокупный код
         if(fr3[nom][bit_npo_chpo]==znach)//если перегон в заданном состоянии
           if(fr3[oik][0]==1)//если участок приближения занят
@@ -997,6 +1002,7 @@ displaypath(int oik,int bot)
 #endif
     setcolor(LIGHTRED);setlinestyle(0,0,3);//толстая красная линия
   }
+	
   if(fr3[oik][0]==0)//если освободился
   {
     if((fr1[oik][7]>1)&&(fr1[oik][7]!=9999))// если участок удаления
@@ -1012,10 +1018,11 @@ displaypath(int oik,int bot)
       }
     }
   }
+	
   if(fr3[oik][5]==1)// если непарафазность
   {
-    setcolor(LIGHTCYAN);
-    setlinestyle(0,0,0);
+		setcolor(LIGHTCYAN);
+		setlinestyle(0,0,0);
   }
   if(fr1[oik][8]==1010)// если закрываемый путь
     if((fr1[oik][10]==9999)||(fr1[oik][7]==100))//если могут быть маршруты на путь
@@ -1028,26 +1035,44 @@ displaypath(int oik,int bot)
     xc=markery[R][4];
     yc=markery[R][5];
   }
+	
   if((fr4[oik][2]==1)&&(fr1[oik][9]!=9999)&&
   (fr1[oik][7]==9999))
   // если путь закрыт для движения
   { setcolor(LIGHTRED);outtextxy(xc,yc,pako[oik]);}
+
   if((fr4[oik][2]==0)&&(fr1[oik][9]!=9999)&&
   (fr1[oik][7]==9999))
   // если путь открыт для движения
-  { if((i3==fr1[oik][9])||(modi==fr1[oik][9]))setcolor(15);//если маркер на объекте
-
+	{ if((i3==fr1[oik][9])||(modi==fr1[oik][9]))setcolor(15);//если маркер на объекте
     else   setcolor(8);
-    outtextxy(xc,yc,pako[oik]);
-  }
-  setlinestyle(0,0,0);
-  if((fr1[oik][8]==1010)||(fr1[oik][8]==1011))
+		outtextxy(xc,yc,pako[oik]);
+	}
+	setlinestyle(0,0,0);
+
+
+	if(fr4[oik][1]==1)
+	{
+		xc=xc+textwidth(pako[oik])+8;
+//		+ strlen(pako[oik])*8 + 4;
+		setcolor(LIGHTRED);
+		poly[0] = xc;   poly[1] = yc;
+		poly[2] = xc-4; poly[3] = yc+4;
+		poly[4] = xc;   poly[5] = yc+4;
+		poly[6] = xc-4; poly[7] = yc+8;
+		poly[8] = xc-2; poly[9] = yc+8;
+		drawpoly(5,poly);
+		line(xc-4,yc+6,xc-4,yc+8);
+
+	}
+  
+	if((fr1[oik][8]==1010)||(fr1[oik][8]==1011))
   { if(fr2[oik][0]<fr2[oik][2])
     { xl=fr2[oik][0]; //координата левого края пути
       xr=fr2[oik][2];
     }
     else
-    {
+		{
       xl=fr2[oik][2];
       xr=fr2[oik][0];
     }
@@ -1080,7 +1105,7 @@ displaypath(int oik,int bot)
       //"ни" справа,"ни" под током,"чи" под током, парафазность в норме
       case 3:
       case 7:
-             setcolor(10);line(xr-5,yc-1,xr-10,yc-3);line(xr-5,yc+1,xr-10,yc+3);
+						 setcolor(10);line(xr-5,yc-1,xr-10,yc-3);line(xr-5,yc+1,xr-10,yc+3);
                           line(xl+5,yc-1,xl+10,yc-3);line(xl+5,yc+1,xl+10,yc+3);
                           break;
       //"ни" слева,"ни" без тока,"чи" под током, парафазность в норме
@@ -1097,6 +1122,7 @@ displaypath(int oik,int bot)
                           break;
     }
   }
+
   if((fr1[oik][11]!=9999)&&(fr1[oik][11]>1))
   {
     ob_km=fr1[oik][11]&0xFFF;
@@ -1106,7 +1132,7 @@ displaypath(int oik,int bot)
   if((fr1[oik][12]!=9999)&&(fr1[oik][12]>1))
   {
     ob_km=fr1[oik][12]&0xFFF;
-    bit_km=(fr1[oik][12]&0xF000)>>12;
+		bit_km=(fr1[oik][12]&0xF000)>>12;
     KM_put(ob_km,bit_km);
   }
 #ifdef kol_STY
@@ -1114,32 +1140,32 @@ displaypath(int oik,int bot)
 #endif
 }
 //------------------------------------------------------------
-displaypathuch(int Kp)
+void displaypathuch(int Kp)
 {
-  int f,r0,r1,r2,nio;
-  int Wide,Colo,Sty;
-#ifdef NALAD  
-  nom_func("40");
-#endif
-  if((nikuda==1)||(klo==1)||(help!=0)) return;
-  if(TELEUP==1)//если бит ложной занятости
-  {
-    if(fr3[Kp][4]==1)
-    {
-			if(tst_fix(Kp,4))slom_uch(Kp,'З');// если получена ложная занятость
-      fix(Kp,4);
-    }
-   	if(fr3[Kp][3]==1)
+	int f,r0,r1,r2,nio;
+	int Wide,Colo,Sty;
+
+	nom_func("40");
+
+	if((nikuda==1)||(klo==1)||(help!=0)) return;
+	if(TELEUP==1)//если бит ложной занятости
+	{
+		if(fr3[Kp][4]==1)
 		{
-      if(tst_fix(Kp,3))slom_uch(Kp,'C');//если игнорировать тест пути
-      fix(Kp,3);
-    }
-  }
-  setlinestyle(0,0,3);setcolor(cvv);
-  line(fr2[Kp][0],fr2[Kp][1],fr2[Kp][2],fr2[Kp][3]);
-  if(fr2[Kp][4]!=0)line(fr2[Kp][4],fr2[Kp][5],fr2[Kp][6],fr2[Kp][7]);
-  if(fr2[Kp][8]!=0)line(fr2[Kp][8],fr2[Kp][9],fr2[Kp][10],fr2[Kp][11]);
-  r0=fr3[Kp][0];r1=fr3[Kp][1];r2=fr3[Kp][2];
+			if(tst_fix(Kp,4))slom_uch(Kp,'З');// если получена ложная занятость
+			fix(Kp,4);
+		}
+		if(fr3[Kp][3]==1)
+		{
+			if(tst_fix(Kp,3))slom_uch(Kp,'C');//если игнорировать тест пути
+			fix(Kp,3);
+		}
+	}
+	setlinestyle(0,0,3);setcolor(cvv);
+	line(fr2[Kp][0],fr2[Kp][1],fr2[Kp][2],fr2[Kp][3]);
+	if(fr2[Kp][4]!=0)line(fr2[Kp][4],fr2[Kp][5],fr2[Kp][6],fr2[Kp][7]);
+	if(fr2[Kp][8]!=0)line(fr2[Kp][8],fr2[Kp][9],fr2[Kp][10],fr2[Kp][11]);
+	r0=fr3[Kp][0];r1=fr3[Kp][1];r2=fr3[Kp][2];
   r1=r1*2;r2=r2*4;f=r0+r1+r2;
   switch(f)
   {
@@ -1147,7 +1173,7 @@ displaypathuch(int Kp)
             else
              if(fr3[fr1[Kp][11]][fr1[Kp][12]]==1)
               {Wide=3;Sty=0;Colo=MAGENTA;}
-              else{Wide=0;Sty=0;Colo=8;}
+							else{Wide=0;Sty=0;Colo=8;}
             break;
     case 1: Colo=12;Wide=0;Sty=0;break;
     case 2: Colo=14;Wide=3;Sty=0;break;
@@ -1180,23 +1206,23 @@ fin:
         setcolor(LIGHTRED);
         outtextxy(xc,yc,pako[Kp]);
       }
-      if(fr4[Kp][2]==0)// если открыт для движения
-      {
-        if(i3==fr1[Kp][9]|modi==fr1[Kp][9])setcolor(15);//если маркер на объекте
-        else   setcolor(8);
-        outtextxy(xc,yc,pako[Kp]);
-      }
-    }
-    return;
-  }
+			if(fr4[Kp][2]==0)// если открыт для движения
+			{
+				if(i3==fr1[Kp][9]|modi==fr1[Kp][9])setcolor(15);//если маркер на объекте
+				else   setcolor(8);
+				outtextxy(xc,yc,pako[Kp]);
+			}
+		}
+		return;
+	}
 }
 //-----------------------------------------------------------------
 /**************************************/
-sekos(int nom,int bt_)
+void sekos(int nom,int bt_)
 {
-#ifdef NALAD  
-  nom_func("297");
-#endif
+  
+	nom_func("297");
+
 // если этот объект - МСПД
 	if((fr1[nom][1]==19)||(fr1[nom][1]==199))
 	{
@@ -1208,24 +1234,24 @@ sekos(int nom,int bt_)
 #endif
 }
 /**********************************/
-sekci(int koh,int bot)
+void sekci(int koh,int bot)
 {
 	int fas,pm,colorit=0,i_str,strel,ui,xl,yl,str,sig,bt_zam,p,kod,para,
 	stl,stp,spl,spp,zm_sp;
-#ifdef NALAD
-  nom_func("296");
-#endif
-  if(fr1[koh][1]==27){uksps(koh);return;}
+
+	nom_func("296");
+
+	if(fr1[koh][1]==27){uksps(koh);return;}
 	if(bot==9999){ colorit=37;goto opa;}
 	if((fr1[koh][1]==301)||(fr1[koh][1]==302))//если это кнопка ГСП или ИВ
-  {
-    krasit_knopki(koh,bot);
-    if(prorisovka==0)
+	{
+		krasit_knopki(koh,bot);
+		if(prorisovka==0)
 #ifdef GRI
-    if((fr3[koh][2]==1)&&(fr3[fr1[koh][11]][fr1[koh][12]]==0))
-    neisprav_na_disk('$',pako[markery[GRI][6]]);
+		if((fr3[koh][2]==1)&&(fr3[fr1[koh][11]][fr1[koh][12]]==0))
+		neisprav_na_disk('$',pako[markery[GRI][6]]);
 #endif
-    return;
+		return;
   }
   if((fr1[koh][1]>=200)&&(fr1[koh][1]<=300))//если это кнопки разделки
   {
@@ -1258,7 +1284,7 @@ opa:
     if((bot==1)&&(ZAGRUZKA==0))//если бит замыкания
     {
       if(fr3[koh][1]==0)fr3[koh][12]=fr3[koh][12]&0xfff0;//если разомкнулась
-      else
+			else
       ui=0;
       for(ui=7;ui<=11;ui++)//пройти по всем сигналам
       {
@@ -1274,7 +1300,7 @@ opa:
         }
         else
 				for(i_str=3;i_str<9;i_str++)
-        {
+				{
           if(fr2[sig][i_str]==0)break;
           str=fr2[sig][i_str]&0xfff;//получить номер для стрелки
           p=(fr2[sig][i_str]&0xf000)>>12;//получить тип замыкания
@@ -1307,7 +1333,7 @@ opa:
                       }
                       else //если все сигналы закрыты
                       {
-                        if(fr3[koh][1]==0)//если СП разомкнута
+												if(fr3[koh][1]==0)//если СП разомкнута
 												fr4[str][0]=fr4[str][0]&0xfff7;
                       }
                     }
@@ -1340,7 +1366,7 @@ opa:
 												if(fr3[koh][1]==0)//если СП разомкнута
                         fr4[str][0]=fr4[str][0]&0xffef;
                       }
-                    }
+										}
                     break;
             //четное - нечетное поездные
 						case 6:   if((kod==1)||(kod==3))//если поездной сигнал открыт
@@ -1474,11 +1500,11 @@ opa:
 final:
 }
 //----------------------------------------------------------------
-menu_hoz_poezd(int npr)
+void menu_hoz_poezd(int npr)
 {
-#ifdef NALAD  
-  nom_func("170");
-#endif       
+  
+	nom_func("170");
+       
   setlinestyle(0,0,0);setcolor(8);rectangle(400,0,638,28);
   if(npr==0)
   { setfillstyle(1,10);

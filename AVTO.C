@@ -5,7 +5,7 @@
 int prov_avtod1(int nono)
 {
   int st;
-  // #ifdef NALAD     nom_func("244"); #endif
+  //      nom_func("244"); #endif
 	if(na==1)
 	{for(st=0;st<2;st++)if(nono==Avto_el[st].Beg_s)return(st);}
 	if(cha==1)
@@ -16,9 +16,9 @@ int prov_avtod1(int nono)
 void prov_avto_si(int nom)
 {
   int tost=0;
-#ifdef NALAD  
-  nom_func("243");
-#endif          
+  
+	nom_func("243");
+          
   tost=prov_avtod1(nom);
   if(tost==-1) return;
   w(157,nom,"");//автодействие снято: перекрыт сигнал №nom
@@ -27,11 +27,11 @@ void prov_avto_si(int nom)
   else snyato_avto(2);
 }
 //-----------------------------------------------------------------
-snyato_avto(int kakoe)
+void snyato_avto(int kakoe)
 {
-#ifdef NALAD
-  nom_func("311");
-#endif
+
+	nom_func("311");
+
  // if(STATUS!=1) return;//для не основной выход
  // if(TELEUP!=1) return;//для не телеуправления выход
   switch(kakoe)//переключатель по виду автодействия
@@ -42,10 +42,10 @@ snyato_avto(int kakoe)
   }
 }
 //---------------------------------------------------------
-snyato_nechet()
+void snyato_nechet()
 { //процедура снятия нечетного автодействия
   int cj;
-//#ifdef NALAD   nom_func("313"); #endif
+//   nom_func("313"); #endif
   //пройти по стрелкам нечетного автодействия
   for(cj=0;cj<N_str;cj++)vkl_(N_strel[cj],1);//включить управление стрелками
   na=0;//сбросить флаг нечетного автодействия
@@ -53,12 +53,12 @@ snyato_nechet()
   vkl_kno(NANA,8);//кнопку нечетного автодействия покрасить серым цветом
 }
 //-------------------------------------------------------
-snyato_chet()
+void snyato_chet()
 { //процедура снятия четного автодействия
   int cj;
-#ifdef NALAD
-  nom_func("312");
-#endif
+
+	nom_func("312");
+
   for(cj=0;cj<CH_str;cj++)//пройти по стрелкам четного автодействия
   vkl_(C_strel[cj],0);//включить управление стрелкой
   cha=0;
@@ -66,32 +66,35 @@ snyato_chet()
   vkl_kno(CHACHA,8);//кнопку четного автодействия покрасить серым цветом
 }
 //------------------------------------------
-t_str(int no) //проверка стрелки при включении автодействия
+ //проверка стрелки при включении автодействия
+int t_str(int no, int povtor)
 {
-  int U=0,povtor;
-#ifdef NALAD
-  nom_func("331");
-#endif
-  if(fr3[no][5]==1)//если данные непарафазны
-  {w(72,no,"");return(1);} // неисправна стрелка
+	int U=0;
 
-  if(fr3[no][0]==fr3[no][1])//если не плюс и не минус
-  { w(127,no,"");return(1);}//НЕ ИМЕЕТ КОНТРОЛЯ СТРЕЛКА
+	nom_func("331");
 
-  
-  if(fr4[no][2]==1)//если стрелка закрыта для движения
-  {w(71,no,"");return(1);}//"ЗАПРЕЩЕНО ДВИЖЕНИЕ ПО СТРЕЛКЕ..."
+	if(fr3[no][5]==1)//если данные непарафазны
+	{w(72,no,"");return(1);} // неисправна стрелка
 
-  if(fr4[no][1]==1)//если стрелка на макете
-  {w(99,no," ВКЛЮЧЕНА НА МАКЕТ");return(1);}
-  if((fr3[no][0]==0)&&( fr3[no][1]==1))//если стрелка в минусе
-  {w(126,no,"");return(1);} //НЕ ПО МАРШРУТУ СТРЕЛКА
-  
-  if(fr1[no][12]!=9999)//если стрелка спаренная
-  { if(povtor==0)//если первый проход
-    { TEST=2;
-      povtor=1;U=poisk_ras(fr1[no][2],no);//найти парную стрелку
-      if(t_str(U)==1)return(1);//вызвать рекурсивно эту процедуру
+	if(fr3[no][0]==fr3[no][1])//если не плюс и не минус
+	{ w(127,no,"");return(1);}//НЕ ИМЕЕТ КОНТРОЛЯ СТРЕЛКА
+
+
+	if(fr4[no][2]==1)//если стрелка закрыта для движения
+	{w(71,no,"");return(1);}//"ЗАПРЕЩЕНО ДВИЖЕНИЕ ПО СТРЕЛКЕ..."
+
+	if(fr4[no][1]==1)//если стрелка на макете
+	{w(99,no," ВКЛЮЧЕНА НА МАКЕТ");return(1);}
+
+	if((fr3[no][0]==0)&&( fr3[no][1]==1))//если стрелка в минусе
+	{w(126,no,"");return(1);} //НЕ ПО МАРШРУТУ СТРЕЛКА
+
+	if(fr1[no][12]!=9999)//если стрелка спаренная
+	{ if(povtor==0)//если первый проход
+		{ TEST=2;
+			povtor=1;
+			U=poisk_ras(fr1[no][2],no);//найти парную стрелку
+			if(t_str(U,povtor)==1)return(1);//вызвать рекурсивно эту процедуру
       povtor=0;
     }return(0);
   }
@@ -101,9 +104,9 @@ t_str(int no) //проверка стрелки при включении автодействия
 void otkl_(int nomer,int tip)
 {
   int para;
-#ifdef NALAD
-  nom_func("206");
-#endif
+
+	nom_func("206");
+
   if(tip==0)fr4[nomer][0]=fr4[nomer][0]|0x2;
   else fr4[nomer][0]=fr4[nomer][0]|0x4;
   nach_zakr(nomer,1);
@@ -117,14 +120,14 @@ void otkl_(int nomer,int tip)
   return;
 }
 //---------------------------------------------------------
-vkl_(int nomer,int tip)
+void vkl_(int nomer,int tip)
 //процедура включения управления для стрелки автодействия
 //tip - тип автодействия 0-четное 1-нечетное
 {
   int para;
-#ifdef NALAD
-  nom_func("393");
-#endif      
+
+	nom_func("393");
+      
   if(tip==0)fr4[nomer][0]=fr4[nomer][0]&0xfffd;
   else fr4[nomer][0]=fr4[nomer][0]&0xfffb;
   nach_zakr(nomer,1);
@@ -144,9 +147,9 @@ vkl_(int nomer,int tip)
 //tip=0 -для проверки открываемого сигнала
 int prov_si_avtod(int oi,int tip)
 { int mar,element;
-#ifdef NALAD  
-  nom_func("251");
-#endif        
+  
+	nom_func("251");
+        
   if(na==1)//если нечетное автодействие
   for(mar=0;mar<2;mar++)
   { for(element=0;element<K_EL;element++)//если открытый сигнал входит
@@ -180,9 +183,9 @@ int prov_si_avtod(int oi,int tip)
 int prov_ele_avtod(int oi)
 {
 	int mar,element;
-#ifdef NALAD  
+  
 	nom_func("245");
-#endif          
+          
 	if(na==1)
 	for(mar = 0; mar < 2; mar++)
 	{ 
@@ -213,28 +216,34 @@ void avto()
 {
   int ci=0;
   unsigned char KOD,avtod;
-#ifdef NALAD
-  nom_func("11");
-#endif
+
+	nom_func("11");
+
   avtod=0;
   if(klaval==13)//если нажата Enter
   {//если ПЭВМ не основная:"НЕВОЗМОЖНА ВЫДАЧА КОМАНДЫ С РЕЗЕРВНОЙ ПЭВМ"
     if(STATUS!=1){ w(140,999,"");goto end;}
-   //если отключено телеуправление:
-   //"ТЕЛЕУПРАВЛЕНИЕ ОТКЛЮЧЕНО-КОМАНДЫ НЕ ВОЗМОЖНЫ"
-    if(TELEUP!=1){ w(58,999,"");goto end;}
-   //если нажата НАС и было включено нечетное автдействие:
-   //"ПОСЫЛАЕМ КОМАНДУ НА ВЫКЛ. АВТОДЕЙСТВИЯ ПО 1П"
-    if((markery[modi][7]==777)&&(na==1))
-    {w(103,999,"");snyato_nechet();KOD='@';avtod='n';}
-    else
-   //если нажата ЧАС и было включено четное автодействие:
-    //"ПОСЫЛАЕМ КОМАНДУ НА ВЫКЛ. АВТОДЕЙСТВИЯ ПО 2П снять четное"
-    if((markery[modi][7]==778)&&(cha==1))
-    { w(102,999,"");snyato_chet();KOD='@';avtod='c';}
-    else
-    { // если нажата НАС и не было нечетного
-      if(markery[modi][7]-777==0)
+
+	 //если отключено телеуправление:
+	 //"ТЕЛЕУПРАВЛЕНИЕ ОТКЛЮЧЕНО-КОМАНДЫ НЕ ВОЗМОЖНЫ"
+		if(TELEUP!=1){ w(58,999,"");goto end;}
+
+	 //если нажата НАС и было включено нечетное автдействие:
+	 //"ПОСЫЛАЕМ КОМАНДУ НА ВЫКЛ. АВТОДЕЙСТВИЯ ПО 1П"
+		if((markery[modi][7]==777)&&(na==1))
+		{
+			w(103,999,"");
+			snyato_nechet();
+			KOD='@';
+			avtod='n';}
+		else
+	 //если нажата ЧАС и было включено четное автодействие:
+		//"ПОСЫЛАЕМ КОМАНДУ НА ВЫКЛ. АВТОДЕЙСТВИЯ ПО 2П снять четное"
+		if((markery[modi][7]==778)&&(cha==1))
+		{ w(102,999,"");snyato_chet();KOD='@';avtod='c';}
+		else
+		{ // если нажата НАС и не было нечетного
+			if(markery[modi][7]-777==0)
       { //если в двух маршрутах есть возможность автодействия
         if((tst_pos(0)==0)&&(tst_pos(1)==0))
         { na=1;//установить признак включения нечетного автодействия
@@ -258,7 +267,7 @@ void avto()
       }
     }
 end://курсор вернуть "домой"
-    form_kom_avtod();
+		form_kom_avtod();
     add(10,'=');
     home(modi);modi=-1;oppp=0;puti=0;
     return;
@@ -269,11 +278,11 @@ end://курсор вернуть "домой"
 //проверка элементов входящих в трассу автодействия
 int tst_elo(int nom)
 {
-#ifdef NALAD  
-  nom_func("363");
-#endif    
+  
+	nom_func("363");
+    
   switch(fr1[nom][0])//перключатель по типу контролируемого элемента
-  { case 1: if(t_str(nom)==0) return(0);//для стрелки
+  { case 1: if(t_str(nom,0)==0) return(0);//для стрелки
             else return(1);
     case 2: if(fr1[nom][2]==5)return(0);//для смены направления
             else
@@ -296,14 +305,14 @@ int tst_elo(int nom)
 //автодействия для маршрута номер punkt
 int tst_pos(int punkt)
 { int oo=0;
-#ifdef NALAD  
+  
   nom_func("366");
-#endif  
+  
   if(fr3[Avto_el[punkt].Beg_s][1]==0)//если сигнал начала закрыт
   { w(79,Avto_el[punkt].Beg_s,"");//выдать текст "ЗАКРЫТ СИГНАЛ"
     soob_for_oper=1;
     return(1);
-  }
+	}
   //пройти по всем элементам маршрута  
   while((Avto_el[punkt].Elems[oo]!=9999)&&(oo<K_EL))
   { //если элемент не допускает автодействия
@@ -318,7 +327,8 @@ int tst_pos(int punkt)
 //--------------------------------------------------
 void make_avtod()
 {
-	// #ifdef NALAD nom_func("147");#endif
+	nom_func("147");
+
 	if(DISK != 0)
 	return;
   poka=0;

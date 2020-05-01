@@ -30,7 +30,7 @@ main()
 //  initgraph(&driv,&GraphMode,"");
   errorcode = graphresult();
   GraphMode=VGAHI;
-  USER_FONT= registerbgifont(small_font);
+	USER_FONT= registerbgifont(small_font);
   settextstyle(USER_FONT,0,4);  //--------------------- seg012:00DE
 povtor:
   for(iNt=0;iNt<skoko_stoek;iNt++)
@@ -50,28 +50,12 @@ povtor:
 		for(ii=0;ii<=3;ii++)
     {
       ly[iNt][ii]='@';
-      lz[iNt][ii]='@';
+			lz[iNt][ii]='@';
       lc[iNt][ii]='@';
       ls[iNt][ii]='@';
     }
 	}
-//СОЗДАНИЕ КОНТРОЛЬНОГО ФАЙЛА БАЗЫ ДАННЫХ
-  BAZA=creat("dat\\baza.bin",S_IWRITE|O_BINARY); //----- seg012:02F2
-  for(ic=0;ic<kol_VO;ic++)
-  {
-    for(iNt=0;iNt<14;iNt++)
-    {
-      str_baz[iNt*2]=(fr1[ic][iNt]&0xff00)>>8;
-      str_baz[iNt*2+1]=fr1[ic][iNt]&0xff;
-    }
-    ik=CalculateCRC8(fr1[ic],14);
-    str_baz[28]=(ik&0xff00)>>8;
-    str_baz[29]=ik&0xff;
-    ii=_write(BAZA,&str_baz,32);
-  }
-	if(BAZA>0)
-	ii = close(BAZA);
-	BAZA = 0; //------------------------ seg012:03F3
+
 
 //  for(iNt=0;iNt<skoko_stoek;iNt++){otkaz_ts[iNt]=1;otkaz_tu[iNt]=1;}
 
@@ -115,33 +99,9 @@ povtor:
   UKAZ_VYVOD=0;
   UKAZ_PRIEMA_PVM=0;
   N_OGR=0;
-  nosound();NEISPRAVEN=1;
-  //получение даты
-  _dos_getdate(&dat);
-  //формирование текстового формата и получение имени суточного архива
-	strcpy(NAME_FILE,"RESULT//");
-	if(dat.day<10){NAME_FILE[8]=0x30;NAME_FILE[9]=dat.day|0x30;}
-	else {NAME_FILE[8]=(dat.day/10)|0x30;NAME_FILE[9]=(dat.day%10)|0x30;}
-	if(dat.month<10){NAME_FILE[10]=0x30;NAME_FILE[11]=dat.month|0x30;}
-	else {NAME_FILE[10]=(dat.month/10)|0x30;NAME_FILE[11]=(dat.month%10)|0x30;}
-	strcat(NAME_FILE,".ogo");
-	NAME_FILE[16]=0;
-	//открытие или создание файла суточного архива
-	file_arc=open(NAME_FILE,O_APPEND|O_RDWR,O_BINARY);
-	if(file_arc<0)
-	{ iNt=mkdir("result");
-		file_arc=open(NAME_FILE,O_CREAT|O_TRUNC|O_APPEND|O_RDWR,S_IWRITE|O_BINARY);
-	}
-	if(file_arc<0)
-	{ clscreen(); moveto(100,100); setcolor(14);
-		outtext("Нарушение файловой структуры,работа невозможна");
-		getch();
-		exit(1);
-	}
-	if(file_arc>0)
-	ii=close(file_arc);
-	file_arc=0;
-	read_t(0); //формирование строки текущего времени TIME
+  nosound();
+	NEISPRAVEN=1;
+  
 	fl=open("dat\\tranc.svs",O_RDONLY|O_BINARY,S_IWRITE | S_IREAD);
 	if(fl==-1)
 	{
@@ -152,9 +112,63 @@ povtor:
 		getch();
 		exit(1);
 	}
+	
 	formula(fl);//считывание данных для организации каналов обмена данными
 	if(fl>0)close(fl);
 	fl=0;
+
+	
+	if(notHDD == 0)
+	{
+		//СОЗДАНИЕ КОНТРОЛЬНОГО ФАЙЛА БАЗЫ ДАННЫХ
+		BAZA=creat("dat\\baza.bin",S_IWRITE|O_BINARY); //----- seg012:02F2
+		for(ic=0;ic<kol_VO;ic++)
+		{
+			for(iNt=0;iNt<14;iNt++)
+			{
+				str_baz[iNt*2]=(fr1[ic][iNt]&0xff00)>>8;
+				str_baz[iNt*2+1]=fr1[ic][iNt]&0xff;
+			}
+			ik=CalculateCRC8(fr1[ic],14);
+			str_baz[28]=(ik&0xff00)>>8;
+			str_baz[29]=ik&0xff;
+			ii=_write(BAZA,&str_baz,32);
+		}
+		if(BAZA>0)
+		ii = close(BAZA);
+		BAZA = 0; //------------------------ seg012:03F3
+	}
+	//получение даты	
+	_dos_getdate(&dat);
+	
+	if(notHDD==0)
+	{	
+	
+		//формирование текстового формата и получение имени суточного архива
+		strcpy(NAME_FILE,"RESULT//");
+		if(dat.day<10){NAME_FILE[8]=0x30;NAME_FILE[9]=dat.day|0x30;}
+		else {NAME_FILE[8]=(dat.day/10)|0x30;NAME_FILE[9]=(dat.day%10)|0x30;}
+		if(dat.month<10){NAME_FILE[10]=0x30;NAME_FILE[11]=dat.month|0x30;}
+		else {NAME_FILE[10]=(dat.month/10)|0x30;NAME_FILE[11]=(dat.month%10)|0x30;}
+		strcat(NAME_FILE,".ogo");
+		NAME_FILE[16]=0;
+		//открытие или создание файла суточного архива
+		file_arc=open(NAME_FILE,O_APPEND|O_RDWR,O_BINARY);
+		if(file_arc<0)
+		{ iNt=mkdir("result");
+			file_arc=open(NAME_FILE,O_CREAT|O_TRUNC|O_APPEND|O_RDWR,S_IWRITE|O_BINARY);
+		}
+		if(file_arc<0)
+		{ clscreen(); moveto(100,100); setcolor(14);
+			outtext("Нарушение файловой структуры,работа невозможна");
+			getch();
+			exit(1);
+		}
+		if(file_arc>0)
+		ii=close(file_arc);
+		file_arc=0;
+		read_t(0); //формирование строки текущего времени TIME
+	}
 #ifdef SPDLP
 	fai=fopen("dat\\spdlp.dat","r");
 	if(fai==NULL)
@@ -169,22 +183,27 @@ povtor:
 	read_spdlp(fai);
 	if(fai!=NULL)fclose(fai);
 	fai=NULL;
-#endif
+#endif		
 	read_lex();//конвертация или открытие файла текстовых сообщений системы
   start_time_date();//получение даты и времени для ведения архива
   FIR_time=biostime(0,0L);SEC_time=FIR_time+1;
   flagoutmsg=0;//сброс флага наличия не выданной команды
   cha=0;na=0;
-  first_time=biostime(0,0L);tii=first_time;
+  first_time=biostime(0,0L);
+	tii=first_time;
   slom_interf(9000);//записать код начала работы в файл oblom#.fix
-  strcpy(bu,"( НАЧАЛО  )");add(0,'S');//зафиксировать начало работы в .ogo
+  strcpy(bu,"( НАЧАЛО  )");
+	add(0,'S');//зафиксировать начало работы в .ogo
 #ifndef WORK
     STATUS=1;//##
 #endif
   ZZagruzka(); //получить данные из стоек по всем сообщениям
-	if(file_arc>0)i_close=close(file_arc);//закрыть файл архива
-	file_arc=0;
-  for(iNt=0;iNt<=8;iNt++){bu[0][iNt]=0;bu[1][iNt]=0;}//очистить буфера ТУМС
+	if(notHDD==0)
+	{
+		if(file_arc>0)i_close=close(file_arc);//закрыть файл архива
+		file_arc=0;
+  }
+	for(iNt=0;iNt<=8;iNt++){bu[0][iNt]=0;bu[1][iNt]=0;}//очистить буфера ТУМС
   prohod_1=1;
   clscreen();//очистить экран
   kursor();//сформировать образ курсора
@@ -226,12 +245,12 @@ povtor:
 	cikl_obnov=0;obnov=0;
 	pauza=0;
 met0://---------------------начало основного цикла
-#ifdef NALAD
+
 	nom_func("146");
-#endif
+
 #ifndef WORK
 //STATUS=STAT;//##
-	STATUS=0;
+	STATUS=1;
 	TELEUP=1;//##
 #endif
   /*  n_cikl++;*/
@@ -243,31 +262,34 @@ met0://---------------------начало основного цикла
   if((pauza<2)||(menu_N!=0))goto mtk;
   pauza=0;
   if(cikl_obnov>=kol_VO)cikl_obnov=0;
-  if((obnov==0)&&(klo==0));
+	if(notHDD==0)
 	{
-		BAZA=open("dat\\baza.bin",O_RDONLY|O_BINARY);
-		if(BAZA==-1)
+		if((obnov==0)&&(klo==0));
 		{
-			w(44,999," База не открывается");
-			getch();
-			exit(0);
-		}
-		lseek(BAZA,32*cikl_obnov,0);
-		read(BAZA,str_baz,32);
-		for(ik=0;ik<15;ik++)
-		{
-			test_baz[ik]=(str_baz[ik*2]<<8)+str_baz[ik*2+1];
-			if((test_baz[ik]!=fr1[cikl_obnov][ik])&&(ik!=14))
+			BAZA=open("dat\\baza.bin",O_RDONLY|O_BINARY);
+			if(BAZA==-1)
 			{
-				w(44,cikl_obnov," 6");
+				w(44,999," База не открывается");
 				getch();
+				exit(0);
 			}
+			lseek(BAZA,32*cikl_obnov,0);
+			read(BAZA,str_baz,32);
+			for(ik=0;ik<15;ik++)
+			{
+				test_baz[ik]=(str_baz[ik*2]<<8)+str_baz[ik*2+1];
+				if((test_baz[ik]!=fr1[cikl_obnov][ik])&&(ik!=14))
+				{
+					w(44,cikl_obnov," 6");
+					getch();
+				}
+			}
+			if(BAZA>0)close(BAZA);
+			BAZA=0;
 		}
-		if(BAZA>0)close(BAZA);
-		BAZA=0;
-	}
+	}	
 	if((klo!=0)||(nikuda!=0)||(help!=0))goto mtk;
-	prorisovka=1;
+	prorisovka = 1;
 	if((markery[i3][6]==cikl_obnov)&&(i3!=0))goto out;
 //  itoa(cikl_obnov,lstr,10);
 //  setcolor(7);
@@ -276,7 +298,7 @@ met0://---------------------начало основного цикла
 //  outtextxy(600,5,lstr);
 	switch(fr1[cikl_obnov][0])
 	{
-		case 1: displaystrelka(cikl_obnov,obnov,0,0);break;
+		case 1: displaystrelka(cikl_obnov,obnov,0);break;
 		case 3: sekci(cikl_obnov,obnov);break;
 		case 2: if(fr1[cikl_obnov][1]==13)komplekt(cikl_obnov,obnov);
 						else  displaysignal(cikl_obnov,obnov);
@@ -337,7 +359,7 @@ mtk:
     for(ii=0;ii<20;ii++)
     {
       if(markery[ii][6]==9999)
-      {
+			{
         if(ii==MAKET)continue;
         ic=getpixel(markery[ii][4],markery[ii][5]);
         a=getpixel(markery[ii][4]+1,markery[ii][5]+1);
@@ -355,7 +377,7 @@ mtk:
     {
       if(otl_soob!=0xffff)
       {
-        t();
+				t(0);
         w(otl_soob,999,"");
         otl_soob=0xffff;
       }
@@ -445,7 +467,7 @@ dalee:
         int86(0x33,&regs,&regs);
         obnov_kur_mouse(X_m,Y_m);
         home(old_modi);//восстановить старый вид имени
-        setcolor(7);outtextxy(37,46,"██████████");
+				setcolor(7);outtextxy(45,46,"██████████");				
         perezap=2;
       }
       if((modi_new>=0)&&(perezap==0))//если вновь выделен объект
@@ -531,9 +553,9 @@ m1:
 kursor()
 {
   int xk=135,yk=225;
-#ifdef NALAD
-  nom_func("138");
-#endif
+
+	nom_func("138");
+
   setlinestyle(0,0,3);setlinestyle(0,0,0);setcolor(LIGHTBLUE);rectangle(xk-5,yk-2,xk+8,yk+3);
   setcolor(15);rectangle(xk-6,yk-3,xk+10,yk+4);
   setcolor(BLUE);rectangle(xk-4,yk-1,xk+9,yk+2);
@@ -543,12 +565,12 @@ kursor()
   bar(129,220,145,230);
 }
 /*****************************************************/
-Init_TEST_SOOB(int K)
+void Init_TEST_SOOB(int K)
 {
   int N_bait,N_bit,N_SOOB,i;
-#ifdef NALAD  
-  nom_func("108");
-#endif        
+  
+	nom_func("108");
+        
   if((K==1)&&(skoko_stoek==1))return;
   if(K==0)N_SOOB=KOL_SOO1;
 #ifdef KOL_SOO2
@@ -567,12 +589,12 @@ Init_TEST_SOOB(int K)
 /************************************************/
 
 /****************************************************/
-SBROS_BIT_TEST_SOOB(int K,int N_SOOB)
+void SBROS_BIT_TEST_SOOB(int K,int N_SOOB)
 {
   int N_bait,N_bit;
-#ifdef NALAD  
-  nom_func("291");
-#endif          
+  
+	nom_func("291");
+          
   if((K==1)&&(skoko_stoek==1))return;
   N_SOOB=N_SOOB-48;
   N_bait=N_SOOB/8;
@@ -590,22 +612,22 @@ SBROS_BIT_TEST_SOOB(int K,int N_SOOB)
 int TEST_BIT_SOOB(int K, int N_SOOB)
 {
   int N_bait,N_bit;
-#ifdef NALAD  
-  nom_func("337");
-#endif          
+  
+	nom_func("337");
+          
   if((K==1)&&(skoko_stoek==1))return;
   N_SOOB=N_SOOB-48;
   N_bait=N_SOOB/8;
-  N_bit=N_SOOB%8;
-  return(TEST_SOOB[K][N_bait]&(1<<N_bit));
+	N_bit=N_SOOB%8;
+	return(TEST_SOOB[K][N_bait]&(1<<N_bit));
 }            
 /**************************************************************/
 int TEST_SUM_SOOB()
 {
   int sum,i;
-#ifdef NALAD  
-  nom_func("353");
-#endif    
+  
+	nom_func("353");
+    
   sum=0;
   for(i=0;i<=6;i++)sum=sum+TEST_SOOB[0][i];
 #ifdef KOL_SOO2
@@ -616,7 +638,7 @@ int TEST_SUM_SOOB()
 }
 /******************************************************************/
 #ifdef MOUSE
-mouse_init()
+void mouse_init()
 {
   union REGS regs;
 //  regs.x.ax=0; // установить драйвер мыши в исходное
@@ -625,9 +647,9 @@ mouse_init()
   int ik;
   unsigned char kur[64];
   struct SREGS segregs;
-#ifdef NALAD  
-  nom_func("174");
-#endif     
+  
+	nom_func("174");
+     
   for(ik=0;ik<64;ik++)kur[ik]=0;
 
   regs.x.ax=9; // задать пустое изображение для курсора
@@ -646,7 +668,7 @@ mouse_init()
   regs.x.dx=X_MAX;
   int86(0x33,&regs,&regs);
 //  *************************************
-  regs.x.ax=8;// задать пределы движения по вертикали
+	regs.x.ax=8;// задать пределы движения по вертикали
   regs.x.cx=Y_MIN;
   regs.x.dx=Y_MAX;
   int86(0x33,&regs,&regs);
@@ -670,9 +692,9 @@ int mouse()
   unsigned int size_x=0,size_y=0;
   int delta,N_m,ost;
   char nom_obj[3],X_mous[5],Y_mous[5];
-#ifdef NALAD
-  nom_func("173");
-#endif
+
+	nom_func("173");
+
   regs.x.bx=0; //выбираем левую клавишу
   regs.x.ax=5; // получить информацию о нажатии
   int86(0x33,&regs,&regs);
@@ -790,46 +812,46 @@ poisk_Y:
   else return(modi);
 }
 //****************************************
-mem_mous_fon()
+void mem_mous_fon()
 {
-#ifdef NALAD
-  nom_func("167");
-#endif       
-  getimage(X_m-6,Y_m,X_m+6,Y_m,line_old_gor_kurs);
-  getimage(X_m,Y_m-4,X_m,Y_m+4,line_old_vert_kurs);
-  return;
+
+	nom_func("167");
+
+	getimage(X_m-6,Y_m,X_m+6,Y_m,line_old_gor_kurs);
+	getimage(X_m,Y_m-4,X_m,Y_m+4,line_old_vert_kurs);
+	return;
 }
 //**********************************************
-draw_mouse()
+void draw_mouse()
 // нарисовать курсор
 {
-#ifdef NALAD  
-  nom_func("46");
-#endif
+  
+	nom_func("46");
+
   putimage(X_m-6,Y_m,line_gor_kurs,0);
   putimage(X_m,Y_m-4,line_vert_kurs,0);
   return;
 }
 //**************************************
-clear_mouse()
+void clear_mouse()
 //восстановить фон под мышью
 {
-  int ik;
-#ifdef NALAD  
-  nom_func("25");
-#endif    
-  putimage(X_m_old-6,Y_m_old,line_old_gor_kurs,0);
-  putimage(X_m_old,Y_m_old-4,line_old_vert_kurs,0);
+	int ik;
+
+	nom_func("25");
+
+	putimage(X_m_old-6,Y_m_old,line_old_gor_kurs,0);
+	putimage(X_m_old,Y_m_old-4,line_old_vert_kurs,0);
 //  for(ik=0;ik<12;ik++)line_old_gor_kurs[ik]=0;
 //  for(ik=0;ik<40;ik++)line_old_vert_kurs[ik]=0;
 
 }
 //***********************************
-move_mouse()
+void move_mouse()
 { int i;
-#ifdef NALAD  
-  nom_func("175");
-#endif   
+
+	nom_func("175");
+
 	regs.x.ax = 3; //получить информацию о координатах
 	/* int86*/
 	int86(0x33,&regs,&regs);
@@ -880,12 +902,12 @@ move_mouse()
 }
 #endif
 //-----------------------------------------------------
-tst_zvuk()
+void tst_zvuk()
 {
-#ifdef NALAD  
-  nom_func("376");
-#endif    
-  if(STATUS!=1)
+
+	nom_func("376");
+
+	if(STATUS!=1)
   {
     nosound;
     return;
@@ -910,12 +932,12 @@ tst_zvuk()
             {
               if((biostime(0,0l)-zvuk_sig.time_begin)<(2*zvuk_sig.dlit/3))
               {
-                sound(600);return;
+								sound(600);return;
               }
               else
                 if((biostime(0,0l)-zvuk_sig.time_begin)<zvuk_sig.dlit)
                 {
-                  sound(400);return;
+									sound(400);return;
                 }
                 else
                 {
@@ -928,19 +950,19 @@ tst_zvuk()
   }
 }
 //-----------------------------------------------------------
-prodol()
+void prodol()
 {
-#ifdef NALAD  
-  nom_func("239");
-#endif        
-  if (vrem==5) uprav=1;
-  //settextstyle(DEFAULT_FONT,HORIZ_DIR,0);
-  setcolor(8);
-  if (vrem==1&&uprav==0)
-  {
-    puti=0;
-    vkl_kno(2,LIGHTGREEN);
-    vkl_kno(0,LIGHTGREEN);
+
+	nom_func("239");
+
+	if (vrem==5) uprav=1;
+	//settextstyle(DEFAULT_FONT,HORIZ_DIR,0);
+	setcolor(8);
+	if (vrem==1&&uprav==0)
+	{
+		puti=0;
+		vkl_kno(2,LIGHTGREEN);
+		vkl_kno(0,LIGHTGREEN);
     vrem=0;uprav=1;poka=0;tst=2;
   }
   else
@@ -958,28 +980,28 @@ prodol()
     }
     else
       if (uprav==1)   
-      {
-        vkl_kno(2,LIGHTGREEN);
-        tst=2;
-      }
-  if(perekluch==1&&ot==1&&tst==2)
-  {
-    vkl_kno(2,LIGHTGREEN);
-    ot=0;
-  }
-  else
-    if(tst!=2) vkl_kno(1,LIGHTGREEN);
-  if(perekluch==1)poka=0;
-  i3=-1;
-  menu();
+			{
+				vkl_kno(2,LIGHTGREEN);
+				tst=2;
+			}
+	if(perekluch==1&&ot==1&&tst==2)
+	{
+		vkl_kno(2,LIGHTGREEN);
+		ot=0;
+	}
+	else
+		if(tst!=2) vkl_kno(1,LIGHTGREEN);
+	if(perekluch==1)poka=0;
+	i3=-1;
+	menu();
 }
 //-----------------------------------------------------------
 //-----------------------------------------------------------
-menu()
+void menu()
 {
-#ifdef NALAD  
-  nom_func("168");
-#endif
+  
+	nom_func("168");
+
   setfillstyle(CLOSE_DOT_FILL,LIGHTCYAN);
   bar(1,460,640,480);setcolor(GREEN);
   if(DISK==0)
@@ -1005,7 +1027,7 @@ menu()
       outtextxy(20,471,"-неиспр.СЦБ");
       outtextxy(130,471,"-неиспр.ап.УВК");
       outtextxy(274,471,"-подсв.положения стрелок");
-      outtextxy(500,471,"-архив");
+			outtextxy(500,471,"-архив");
     }
     if(STATUS==1)
     {
@@ -1035,7 +1057,7 @@ menu()
     outtextxy(3,472,"F8");outtextxy(330,472,"F9");
     outtextxy(500,472,"F10");
     setcolor(BROWN);
-    outtextxy(2,461,"F4");outtextxy(129,461,"F5");
+		outtextxy(2,461,"F4");outtextxy(129,461,"F5");
     outtextxy(229,462,"F6");outtextxy(329,461,"F7");
     outtextxy(2,471,"F8");outtextxy(329,471,"F9");
     outtextxy(499,471,"F10");
