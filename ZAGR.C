@@ -19,8 +19,8 @@ void ZZagruzka()
   NEISPRAVEN=0;
   outportb(BAZ_ADR1+1,0);/* закрыть прерывания от ТУМС-1*/
   outportb(BAZ_ADR1,0);
-  outportb(BAZ_ADR11+1,0);/* закрыть прерывания от ТУМС-2*/
-  outportb(BAZ_ADR11,0);
+	//outportb(BAZ_ADR*11+1,0);/* закрыть прерывания от ТУМС-2*/
+	//outportb(BAZ_ADR*11,0);
   setlinestyle(0,0,0); setcolor(BLUE); rectangle(5,5,634,475);
 	moveto(100,30);
 	//settextstyle(0,0,2);
@@ -103,7 +103,7 @@ void ZZagruzka()
 			OBMEN_PVM=0;
 			OBMEN_PVM_OLD=OBMEN_PVM;
 			FORM_BUF_PVM_OUT();
-			outportb(BAZ_ADR4+1,3);//разрешение передачи
+			//outportb(BAZ_ADR*4+1,3);//разрешение передачи
 			zjj=0;
 			setcolor(8);line(10,110,630,110);line(10,120,630,120);
 			for(zjj=1;zjj<=63;zjj++)line(10*zjj,110,10*zjj,120);
@@ -126,7 +126,7 @@ void ZZagruzka()
 						NEISPRAVEN=1;
 						break;
 					}
-				}	
+				}
 				FORM_BUF_PVM_OUT();
 			}
 			POVTOR_FR4=0;POVTOR_COM=0;POVTOR_INF=0;
@@ -180,7 +180,7 @@ void ZZagruzka()
   Init_TEST_SOOB(1);
 #endif
   outportb(BAZ_ADR1+1,1);
-  outportb(BAZ_ADR11+1,1);
+	//outportb(BAZ_ADR*11+1,1);
   pusto=0;
   zj=0;
   FIR_time=biostime(0,0L);

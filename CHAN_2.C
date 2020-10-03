@@ -20,7 +20,7 @@ void fin_kom()
   
 	nom_func("55");
   
-  flagoutmsg=0;
+	flagoutmsg=0;
   for(uu=0;uu<=10;uu++)buf_ko[uu]=0;
   return;
 }
@@ -39,12 +39,12 @@ void consentr()
 if(DISK!=0)goto m01;
 #ifdef WORK
   ANALIZ_TUMS();//просмотр буфера приема ТУМСов выделение ответов и сообщений
-  if(STOP_BBKP==0)OUT_DC();
-  else
-  {
-    outportb(BAZ_ADR2+1,3);
-    outportb(BAZ_ADR2,0);
-  }
+	//if(STOP_BBKP==0)OUT_DC();
+	//else
+	//{
+	//  outportb(BAZ_ADR*2+1,3);
+	//  outportb(BAZ_ADR*2,0);
+	//}
 #endif
 m01:
 #ifdef DISPETCHER
@@ -55,7 +55,7 @@ m01:
   {
 
     for(i=0;i<11;i++)
-    { text1[0]='█';text1[1]=0;
+		{ text1[0]='█';text1[1]=0;
       setcolor(7);outtextxy(i*8+8,200,text1);
       text1[0]=REG_INFO[0][i];text1[1]=0;
       if(text1[0]!=0)
@@ -65,12 +65,12 @@ m01:
       text1[0]='█'; text1[1]=0;
       setcolor(7);outtextxy(i*8+8,220,text1);
       text1[0]=REG_INFO[1][i]; text1[1]=0;
-      if(text1[0]!=0)
+			if(text1[0]!=0)
       {
         setcolor(1);outtextxy(i*8+8,220,text1);
 			}
     }
-    for(i=0;i<60;i++)
+		for(i=0;i<60;i++)
     {
       text1[0]='█'; text1[1]=0;
       setcolor(7);outtextxy(i*8+8,240,text1);
@@ -91,7 +91,7 @@ m01:
       setcolor(7);outtextxy(i*8+8,280,text1);
       text1[0]=BUF_OUT_DC[i];text1[1]=0;
       if(text1[0]!=0)
-      {
+			{
         setcolor(8);outtextxy(i*8+8,280,text1);
       }
 
@@ -99,7 +99,7 @@ m01:
       setcolor(7);outtextxy(i*8+8,300,text1);
       text1[0]=BUF_IN_DC[i];text1[1]=0;
       if(text1[0]!=0)
-      {
+			{
         setcolor(4);outtextxy(i*8+8,300,text1);
       }
     }
@@ -109,12 +109,12 @@ m01:
   for(st=0;st<skoko_stoek;st++)//пройти по всем стойкам
   {
     if((REG_INFO[st][0]=='(')&& //если сообщение не сброшено
-    ((REG_INFO[st][10]==')')||(REG_INFO[st][10]=='+')))
+		((REG_INFO[st][10]==')')||(REG_INFO[st][10]=='+')))
     {
       prv[st]=1;//установить признак фиксации
       for(i=0;i<11;i++)
       {
-        bu[st][i]=REG_INFO[st][i];
+				bu[st][i]=REG_INFO[st][i];
         REG_INFO[st][i]=0;
       }
 			obrabotka_inf(st);
@@ -130,12 +130,12 @@ m01:
           SBROS_BIT_TEST_SOOB(st,bu[st][3]);//сбросить признак требования
           if(st==0)add(0,'п');// записать данные для 1-го
           if(st==1)add(1,'в');//или 2-го каналов
-          prv[st]=0;//сбросить требование записи
+					prv[st]=0;//сбросить требование записи
           zafix=0;//обнулить счетчик до 16
         }
         if(TEST_SUM_SOOB()==0)//если все даные приняты
         {
-          if(STATUS==0)add(0,'Д'); //записать статус АРМа
+					if(STATUS==0)add(0,'Д'); //записать статус АРМа
           if(STATUS==1)add(0,'Г');
           jj=0;
 					while(jj<kol_VO)//пройти по всем объектам
@@ -143,7 +143,7 @@ m01:
             jj=upak_fr4(jj);//проверить имеющиеся ограничения
 						if(jj<kol_VO)add(5,0xf);//записать ограничения
           }
-          first_time=biostime(0,0);//сверить часы
+					first_time=biostime(0,0);//сверить часы
           second_time=first_time;
           zafix=0;
           t_t=0;
@@ -153,12 +153,12 @@ m02:
     }//конец работы с регистром информации
   }//конец прохода по стойкам 
   if(DISK!=0)goto m03;
-  test_mo();// проверка и переинициализация модема
+	test_mo();// проверка и переинициализация модема
 	if(pusto==0)
 	{
 agm:
     if(flagoutmsg==13)flagoutmsg=1;//если половина сквозного маршрута выдана
-    if((flagoutmsg>0)&&(flagoutmsg<12))// если есть готовая команда для ТУМС
+		if((flagoutmsg>0)&&(flagoutmsg<12))// если есть готовая команда для ТУМС
     {
       if((STATUS==0)||(STATUS==2))
       {
@@ -174,12 +174,12 @@ vs:     fin_kom();return;
       if((otkaz_tu[st]==1)||   //есл по каналу нельзя управлять
      (zapret[st]!=0))
       {
-        w(54,999,"");//КОМАНДА НЕ ВЫПОЛНЕНА - НЕ РАБ. КАНАЛ ТУ ТУМС
+				w(54,999,"");//КОМАНДА НЕ ВЫПОЛНЕНА - НЕ РАБ. КАНАЛ ТУ ТУМС
         if(st==0);outtext(" 1");//вывести номер канала
         if(st==1);outtext(" 2");
         fin_kom();
         return;
-      }
+			}
 
       else//если управление не запрещено
       {
@@ -187,7 +187,7 @@ vs:     fin_kom();return;
         //если комплекты данной стойки в норме(РУ-ОРУ)
         {
 ag:       for(i_C=0;i_C<=8;i_C++)bu[st][i_C]=buf_ko[i_C];//команду в буфер
-          bu[st][9]=')';
+					bu[st][9]=')';
           bu[st][0]='(';
           buf_ko[0]='(';
           buf_ko[10]=')';
@@ -197,12 +197,12 @@ ag:       for(i_C=0;i_C<=8;i_C++)bu[st][i_C]=buf_ko[i_C];//команду в буфер
           kom_v_bufer(st);// отправить команду в стойку
           if(flagoutmsg==10)// если сквозной маршрут
           {
-            est_kom(st);//установить признак наличия команды
+						est_kom(st);//установить признак наличия команды
             for(i_C=0;i_C<9;i_C++)buf_ko[i_C]=buf_ko_mm[i_C];//взять в буфер
             if(flagoutmsg==10)// если сквозной маршрут ?????
               {flagoutmsg=1;  goto agm;}
             else  // если обычный сквозной маршрут
-              {flagoutmsg=12;return;}
+							{flagoutmsg=12;return;}
           }
           flagoutmsg=0;//сбросить флаг наличия команды для ТУМС
           if(PRKL==1) PRKL=0;
@@ -228,7 +228,8 @@ m03:
 //---------------------------------------------
 void FORM_BUF_PVM_OUT()
 {
-  int test=0,i;
+	int test=0,i;
+  return; // BAZ_ADR*2
 
 	nom_func("70");
 	if(DSP_SHN == 0) return;
@@ -245,9 +246,10 @@ void FORM_BUF_PVM_OUT()
   // если нечего передавать
   { if(PERED_PVM==1)// если таймер запрета передачи включен
     { if((biostime(0,0L)-TIME_OUT_PVM)>1L)// если прошло время тайм-аута
-      { outportb(BAZ_ADR4+1,3);// открыть передатчик
-        PERED_PVM=2;// установить признак открытой передачи после тайм-аута
-        outportb(BAZ_ADR4,'*');
+			{
+				//outportb(BAZ_ADR*4+1,3);// открыть передатчик
+				PERED_PVM=2;// установить признак открытой передачи после тайм-аута
+				//outportb(BAZ_ADR*4,'*');
       }
     }
     if(PERED_PVM==0)//если передача закрыта
@@ -260,12 +262,12 @@ void FORM_BUF_PVM_OUT()
     { test++;
       for(i=0;i<3;i++)
       { BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_KVIT_COM[i];
-        REG_KVIT_COM[i]=0;
+				REG_KVIT_COM[i]=0;
         if(UKAZ_ZAP_OUT==(MAX_SIZE_OUT-1))UKAZ_ZAP_OUT=0;
         else UKAZ_ZAP_OUT++;
       }
       KVIT_COM=0;
-    }
+		}
 		if(KVIT_FR4==1)
     { test++;
       for(i=0;i<3;i++)
@@ -283,12 +285,12 @@ void FORM_BUF_PVM_OUT()
       { BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_KVIT_INF[i];
         REG_KVIT_INF[i]=0;
         if(UKAZ_ZAP_OUT==(MAX_SIZE_OUT-1))UKAZ_ZAP_OUT=0;
-        else UKAZ_ZAP_OUT++;
+				else UKAZ_ZAP_OUT++;
       }
       KVIT_INF=0;
       BUF_OUT_PVM[UKAZ_ZAP_OUT]=0;
     }
-    if(MY_INF==1)
+		if(MY_INF==1)
     { if(POVTOR_INF>3)sbros_obmen_pvm();
       else
       { test++;
@@ -304,12 +306,12 @@ void FORM_BUF_PVM_OUT()
     if((STATUS==0)||(STATUS==2))// если не основная
     { if(test==0)// если нет неосновной передачи
 			{ MY_FR4=0;
-        MY_COM=0;
+				MY_COM=0;
 				POVTOR_FR4=0;
         POVTOR_COM=0;
         return;
       }
-      goto exit;
+			goto exit;
     }
     else// если основная
     {
@@ -317,7 +319,7 @@ void FORM_BUF_PVM_OUT()
 			if(MY_FR4==1)//если есть новое для FR4 или нужен повтор
 			{ if(POVTOR_FR4>3) sbros_obmen_pvm();
         else
-        { test++;
+				{ test++;
           for(i=0;i<6;i++)
 					{ BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_FR4[i];
             if(UKAZ_ZAP_OUT==(MAX_SIZE_OUT-1))UKAZ_ZAP_OUT=0;
@@ -327,12 +329,12 @@ void FORM_BUF_PVM_OUT()
 					POVTOR_FR4++;
         }
       }
-      if(MY_COM==1)
+			if(MY_COM==1)
       { if(POVTOR_COM>4) sbros_obmen_pvm();
         else
         { test++;
           for(i=0;i<11;i++)
-          { BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_COM[i];
+					{ BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_COM[i];
             if(UKAZ_ZAP_OUT==MAX_SIZE_OUT-1)UKAZ_ZAP_OUT=0;
             else UKAZ_ZAP_OUT++;
           }
@@ -341,9 +343,9 @@ void FORM_BUF_PVM_OUT()
         }
       }
 exit:
-      outportb(BAZ_ADR4+1,3);// открыть передачу
-      PERED_PVM=2;
-			outportb(BAZ_ADR4,'*');
+			//outportb(BAZ_ADR*4+1,3);// открыть передачу
+			PERED_PVM=2;
+			//outportb(BAZ_ADR*4,'*');
       return;
     }
   }
@@ -354,9 +356,12 @@ est_kom(int KE)
 
 	nom_func("52");
 
-  //$$$$$$$$$$$ проверка наличия команды
+	//$$$$$$$$$$$ проверка наличия команды
 }
 //***************************************
+// 2020-09-29
+unsigned int ch1_receive_not_answer_byte = 0;
+
 form_otv(int st)
 {
 	int gas1,j,ij,jj;
@@ -369,227 +374,252 @@ form_otv(int st)
 	gas1=(REG_INFO[st][1]&3)-1;
 	if(ZAGRUZKA==1)
 		//объявить о перекрещивании каналов
-    if(st!=gas1){Change_adresa();return;} 
-  if((zapret[gas1]&0x7fff)!=0)return;
-  REG_OT[st][0]='(';
-  REG_OT[st][5]=')';
-  REG_OT[st][4]='P';
-  REG_OT[st][1]=ZAGO_MPSU(REG_INFO[st][1]);
-  REG_OT[st][2]=REG_INFO[st][2];
-  REG_OT[st][3]=REG_INFO[st][3];
+		if(st!=gas1){Change_adresa();return;}
+	if((zapret[gas1]&0x7fff)!=0)return;
+	REG_OT[st][0]='(';
+	REG_OT[st][5]=')';
+	REG_OT[st][4]='P';
+	REG_OT[st][1]=ZAGO_MPSU(REG_INFO[st][1]);
+	REG_OT[st][2]=REG_INFO[st][2];
+	REG_OT[st][3]=REG_INFO[st][3];
 //  if(REG_INFO[st][10]!='+')sboy_tu[st]++;
 //  if(sboy_tu[st]>5)sboy_tu[st]=6;
 //  if(REG_INFO[st][10]==')')sboy_tu[st]--;
 //  if(sboy_tu[st]<0)sboy_tu[st]=0;
   for(jj=0;jj<6;jj++)
   {
-    if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
-    BUF_OUT[st][ukaz_zap[st]]=REG_OT[st][jj];
-    text[jj]=REG_OT[st][jj];
-    REG_OT[st][jj]=0;
-    ukaz_zap[st]++;
-  }
-  if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
-  if(st==0)
-  { outportb(BAZ_ADR1+1,3);
-    outportb(BAZ_ADR1,0);
-  }
-  if(st==1)
-  { outportb(BAZ_ADR11+1,3);
-    outportb(BAZ_ADR11,0);
-  }
+		if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
+		BUF_OUT[st][ukaz_zap[st]]=REG_OT[st][jj];
+		text[jj]=REG_OT[st][jj];
+		REG_OT[st][jj]=0;
+		ukaz_zap[st]++;
+	}
+	if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
+
+	//if(st==0)
+	//{
+	//	outportb(BAZ_ADR1+1,3);
+	//	outportb(BAZ_ADR1,0);
+	//}
+	//if(st==1)
+	//{ outportb(BAZ_ADR*11+1,3);
+	//  outportb(BAZ_ADR*11,0);
+	//}
+	// 2020-09-29
+	if (ch1_receive_not_answer_byte > 20)
+	{
+		 //receive up 20 byte, but zero byte transfer - bad;
+		 disable ();
+		 outportb(BAZ_ADR1+1,0x00);
+		 outportb(BAZ_ADR1+3,0x80);
+		 outportb(BAZ_ADR1+1,st_ba);
+		 outportb(BAZ_ADR1,ml_ba);
+		 outportb(BAZ_ADR1+3,0x0e);
+		 outportb(BAZ_ADR1+4,0x0b);
+		 outportb(BAZ_ADR1+1,0x03);
+		 enable ();
+		 setcolor(4); outtextxy(1,31,"█");
+	}
+	else
+	{
+		 outportb(BAZ_ADR1+1,0x03);
+		 setcolor(7); outtextxy(1,31,"█");
+	}
+
 #ifdef KANALS
-  if((TEST_KANAL==1)&&( STOP==0))
-  { text[6]=0;
-    setcolor(7);outtextxy(X_kan[st],Y_kan[st]+10,"██████");
-    setcolor(4);outtextxy(X_kan[st],Y_kan[st]+10,text);
-  }
+	if((TEST_KANAL==1)&&( STOP==0))
+	{ text[6]=0;
+		setcolor(7);outtextxy(X_kan[st],Y_kan[st]+10,"██████");
+		setcolor(4);outtextxy(X_kan[st],Y_kan[st]+10,text);
+	}
 #endif
-  return;
+	return;
 }
 //********************************
 vidacha_pvm(int adre)
 {
-  
+
 	nom_func("391");
-    
-  if(UKAZ_ZAP_OUT==UKAZ_VYVOD)// передано все?
-  {
-    if(PERED_PVM==2)// передача не запрещалась ?
-    {
-      PERED_PVM=0;// установить признак запрета передачи
-      outportb(adre+1,1);// запретить прерывания на передачу
 
-    }
+	if(UKAZ_ZAP_OUT==UKAZ_VYVOD)// передано все?
+	{
+		if(PERED_PVM==2)// передача не запрещалась ?
+		{
+			PERED_PVM=0;// установить признак запрета передачи
+			outportb(adre+1,1);// запретить прерывания на передачу
 
-  }
-  else // передано не все
-  {
+		}
+
+	}
+	else // передано не все
+	{
 
 //    if((MY_FR4>0)||(MY_COM>0)||(MY_INF>0)||(KVIT_FR4>0)||(KVIT_COM>0)||(KVIT_INF>0))
-    outportb(adre,BUF_OUT_PVM[UKAZ_VYVOD]);// передать очередной символ
+		outportb(adre,BUF_OUT_PVM[UKAZ_VYVOD]);// передать очередной символ
 //     outportb(BAZ_ADR11,BUF_OUT_PVM[UKAZ_VYVOD]);
 //     outportb(BAZ_ADR11,'0');
-    BUF_OUT_PVM[UKAZ_VYVOD]=0;// очистить ячейку буфера переданного байта
-    if(UKAZ_VYVOD==(MAX_SIZE_OUT-1))UKAZ_VYVOD=0;//передвинуть указатель передачи
-    else UKAZ_VYVOD++;
-  }
-  return;
+		BUF_OUT_PVM[UKAZ_VYVOD]=0;// очистить ячейку буфера переданного байта
+		if(UKAZ_VYVOD==(MAX_SIZE_OUT-1))UKAZ_VYVOD=0;//передвинуть указатель передачи
+		else UKAZ_VYVOD++;
+	}
+	return;
 }
 //--------------------------------------------------------
 void ochistka()
 {
-  int i,j;
-  
+	int i,j;
+
 	nom_func("197");
-   
+
 // освобождаем все очереди
 #ifdef DISPETCHER
-  for(i=0;i<SIZE_BUF_OUT_DC;i++)BUF_OUT_DC[i]=0;
-  for(i=0;i<SIZE_BUF_PRIEM_DC;i++)BUF_IN_DC[i]=0;
-  ukaz_zap_dc=0;ukaz_vyd_dc=0;
+	for(i=0;i<SIZE_BUF_OUT_DC;i++)BUF_OUT_DC[i]=0;
+	for(i=0;i<SIZE_BUF_PRIEM_DC;i++)BUF_IN_DC[i]=0;
+	ukaz_zap_dc=0;ukaz_vyd_dc=0;
 #endif
-  for(j=0;j<skoko_stoek;j++)
-  {
-    prv[j];
-    ukaz_zap[j]=0;ukaz_vyd[j]=0;
-    ukaz_priem[j]=0;ukaz_read[j]=0;
-    for(i=0;i<SIZE_BUF_OUT;i++)BUF_OUT[j][i]=0;
-    for(i=0;i<SIZE_BUF_PRIEM;i++)BUF_IN[j][i]=0;
-  }
+	for(j=0;j<skoko_stoek;j++)
+	{
+		prv[j];
+		ukaz_zap[j]=0;ukaz_vyd[j]=0;
+		ukaz_priem[j]=0;ukaz_read[j]=0;
+		for(i=0;i<SIZE_BUF_OUT;i++)BUF_OUT[j][i]=0;
+		for(i=0;i<SIZE_BUF_PRIEM;i++)BUF_IN[j][i]=0;
+	}
 }
 //*******************************************************************
 void in_port(unsigned int adr)
 {
-  int st,i;
-  
+	int st,i;
+
 	nom_func("104");
-          
-  if(adr==BAZ_ADR1)st=0;
-  else
-    if(adr==BAZ_ADR11)st=1;
-    else return;
-  SYMBOL[st]=inportb(adr)&127;
-  if(SYMBOL[st]==0)return;
-  t_pust[st]=0;
-  if((SYMBOL[st]==')')||(SYMBOL[st]=='+'))
-  {
-    ANALIZ[st]++;
-    prorisovka=0;
-    if(SYMBOL[st]=='+')sboy_tu[st]=0;
-    konec[st]=ukaz_priem[st];
-  }
-  BUF_IN[st][ukaz_priem[st]++]=SYMBOL[st];
-  if(ukaz_priem[st]>=SIZE_BUF_PRIEM)ukaz_priem[st]=0;
-  return;
+
+	//if(adr==BAZ_ADR1)st=0;
+	//else
+	//	if(adr==BAZ_ADR*11)st=1;
+	//	else return;
+
+	st=0;
+	SYMBOL[st]=inportb(adr)&127;
+	if(SYMBOL[st]==0)return;
+	t_pust[st]=0;
+	if((SYMBOL[st]==')')||(SYMBOL[st]=='+'))
+	{
+		ANALIZ[st]++;
+		prorisovka=0;
+		if(SYMBOL[st]=='+')sboy_tu[st]=0;
+		konec[st]=ukaz_priem[st];
+	}
+	BUF_IN[st][ukaz_priem[st]++]=SYMBOL[st];
+	if(ukaz_priem[st]>=SIZE_BUF_PRIEM)ukaz_priem[st]=0;
+	return;
  }
 /*******************************************************************
 in_port_BBKP(int adr)
 {
-  int i;
-  unsigned char SYM_DC;
-  SYM_DC=inportb(adr)&127;
-  if(SYM_DC==0)return;
-  t_pust_dc=0;
-  if((SYM_DC==')')||(SYM_DC=='+'))
-  ANALIZ_DC++;
-  BUF_IN_DC[ukaz_priem_dc++]=SYM_DC;
-  if(ukaz_priem_dc>=SIZE_BUF_PRIEM_DC)ukaz_priem_dc=0;
-  return;
+	int i;
+	unsigned char SYM_DC;
+	SYM_DC=inportb(adr)&127;
+	if(SYM_DC==0)return;
+	t_pust_dc=0;
+	if((SYM_DC==')')||(SYM_DC=='+'))
+	ANALIZ_DC++;
+	BUF_IN_DC[ukaz_priem_dc++]=SYM_DC;
+	if(ukaz_priem_dc>=SIZE_BUF_PRIEM_DC)ukaz_priem_dc=0;
+	return;
 
 }*/
 //-------------------------------------------------------
 void init()
 {
-  
+
 	nom_func("106");
-        
-  if(DISK!=0)return;
-  disable();
-  get_int_vect();
-  set_int_vect();
+
+	if(DISK!=0)return;
+	disable();
+	get_int_vect();
+	set_int_vect();
 //****************************
-  s1=inportb(0x21);
-  s2=0x00;
-  outportb(0x21,s2); // маска прерываний 1 - маскировано
-  s2=inportb(0x21);
-  // 7 6 5 4 3 2 1 0
-  // prn floppy винт com1 com2 аппар клавиат timer
-  outportb(BAZ_ADR1+3,0x00);
-  outportb(BAZ_ADR1+1,0x00);
-  outportb(BAZ_ADR1+3,0x80); // регистр управления линией - 80Н для установки скорости
-  outportb(BAZ_ADR1+1,st_ba); // старший байт делителя частоты
-  outportb(BAZ_ADR1,ml_ba);// младший байт делителя частоты для скорости 2400
-  outportb(BAZ_ADR1+3,0x0e);//N бит
-  outportb(BAZ_ADR1+1,0x0); // запретить прерывания COM
-  outportb(BAZ_ADR1+4,0x0b); // упр модемом
-  outportb(BAZ_ADR1,0);
-  //**********************
-  if(BAZ_ADR11!=0)
-  {
-  // 7 6 5 4 3 2 1 0
-  // prn floppy винт com1 com2 аппар клавиат timer
-  outportb(BAZ_ADR11+3,0x00);
-  outportb(BAZ_ADR11+1,0x00);
-  outportb(BAZ_ADR11+3,0x80); // регистр управления линией - 80Н для установки скорости
-  outportb(BAZ_ADR11+1,st_ba2); // старший байт делителя частоты
-  outportb(BAZ_ADR11,ml_ba2);// младший байт делителя частоты для скорости 2400
-  outportb(BAZ_ADR11+3,0x0e);//N бит
-  outportb(BAZ_ADR11+1,0x0); // запретить прерывания COM
-  outportb(BAZ_ADR11+4,0x0b); // упр модемом
-  outportb(BAZ_ADR11,0);
-  }
-   //**********************
-  if(BAZ_ADR2!=0)
-  {
-    outportb(BAZ_ADR2+3,0x00);  //bbkp
-    outportb(BAZ_ADR2+1,0x00);
-    outportb(BAZ_ADR2+3,0x80);  // регистр управления линией - 80Н для установки скорости
-    outportb(BAZ_ADR2+1,st_bab);// старший байт делителя частоты
-    outportb(BAZ_ADR2,ml_bab);  // младший байт делителя частоты для скорости 2400
-    outportb(BAZ_ADR2+3,0x0e);  //N бит
-    outportb(BAZ_ADR2+1,0x00);  // запр прерывания COM
-    outportb(BAZ_ADR2+2,0x0);  // запретить FIFO
-    outportb(BAZ_ADR2,0);
- //**********************
-  }
-   //**********************
-  if(BAZ_ADR4!=0)
-  {
-  outportb(BAZ_ADR4+3,0x00);
-  outportb(BAZ_ADR4+1,0x00);
-  outportb(BAZ_ADR4+3,0x80);  // регистр управления линией - 80Н для установки скорости
-  outportb(BAZ_ADR4+1,st_bap);// старший байт делителя частоты
-  outportb(BAZ_ADR4,ml_bap);  // младший байт делителя частоты для скорости 2400
-  outportb(BAZ_ADR4+3,0x0f);  //N бит
-  outportb(BAZ_ADR4+1,0x03);  // разр прерывания COM
-  outportb(BAZ_ADR4+4,0x0);  // упр модемом
-  outportb(BAZ_ADR4+2,0x0); // запретить FIFO
-  //**********************
-  }
-  //**********************
-  if(BAZ_ADR6!=0)
-  {
-  outportb(BAZ_ADR6+3,0x00);
-  outportb(BAZ_ADR6+1,0x00);
-  outportb(BAZ_ADR6+3,0x80);  // регистр управления линией - 80Н для установки скорости
-  outportb(BAZ_ADR6+1,st_bas);// старший байт делителя частоты
-  outportb(BAZ_ADR6,ml_bas);  // младший байт делителя частоты для спдлп
-	outportb(BAZ_ADR6+3,0x0f);  //8бит 2стоп без паритета
-  outportb(BAZ_ADR6+1,0);    // запр прерывания COM
-  inportb(BAZ_ADR6);
-  //**********************
-  }
+	s1=inportb(0x21);
+	s2=0x00;
+	outportb(0x21,s2); // маска прерываний 1 - маскировано
+	s2=inportb(0x21);
+	// 7 6 5 4 3 2 1 0
+	// prn floppy винт com1 com2 аппар клавиат timer
+	outportb(BAZ_ADR1+3,0x00);
+	outportb(BAZ_ADR1+1,0x00);
+	outportb(BAZ_ADR1+3,0x80); // регистр управления линией - 80Н для установки скорости
+	outportb(BAZ_ADR1+1,st_ba); // старший байт делителя частоты
+	outportb(BAZ_ADR1,ml_ba);// младший байт делителя частоты для скорости 2400
+	outportb(BAZ_ADR1+3,0x0e);//N бит
+	outportb(BAZ_ADR1+1,0x0); // запретить прерывания COM
+	outportb(BAZ_ADR1+4,0x0b); // упр модемом
+	//outportb(BAZ_ADR1,0);
+	//**********************
+	// if(BAZ_ADR*11!=0)
+	// {
+	// // 7 6 5 4 3 2 1 0
+	// // prn floppy винт com1 com2 аппар клавиат timer
+	// outportb(BAZ_ADR*11+3,0x00);
+	// outportb(BAZ_ADR*11+1,0x00);
+	// outportb(BAZ_ADR*11+3,0x80); // регистр управления линией - 80Н для установки скорости
+	// outportb(BAZ_ADR*11+1,st_ba2); // старший байт делителя частоты
+	// outportb(BAZ_ADR*11,ml_ba2);// младший байт делителя частоты для скорости 2400
+	// outportb(BAZ_ADR*11+3,0x0e);//N бит
+	// outportb(BAZ_ADR*11+1,0x0); // запретить прерывания COM
+	// outportb(BAZ_ADR*11+4,0x0b); // упр модемом
+	// outportb(BAZ_ADR*11,0);
+	// }
+	//**********************
+	//if(BAZ_ADR*2!=0)
+	//{
+	//  outportb(BAZ_ADR*2+3,0x00);  //bbkp
+	//  outportb(BAZ_ADR*2+1,0x00);
+	//  outportb(BAZ_ADR*2+3,0x80);  // регистр управления линией - 80Н для установки скорости
+	//  outportb(BAZ_ADR*2+1,st_bab);// старший байт делителя частоты
+	//  outportb(BAZ_ADR*2,ml_bab);  // младший байт делителя частоты для скорости 2400
+	//  outportb(BAZ_ADR*2+3,0x0e);  //N бит
+	//  outportb(BAZ_ADR*2+1,0x00);  // запр прерывания COM
+	//  outportb(BAZ_ADR*2+2,0x0);  // запретить FIFO
+	//  outportb(BAZ_ADR*2,0);
+	//**********************
+	//}
+	//**********************
+	//if(BAZ_ADR*4!=0)
+	//{
+	//outportb(BAZ_ADR*4+3,0x00);
+	//outportb(BAZ_ADR*4+1,0x00);
+	//outportb(BAZ_ADR*4+3,0x80);  // регистр управления линией - 80Н для установки скорости
+	//outportb(BAZ_ADR*4+1,st_bap);// старший байт делителя частоты
+	//outportb(BAZ_ADR*4,ml_bap);  // младший байт делителя частоты для скорости 2400
+	//outportb(BAZ_ADR*4+3,0x0f);  //N бит
+	//outportb(BAZ_ADR*4+1,0x03);  // разр прерывания COM
+	//outportb(BAZ_ADR*4+4,0x0);  // упр модемом
+	//outportb(BAZ_ADR*4+2,0x0); // запретить FIFO
+	//**********************
+	//}
+	//**********************
+	//if(BAZ_ADR*6!=0)
+	//{
+	//outportb(BAZ_ADR*6+3,0x00);
+	//outportb(BAZ_ADR*6+1,0x00);
+	//outportb(BAZ_ADR*6+3,0x80);  // регистр управления линией - 80Н для установки скорости
+	//outportb(BAZ_ADR*6+1,st_bas);// старший байт делителя частоты
+	//outportb(BAZ_ADR*6,ml_bas);  // младший байт делителя частоты для спдлп
+	//outportb(BAZ_ADR*6+3,0x0f);  //8бит 2стоп без паритета
+	//outportb(BAZ_ADR*6+1,0);    // запр прерывания COM
+	//inportb(BAZ_ADR*6);
+	////**********************
+	//}
 
 
-  enable();
+	enable();
 }
 //*********************************************************
 void get_int_vect()
 {
-  
+
 	nom_func("97");
-       
+
  if(DISK!=0)return;
  s_time=getvect(V);
 }
@@ -610,49 +640,93 @@ void reset_int_vect()
         
   if(DISK!=0)return;
   disable();
-  if(BAZ_ADR2!=0) outportb(BAZ_ADR2+4,0);
-  if(BAZ_ADR11!=0) outportb(BAZ_ADR11+4,0);
-  if(BAZ_ADR4!=0) outportb(BAZ_ADR4+4,0);
-  outportb(BAZ_ADR1+4,0);
-  outportb(BAZ_ADR1+1,0); // разр прерывания COM
-  if(BAZ_ADR11!=0) outportb(BAZ_ADR11+1,0); // разр прерывания COM
-  if(BAZ_ADR2!=0) outportb(BAZ_ADR2+1,0); // разр прерывания COM
-  if(BAZ_ADR4!=0) outportb(BAZ_ADR4+1,0); // разр прерывания COM
-  outportb(0x21,0);
-  outport(0x20,0x20);
-  setvect(V,s_time);
-  outportb(0x21,s1);
-  enable();
+	//if(BAZ_ADR*2!=0) outportb(BAZ_ADR*2+4,0);
+	//if(BAZ_ADR*11!=0) outportb(BAZ_ADR*11+4,0);
+	//if(BAZ_ADR*4!=0) outportb(BAZ_ADR*4+4,0);
+	outportb(BAZ_ADR1+4,0);
+	outportb(BAZ_ADR1+1,0); // разр прерывания COM
+	//if(BAZ_ADR*11!=0) outportb(BAZ_ADR*11+1,0); // разр прерывания COM
+	//if(BAZ_ADR*2!=0) outportb(BAZ_ADR*2+1,0); // разр прерывания COM
+	//if(BAZ_ADR*4!=0) outportb(BAZ_ADR*4+1,0); // разр прерывания COM
+	outportb(0x21,0);
+	outport(0x20,0x20);
+	setvect(V,s_time);
+	outportb(0x21,s1);
+	enable();
 }
 //**************************************************************//
 void interrupt far reading_char()
 {
-	int de1=0,de11=0,de2=0,de4=0,d5=0,test;
+	int de1=0,/*de11=0,*//*de2=0,*//*de4=0,*/d5=0,test;
 	if(DISK!=0)return;
-	outportb(0x20,0x20);
-	de1=inportb(BAZ_ADR1+2);//читать прерывания 1-го ТУМС
-	if(BAZ_ADR11!=0)de11=inportb(BAZ_ADR11+2); // читать прерывания 2-го ТУМС
-	else de11=1;
-	if(BAZ_ADR2!=0)de2=inportb(BAZ_ADR2+2);//читать прерывание ББКП
-	if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR4+2);//читать прерывания ПЭВМ
-	if((BAZ_ADR4==0)&&(BAZ_ADR2==0)&&( BAZ_ADR11==0)) goto b;
+
+	//outportb(0x20,0x20);
+
 a:
+	de1=inportb(BAZ_ADR1+2); //читать прерывания 1-го ТУМС
+
+	d5 = de1 & 0x06; //анализ ошибок для канала 1-ой стойки
+	if (d5 == 0x06)
+	{
+		 inportb (BAZ_ADR1+5); // clear parity error
+	}
+	else if (d5 == 0x04)
+	{
+		 in_port (BAZ_ADR1); // get byte
+		 ch1_receive_not_answer_byte++;
+	}
+	else if (d5 == 0x02) // if mast send byte
+	{
+		 vidacha (BAZ_ADR1);
+		 ch1_receive_not_answer_byte = 0;
+	}
+	else if (d5 == 0x00)
+	{
+		 inportb (BAZ_ADR1+6);
+	}
+	else;
+
+	de1 = inportb (BAZ_ADR1+2);
+	d5 = de1 & 0x01;
+	if (d5 == 0x01) // no interrupt
+	{
+		 outportb (0x20, 0x20);
+		 return;
+	}
+	else goto a;
+
+	//de1=inportb(BAZ_ADR1+2);//читать прерывания 1-го ТУМС
+	//if(BAZ_ADR*11!=0)
+	//		 de11=inportb(BAZ_ADR*11+2); // читать прерывания 2-го ТУМС
+	//else de11=1;
+	//if(BAZ_ADR*2!=0)
+	//		 de2=inportb(BAZ_ADR*2+2);//читать прерывание ББКП
+	//else;
+	//if(BAZ_ADR*4!=0)
+	//     de4=inportb(BAZ_ADR*4+2);//читать прерывания ПЭВМ
+	//
+	//if((BAZ_ADR*4==0)/*&&(BAZ_ADR*2==0)&&( BAZ_ADR*11==0)*/) goto b;
+
+//a:
+	/*
 	d5=de4&6;//анализ ошибки четности  для обмена ПЭВМ
-	if(d5==6) inportb(BAZ_ADR4+5);// если ошибка четности
+	if(d5==6) inportb(BAZ_ADR*4+5);// если ошибка четности
 	else
 	{
 		d5=de4&4;// анализ приема ПЭВМ - ПЭВМ
-		if(d5==4)test=priem_pvm(BAZ_ADR4);
+		if(d5==4)test=priem_pvm(BAZ_ADR*4);
 		else
 		{
 			d5=de4&2;// анализ передачи ПЭВМ-ПЭВМ
-			if((d5==2)&&(PERED_PVM==2))vidacha_pvm(BAZ_ADR4);//если передатчик свободен
-			else inportb(BAZ_ADR4+6);//сбрасываем прерывание от модема
+			if((d5==2)&&(PERED_PVM==2))vidacha_pvm(BAZ_ADR*4);//если передатчик свободен
+			else inportb(BAZ_ADR*4+6);//сбрасываем прерывание от модема
 		}
 	}
-	if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR4+2);//проверить нет ли новых прерываний для ПЭВМ-ПЭВМ
+	if(BAZ_ADR4!=0)de4=inportb(BAZ_ADR*4+2);//проверить нет ли новых прерываний для ПЭВМ-ПЭВМ
 	else de4=1;
 	if(de4!=1) goto a;// если появились новые прерывания - обработать
+	*/
+/*
 b:
 	d5=de1&6;//анализ ошибок четности для канала 1-ой стойки
 	if(d5==6) inportb(BAZ_ADR1+6);//снять ошибку четности
@@ -670,63 +744,72 @@ b:
 	}
 	de1=inportb(BAZ_ADR1+2); //прочитать нет ли нового прерывания 1-го ТУМС
 	if(de1!=1)goto b;//если такое прерывание возникло, то вернуться
-	if(BAZ_ADR11==0) goto b3;// если второй стойки нет, закончить
-b2:
-	d5=de11&6;//проверить ошибки четности второй стойки
-	if(d5==6)inportb(BAZ_ADR11+6);//если есть, сбросить прерывание модема
-	else
-	{
-		d5=de11&4;//проверить прием
-		if(d5==4)in_port(BAZ_ADR11); //если есть прием, прочитать символ
-		else//если нет приема
-		{
-			d5=de11&2;//проверить свободность передатчика
-			if(d5==2)vidacha(BAZ_ADR11);//при свободном передатчике выдать символ
-			else inportb(BAZ_ADR11+6);// иначе сбросить ошибку линии
-		}
-	}
-	de11=inportb(BAZ_ADR11+2);//прочитать, нет ли нового прерывания от ТУМС 2
-	if(de11!=1) goto b2;// если есть, вернуться
-	if(BAZ_ADR2==0) goto fin;// если ББКП нет, закончить
+	if(BAZ_ADR*11==0) goto b3;// если второй стойки нет, закончить
+*/
+
+//b2:
+	//d5=de11&6;//проверить ошибки четности второй стойки
+	//if(d5==6)inportb(BAZ_ADR*11+6);//если есть, сбросить прерывание модема
+	//else
+	//{
+	//	d5=de11&4;//проверить прием
+	//	if(d5==4)in_port(BAZ_ADR*11); //если есть прием, прочитать символ
+	//	else//если нет приема
+	//	{
+	//		d5=de11&2;//проверить свободность передатчика
+	//		if(d5==2)vidacha(BAZ_ADR*11);//при свободном передатчике выдать символ
+	//		else inportb(BAZ_ADR*11+6);// иначе сбросить ошибку линии
+	//	}
+	//}
+	//de11=inportb(BAZ_ADR*11+2);//прочитать, нет ли нового прерывания от ТУМС 2
+	//if(de11!=1) goto b2;// если есть, вернуться
+
+	//if(BAZ_ADR2==0) goto fin;// если ББКП нет, закончить
+
 b3:
-	d5=de2&6;//проверить ошибки четности ББКП
-	if(d5==6) inportb(BAZ_ADR2+6);//если есть, сбросить прерывание модема
-	else
-	{
-		d5=de2&4;//проверить прием
-		if(d5==4) in_port_BBKP(BAZ_ADR2); //если есть прием, прочитать символ
-		else//если нет приема
-		{
-			d5=de2&2;//проверить свободность передатчика
-			if(d5==2)
-			vidacha_BBKP(BAZ_ADR2);//при свободном передатчике выдать символ
-			else inportb(BAZ_ADR2+6);// иначе сбросить ошибку линии
-		}
-	}
-	de2=inportb(BAZ_ADR2+2);
-	if(de2!=1) goto b3;// если есть, вернуться
+	//d5=de2&6;//проверить ошибки четности ББКП
+	//if(d5==6) inportb(BAZ_ADR*2+6);//если есть, сбросить прерывание модема
+	//else
+	//{
+	//	d5=de2&4;//проверить прием
+	//	if(d5==4) in_port_BBKP(BAZ_ADR*2); //если есть прием, прочитать символ
+	//	else//если нет приема
+	//	{
+	//		d5=de2&2;//проверить свободность передатчика
+	//		if(d5==2)
+	//		vidacha_BBKP(BAZ_ADR*2);//при свободном передатчике выдать символ
+	//		else inportb(BAZ_ADR*2+6);// иначе сбросить ошибку линии
+	//	}
+	//}
+	//de2=inportb(BAZ_ADR*2+2);
+	//if(de2!=1) goto b3;// если есть, вернуться
 
 
-fin:
-	de1=inportb(BAZ_ADR1+2);//прочитать 1-ый ТУМС
-	if(BAZ_ADR11!=0) de11=inportb(BAZ_ADR11+2);//если есть, прочитать 2-ой ТУМС
-	if(BAZ_ADR2!=0) de2=inportb(BAZ_ADR2+2);//если есть, прочитать ББКП
-	if(BAZ_ADR4!=0) de4=inportb(BAZ_ADR4+2);//если есть, прочитать ПЭВМ
-	if((BAZ_ADR2==0)&&(BAZ_ADR4==0)&&( BAZ_ADR11==0))// если только один ТУМС
-	{
-		if(de1==1)//если нет прерывания
-		{
-			outportb(0x20,0x20);// закрыть процедуру
-			return;// и выйти
-		}else goto b;// иначе вернуться
-	}
-	if((de1==1)&&( de2==1)&&( de4==1)&&( de11==1))// если по всем каналам ничего нет
-	{
-		outportb(0x20,0x20);// то закрыть процедуру
-		return;// и выйти
-	}
-	goto a;// иначе вернуться
- }
+//fin:
+	//de1=inportb(BAZ_ADR1+2);//прочитать 1-ый ТУМС
+
+	//if(BAZ_ADR*11!=0) de11=inportb(BAZ_ADR*11+2);//если есть, прочитать 2-ой ТУМС
+	//if(BAZ_ADR*2!=0) de2=inportb(BAZ_ADR*2+2);//если есть, прочитать ББКП
+	//if(BAZ_ADR*4!=0) de4=inportb(BAZ_ADR4+2);//если есть, прочитать ПЭВМ
+
+	//if(/*(BAZ_ADR2==0)&&*/(BAZ_ADR4==0)/*&&( BAZ_ADR*11==0)*/)// если только один ТУМС
+	//{
+		//if(de1==1)//если нет прерывания
+		//{
+		//	outportb(0x20,0x20);// закрыть процедуру
+		//	return;// и выйти
+		//}
+		//else goto b;// иначе вернуться
+	//}
+
+	//if((de1==1)/*&&( de2==1)*//*&&( de4==1)*//*&&( de11==1)*/)// если по всем каналам ничего нет
+	//{
+		//outportb(0x20,0x20);// то закрыть процедуру
+		//return;// и выйти
+	//}
+ //	goto a;// иначе вернуться
+
+}
 //----------------------------------------------------
 void proverka_svyazi()
 {
@@ -741,19 +824,19 @@ void proverka_svyazi()
 		//работа со сбоями ТС
 		if((DISK==0)&&(sboy_ts[st]>5))//если по ТС нет данных более 5 сек
 		{
-      if(otkaz_ts[st]==0)
-      { //установить признак отказа канала ТС
-        otkaz_ts[st]=1;
-        slom_interf(7000+st);//записать в журнал
-        add(0,'A'|(32*st));//записать в архив
-        OBMEN_PVM=OBMEN_PVM|(1<<st);
-        if(st==0)w(173,999," 1 УВК");
-        else w(173,999," 2 УВК");
-        //если не было до этого потери связи
-        //навязать непарафазность
+			if(otkaz_ts[st]==0)
+			{ //установить признак отказа канала ТС
+				otkaz_ts[st]=1;
+				slom_interf(7000+st);//записать в журнал
+				add(0,'A'|(32*st));//записать в архив
+				OBMEN_PVM=OBMEN_PVM|(1<<st);
+				if(st==0)w(173,999," 1 УВК");
+				else w(173,999," 2 УВК");
+				//если не было до этого потери связи
+				//навязать непарафазность
 #ifdef kol_SOO2
-        if(st==0)ks=KS2;
-        else	ks=KS1;
+				if(st==0)ks=KS2;
+				else	ks=KS1;
 #else
 				ks=0;
 #endif
@@ -779,7 +862,7 @@ void proverka_svyazi()
         if(otkaz_tu[st]==0)
         {
           otkaz_tu[st]=1;//установить признак отказа
-          slom_interf(7010+st);//записать в журнал
+					slom_interf(7010+st);//записать в журнал
           add(0,'B'|(32*st));//записать в архив
           OBMEN_PVM=OBMEN_PVM|(4<<st);//передать соседу
           //навязать запрет ТУ
@@ -789,7 +872,7 @@ void proverka_svyazi()
           if(st==0)w(172,999," 1 УВК");
           else w(172,999," 2 УВК");
           zvuk_vkl(3,0);//включить сигнал
-        }
+				}
       }
     }
     //работа со сбоями ТУ
@@ -800,7 +883,7 @@ void proverka_svyazi()
         otkaz_tu[st]=1;
         slom_interf(7010+st);//записать в журнал
         add(0,'B'|(32*st));//записать в архив
-        OBMEN_PVM=OBMEN_PVM|(4<<st);
+				OBMEN_PVM=OBMEN_PVM|(4<<st);
         if(st==0)w(171,999," 1 УВК");
         else w(171,999," 2 УВК");
         zvuk_vkl(3,0);//включить сигнал
@@ -808,7 +891,7 @@ void proverka_svyazi()
       sboy_tu[st]=3;
     }
   }
-  ic=0;
+	ic=0;
   for(st=0;st<skoko_stoek;st++)//пройти по всем стойкам
   { //работа со сбоями ТС
     if(sboy_ts[st]==0)//если по ТС нет сбоя
@@ -823,7 +906,7 @@ void proverka_svyazi()
       }
       //если фиксировался отказ и нет запрета ТУ
       if((zapret[st]==0)&&(otkaz_tu[st]!=0)&&(sboy_tu[st]==0))
-      {
+			{
         otkaz_tu[st]=0;//cнять признак отказа по потере ТС
         //восстановление ТУ
         slom_interf(7060+st);//записать в журнал
@@ -833,7 +916,7 @@ void proverka_svyazi()
         else w(174,999," 2 УВК");
         zvuk_vkl(2,0);//включить сигнал
       }
-      if(zapret[st]!=0)//если был запрет
+			if(zapret[st]!=0)//если был запрет
       {
         zapret[st]=zapret[st]&0x7fff;
         if(zapret[st]==0)
@@ -844,7 +927,7 @@ void proverka_svyazi()
           else w(174,999," 2 УВК");
           zvuk_vkl(2,0);//включить сигнал
         }
-      }
+			}
     }
 	}
 	if(DSP_SHN!=0)
@@ -888,7 +971,7 @@ void start_port(int a)
   int ss;
   
 	nom_func("318");
-          
+
   if(DISK!=0)return;
   ochistka();
   outportb(BAZ_ADR3+1,0x00); // запрет прерывания COM
@@ -911,7 +994,7 @@ void test_deshifr(int k_ot,int bit_)
   strcpy(ST," УВК-");
   ST[5]=st+49;ST[6]=0;
   if(fr3[k_ot][bit_]==1) // если по данному биту 1 - сработало реле
-  { //если выполняется работа с маршрутом
+	{ //если выполняется работа с маршрутом
     if(MAR_GOT[st]==0x40)return;
     //если выдавалась команда менее, чем за 20 сек
     vv=biostime(0,0l);
@@ -921,7 +1004,7 @@ void test_deshifr(int k_ot,int bit_)
     if((zapret[st]&0xfff)==0)//если запрет ранее не выдавался
     { zapret[st]=zapret[st]|k_ot;//установить запрет ответов для канала ТУ
       w(172,k_ot,ST);
-      slom_interf(7020+st);
+			slom_interf(7020+st);
       add(0,'C'|(32*st));
       zvuk_vkl(3,0);
    }
@@ -976,7 +1059,7 @@ void test_otvetstv()
       if((otv_kom==0)&&(hudo==0))return;
       else
       {
-        hudo=0;
+				hudo=0;
         otv_kom=0;
         zalet=0;
 				vtora=0;
@@ -999,7 +1082,7 @@ void test_otvetstv()
 //*********************************
 void test_port_pvm()
 {
-  int cl=0,cll=0,kol_poo,x=12,y=53,ij;
+	int cl=0,cll=0,kol_poo,x=12,y=53,ij;
 	char q1[6],AAq[2]="";
 	nom_func("347");
 	if(BAZ_ADR5 == 0) return;
@@ -1086,19 +1169,19 @@ void test_mo()
     if((tiiq-tii)>2020L) //если от пуск прошло более 2 минут
     {
       outportb(BAZ_ADR1+4,0xa);
-      if(skoko_stoek>1)
-      {
-        outportb(BAZ_ADR11+4,0xa);
-      }
+			//if(skoko_stoek>1)
+			//{
+			//  outportb(BAZ_ADR*11+4,0xa);
+			//}
       tii=tiiq; //переопределить время
     }
     if((tiiq-tii)>9) //если от пуск прошло более 2 минут
     {
       outportb(BAZ_ADR1+4,0xb);
-      if(skoko_stoek>1)
-      {
-        outportb(BAZ_ADR11+4,0xb);
-      }
+			//if(skoko_stoek>1)
+			//{
+			//  outportb(BAZ_ADR*11+4,0xb);
+			//}
     }
   }
   return;
@@ -1116,7 +1199,7 @@ int what_symb(unsigned char BO)
 	if((BO&0xC0)==0xC0)goto mfr4;
   //Анализ данных по состоянию соседней ПЭВМ
   for(it=0;it<skoko_stoek;it++)
-  { if(((1<<it)&BO)!=0)
+	{ if(((1<<it)&BO)!=0)
     { otkaz_sos[it]=1;
       if(fix_ts_sos[it]==0)//если не было фиксации отказа ТС соседней ПЭВМ
       { add(0,'Q'|(32*it));
@@ -1131,7 +1214,7 @@ int what_symb(unsigned char BO)
         slom_interf(7150+it);
         fix_ts_sos[it]=0;
       }
-    }
+		}
     if(((4<<it)&BO)!=0)
     { otkaz_tu_sos[it]=1;
       if(fix_tu_sos[it]==0) //если не было фиксации отказа ТУ соседа
@@ -1185,7 +1268,7 @@ mfr4:
 int form_fr4(int os)
 {
   unsigned char mask=0;
-  int n_0,n_1,n_2,n_3,i,j;
+	int n_0,n_1,n_2,n_3,i,j;
   
 	nom_func("72");
       
@@ -1204,7 +1287,7 @@ int form_fr4(int os)
     n_3=i/1000;
     n_2=i%1000;
     n_1=n_2%100;
-    n_2=n_2/100;
+		n_2=n_2/100;
     n_0=n_1%10;
     n_1=n_1/10;
 		REG_FR4[2]=~((n_3<<4)|n_2);
@@ -1219,7 +1302,7 @@ int form_fr4(int os)
   }
 	REG_FR4[0]=0x18;
 	REG_FR4[5]=0x19;
-  return(i+1);
+	return(i+1);
 }
 //--------------------------------------------------------------
 int upak_fr4(int os)
@@ -1248,7 +1331,7 @@ int upak_fr4(int os)
 		if(fr4[i][2]==1)mask=mask|0x100;//ограждение
 		REG_FR4[3]=(mask&0xff)|0x80;
 		REG_FR4[4]=((mask&0xff00)>>8)|0x80;
-  }
+	}
 	REG_FR4[0]=0x18;
 	REG_FR4[5]=0x19;
   return(i+1);
@@ -1307,7 +1390,7 @@ void what_is_new()
   { //считать данные
     for(jj=0;jj<4;jj++)BUF_INF[jj]=BUF_IN_PVM[UKAZ_INF+jj];
     // если нет знака закрытия или не совпадают информативные байты,послать запрос
-    if((BUF_INF[3]!=0x1f)||(BUF_INF[1]!=BUF_INF[2]))
+		if((BUF_INF[3]!=0x1f)||(BUF_INF[1]!=BUF_INF[2]))
     { REG_KVIT_INF[1]=0x13;
       IT_IS_INF=0;
     }
@@ -1317,7 +1400,7 @@ void what_is_new()
     }
     REG_KVIT_INF[0]=0x11;REG_KVIT_INF[2]=0x10;
     KVIT_INF=1;END_INF=0;UKAZ_INF=0;
-  }
+	}
   // если полученa команда 
   if((END_COM==1)&&(BUF_IN_PVM[UKAZ_COM]==0x28))
   { for(jj=0;jj<11;jj++)BUF_COM_PVM[jj]=BUF_IN_PVM[UKAZ_COM+jj];
@@ -1328,7 +1411,7 @@ void what_is_new()
 		}
     REG_KVIT_COM[0]=0x24;REG_KVIT_COM[2]=0x15;
     KVIT_COM=1;END_COM=0;UKAZ_COM=0;
-  }
+	}
 	// если получено ограничение по fr4
 	if((END_FR4==1)&&(BUF_IN_PVM[UKAZ_FR4]==0x18))
 	{ for(jj=0;jj<6;jj++)BUF_FR4[jj]=BUF_IN_PVM[UKAZ_FR4+jj];
@@ -1336,7 +1419,7 @@ void what_is_new()
     else
 		{ REG_KVIT_FR4[1]=BUF_FR4[4];
 			IT_IS_FR4=1;
-    }
+		}
 		REG_KVIT_FR4[0]=0x1a;REG_KVIT_FR4[2]=0x1b;
 		KVIT_FR4=1;END_FR4=0;UKAZ_FR4=0;
   }
@@ -1351,7 +1434,7 @@ void what_is_new()
       OBMEN_PVM_OLD=0x40;
       kom_v_bufer_pvm(0,0x40);
     }
-    else N_OGR++;
+		else N_OGR++;
 		IT_IS_FR4=0;
 		for(jj=0;jj<6;jj++)BUF_FR4[jj]=0;
   }
@@ -1372,7 +1455,7 @@ int rasp_fr4()
           
   if(DISK!=0)return;
 	if((BUF_FR4[1]=='#')&&(BUF_FR4[2]=='#')&&(BUF_FR4[3]=='#'))
-  {
+	{
 		PRIEM_FR4=0;
     return(0);
   }
@@ -1416,7 +1499,7 @@ int priem_pvm(int adr)
   simbol=inportb(adr);
   if(simbol==0)return(0);
   if(simbol=='*')
-  {
+	{
     // сброс счетчика секунд без обмена ПЭВМ-ПЭВМ
     pust_pvm=0;
     return(0);
@@ -1460,7 +1543,7 @@ int ischem()
   if(DISK!=0)return;
   KJB=BUF_COM_PVM[1]&0x02;//определить для какой стойки
 #ifdef KOL_SOO2
-  if(KJB==2)//если для второй
+	if(KJB==2)//если для второй
   {
     if(BUF_COM_PVM[2]=='I')//если данные получены для путей
     {
@@ -1468,7 +1551,7 @@ int ischem()
     }
     if(BUF_COM_PVM[2]=='F')//если данные для СП или для участков путей
     {
-      Sdvig=STR2+SIG2;FN=UCH1;FIN=FN+UCH2;
+			Sdvig=STR2+SIG2;FN=UCH1;FIN=FN+UCH2;
     }
     if((BUF_COM_PVM[2]=='C')||(BUF_COM_PVM[2]=='S'))//если данные для стрелок
     {
@@ -1483,7 +1566,7 @@ int ischem()
       Sdvig=STR1+SIG1+UCH1;FN=0;FIN=PUT1;
     }
     if(BUF_COM_PVM[2]=='F') //если данные для СП или УП
-    {
+		{
       Sdvig=STR1+SIG1;FN=0;FIN=UCH1;
 		}
     if((BUF_COM_PVM[2]=='C')||(BUF_COM_PVM[2]=='S'))//если данные для стрелки
@@ -1504,7 +1587,7 @@ int ischem()
                   else
                     if(BUF_COM_PVM[3]=='C'){na=1;cha=1;}
               if(na==1)for(uu=0;uu<N_str;uu++)otkl_(N_strel[uu],1);
-              else for(uu=0;uu<N_str;uu++)vkl_(N_strel[uu],1);
+							else for(uu=0;uu<N_str;uu++)vkl_(N_strel[uu],1);
               if(cha==1)for(uu=0;uu<CH_str;uu++)otkl_(C_strel[uu],0);
               else for(uu=0;uu<CH_str;uu++) vkl_(C_strel[uu],0);
               if(ZAGRUZKA==0)
@@ -1512,7 +1595,7 @@ int ischem()
                 if(na==1)vkl_kno(NANA,10);//кнопку сделать зеленой
                 else vkl_kno(NANA,8);//если не загрузка-кнопку сделать серой
                 if(cha==1)vkl_kno(CHACHA,10);
-                else  vkl_kno(CHACHA,8);
+								else  vkl_kno(CHACHA,8);
               }
               break;
 #endif
@@ -1527,7 +1610,7 @@ int ischem()
                   Zna=BUF_COM_PVM[uu+4];//получить для объекта маску
                   goto fina;
                 }
-              }
+							}
 fina:         if(n_obek==9999) return;//если объект не найден - выход
               Rezik=Zna&0x01;//проверить бит 0-й
 							if(Rezik==0x01) fr4[n_obek][0]=1;//установлен-установить ограничение
@@ -1537,7 +1620,7 @@ fina:         if(n_obek==9999) return;//если объект не найден - выход
               else fr4[n_obek][1]=0;
               Rezik=Zna&0x04;//повторить то же для 2-го бита
               if(Rezik==0x04) fr4[n_obek][2]=1;
-              else fr4[n_obek][2]=0;
+							else fr4[n_obek][2]=0;
               if(ZAGRUZKA==0)displaypath(n_obek,0);//нарисовать путь
               break;
     case 'F': for(oo=FN;oo<FIN;oo++)//если СП или УП - пройти по группе
@@ -1548,7 +1631,7 @@ fina:         if(n_obek==9999) return;//если объект не найден - выход
               for(uu=0;uu<5;uu++)//пройти по байтам сообщения
               { if(BUF_COM_PVM[uu+4]!=124)//если в байте не заполнитель
                 { n_obek=spspu[POD][uu];//запомнить объект
-                  Zna=BUF_COM_PVM[uu+4];//читать установку/снятие ограничений
+									Zna=BUF_COM_PVM[uu+4];//читать установку/снятие ограничений
                   goto finak;
                 }
               }
@@ -1556,7 +1639,7 @@ finak:        if(n_obek==9999) return;
               if(Zna==84){zapis=1;break;}
               Rezik=Zna&0x01;
 							if(Rezik==0x01)fr4[n_obek][0]=1;
-              else fr4[n_obek][0]=0;
+							else fr4[n_obek][0]=0;
               Rezik=Zna&0x02;
               if(Rezik==0x02)fr4[n_obek][1]=1;
               else fr4[n_obek][1]=0;
@@ -1571,7 +1654,7 @@ finak:        if(n_obek==9999) return;
               }
               if(POD==9999) return;
               for(uu=0;uu<5;uu++)
-              { if(BUF_COM_PVM[uu+4]!=124)
+							{ if(BUF_COM_PVM[uu+4]!=124)
                 { n_obek=spstr[POD][uu];
                   Zna=BUF_COM_PVM[uu+4];
                   goto fena;
@@ -1592,7 +1675,7 @@ fena:         TEST=2;
                 fr4[n_obek][1]=1;
 								if(nnob!=9999)fr4[nnob][1]=1;
               }
-              else
+							else
               {
                 fr4[n_obek][1]=0;
                 if(nnob!=9999)fr4[nnob][1]=0;
@@ -1600,7 +1683,7 @@ fena:         TEST=2;
               }
               if(ZAGRUZKA==0)vkl_kno(MAKET,8);
 
-              Rezik=Zna&0x04;//запрет для проезда
+							Rezik=Zna&0x04;//запрет для проезда
               if(Rezik==0x04)//если принято ограждение
                 if((Zna&0x8)==0)fr4[n_obek][2]=1; //если для основной стрелки
                 else fr4[nnob][2]=1;//если для спаренной
@@ -1615,7 +1698,7 @@ fena:         TEST=2;
               }
               nach_zakr(n_obek,1);
               if(nnob!=9999)nach_zakr(nnob,1);
-              break;
+							break;
     case 'C': zapis=1;break;//для разовых команд на стрелку
     case 'E': zapis=1;break;//для сигналов - ничего не делать,кроме записи
     case 'a': zapis=1;break;//для маршрутов ничего не делать,кроме записи
@@ -1644,7 +1727,7 @@ void sbros_obmen_pvm()
   for(i=0;i<MAX_SIZE_OUT;i++)BUF_OUT_PVM[i]=0;// очистить буфер  
   for(i=0;i<MAX_SIZE_IN;i++)BUF_IN_PVM[i]=0;// очистить буфер  
   MY_COM=0;MY_INF=0;MY_FR4=0;POVTOR_COM=0;POVTOR_INF=0;POVTOR_FR4=0;
-  UKAZ_INF=0;END_INF=0;UKAZ_FR4=0;END_FR4=0;UKAZ_COM=0;END_COM=0;
+	UKAZ_INF=0;END_INF=0;UKAZ_FR4=0;END_FR4=0;UKAZ_COM=0;END_COM=0;
   UKAZ_KVIT_INF=0;END_KVIT_INF=0;UKAZ_KVIT_FR4=0;END_KVIT_FR4=0;
   UKAZ_KVIT_COM=0;END_KVIT_COM=0;
   IT_IS_COM_PVM=0;IT_IS_FR4=0;IT_IS_INF=0;
@@ -1659,7 +1742,7 @@ void sbros_obmen_pvm()
   }
   for(i=0;i<6;i++)
   {
-    REG_FR4[i]=0;BUF_FR4[i]=0;
+		REG_FR4[i]=0;BUF_FR4[i]=0;
   }
   for(i=0;i<11;i++)
   {
@@ -1680,7 +1763,7 @@ void kom_v_bufer(int st)
 
 	nom_func("127");
           
-  if(DISK!=0)return;
+	if(DISK!=0)return;
 //  if(REG_COM_TUMS[st][0]!='(')//если в ренистре команд нет команды
 #ifdef KOL_SOO2
   if((fr3[KM1][BitKM]!=0)||(fr3[KM2][BitKM]!=0)||
@@ -1688,7 +1771,7 @@ void kom_v_bufer(int st)
 #else
   if((fr3[KM1][BitKM]!=0)||(fr3[KM1][5]==1))
 #endif
-  {
+	{
     if(strelka_v_makete()==0) { w(257,999,""); goto met1; }
   }
   for(i=0;i<11;i++)
@@ -1703,7 +1786,7 @@ void kom_v_bufer(int st)
     {
 met1: for(i=0;i<11;i++)buf_ko[i]=REG_COM_TUMS[st][i]=0;
       N_RAZ[st]=0;
-      flagoutmsg=0;
+			flagoutmsg=0;
       return;
     }
     else N_RAZ[st]++;//записать число сделанных передач
@@ -1713,7 +1796,7 @@ met1: for(i=0;i<11;i++)buf_ko[i]=REG_COM_TUMS[st][i]=0;
     { if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//если до конца
        BUF_OUT[st][ukaz_zap[st]++]=REG_COM_TUMS[st][i];//записать
     }
-    if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//если до конца
+		if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//если до конца
     if(flagoutmsg!=11)flagoutmsg=0;
     else flagoutmsg=10;
   }
@@ -1724,7 +1807,7 @@ met1: for(i=0;i<11;i++)buf_ko[i]=REG_COM_TUMS[st][i]=0;
       N_RAZ[st]++;//записать число сделанных передач
       t_com[st]=biostime(0,0l);//запомнить время выдачи
       for(i=0;i<11;i++)//скопировать команду в буфер вывода
-      { if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//если до конца
+			{ if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//если до конца
         BUF_OUT[st][ukaz_zap[st]++]=REG_COM_TUMS[st][i];//записать
         if(N_RAZ[st]>=3)REG_COM_TUMS[st][i]=0;
       }
@@ -1732,8 +1815,10 @@ met1: for(i=0;i<11;i++)buf_ko[i]=REG_COM_TUMS[st][i]=0;
       if(N_RAZ>=3){N_RAZ[st]=0;t_com[st]=0;}
     }
 ***********/
-  if(st==0)outportb(BAZ_ADR1+1,3);
-  if(st==1)outportb(BAZ_ADR11+1,3);
+	setcolor (2); outtextxy (1,31, "█");
+
+	if(st==0)outportb(BAZ_ADR1+1,3);
+  //if(st==1)outportb(BAZ_ADR*11+1,3);
   //for(i=0;i<11;i++)buf_ko[i]=0;//освободить промежуточный буфер команд
   otkaz_tu[st]=0;
 }
@@ -1746,22 +1831,36 @@ void vidacha(int adr)
 
 	nom_func("389");
       
-  if(DISK!=0)return;
-  if(adr==BAZ_ADR1)st=0;
-  else
-    if(adr==BAZ_ADR11)st=1;
-    else return;
-  if((ukaz_vyd[st]==ukaz_zap[st])||(BUF_OUT[st][ukaz_vyd[st]]==0))
-  { ukaz_zap[st]=0;
-    ukaz_vyd[st]=0;
-  }
-  else
-  { outportb(adr,BUF_OUT[st][ukaz_vyd[st]]);
-    BUF_OUT[st][ukaz_vyd[st]]=0;
-    ukaz_vyd[st]++;
-    if(ukaz_vyd[st]>=SIZE_BUF_OUT)ukaz_vyd[st]=0;
-  }
-  return;
+	if(DISK!=0)return;
+
+	if(adr==BAZ_ADR1)st=0;
+	else return;
+	//else
+	//	if(adr==BAZ_ADR*11)st=1;
+	//	else return;
+
+	if((ukaz_vyd[st]==ukaz_zap[st])||(BUF_OUT[st][ukaz_vyd[st]]==0))
+	{
+		ukaz_zap[st]=0;
+		ukaz_vyd[st]=0;
+	}
+	else
+	{
+		outportb(adr,BUF_OUT[st][ukaz_vyd[st]]);
+		BUF_OUT[st][ukaz_vyd[st]]=0;
+		ukaz_vyd[st]++;
+		if(ukaz_vyd[st]>=SIZE_BUF_OUT)
+			ukaz_vyd[st]=0;
+		else;
+
+		// 2020-09-29
+		if (ukaz_vyd[st]==ukaz_zap[st])
+		{
+			outportb (adr+1,0x01); // disable output interrupt!
+		}
+		else;
+	}
+	return;
 }
 //***************************************
 //процедура вывода в порт обмена данных из буфера вывода
@@ -1771,27 +1870,31 @@ void vidacha_BBKP(int adr)
 
 	nom_func("390");
 
+	return; // BAZ_ADR*2
+
+	/*
 #ifdef DISPETCHER
 	if(DISK!=0)return;
-	if(adr!=BAZ_ADR2)return;
+	if(adr!=BAZ_ADR*2)return;
 	else
 	if((ukaz_vyd_dc==ukaz_zap_dc)||(BUF_OUT_DC[ukaz_vyd_dc]==0))
-  {
-    ukaz_zap_dc=0;//начинать заполнение буфера с начала
-    ukaz_vyd_dc=0;
-    STOP_BBKP=0;
-    //outportb(adr+1,1);//закрыть прерывания передачи
-    return;
-  }
-  else
-  {
-    outportb(adr,BUF_OUT_DC[ukaz_vyd_dc]);
-    BUF_OUT_DC[ukaz_vyd_dc]=0;
-    ukaz_vyd_dc++;
-    if(ukaz_vyd_dc>=BUF_OUT_DC)ukaz_vyd_dc=0;
-  }
+	{
+		ukaz_zap_dc=0;//начинать заполнение буфера с начала
+		ukaz_vyd_dc=0;
+		STOP_BBKP=0;
+		//outportb(adr+1,1);//закрыть прерывания передачи
+		return;
+	}
+	else
+	{
+		outportb(adr,BUF_OUT_DC[ukaz_vyd_dc]);
+		BUF_OUT_DC[ukaz_vyd_dc]=0;
+		ukaz_vyd_dc++;
+		if(ukaz_vyd_dc>=BUF_OUT_DC)ukaz_vyd_dc=0;
+	}
 #endif
-  return;
+	return;
+	*/
 }
 //***************************************
 //обработка полученных ответов ТУМС
@@ -1816,7 +1919,7 @@ metka_c:  REG_OT[st][4]='P';goto metka_a;//"хорошая" заготовка для ответа в ДЦ
           { if(est_com_dc(st)==0)goto metka_c;//если была команда ДЦ
             else goto metka_d;// возможно это команда от АРМа
           }
-          else goto metka_d;//если управление от АРМа
+					else goto metka_d;//если управление от АРМа
         }
       }
       else //если ответ не в норме
@@ -1838,10 +1941,10 @@ metka_a:
         {
 					sboy_ts_dc++;
           if(sboy_ts_dc>11){otkaz_ts_dc=1;sboy_ts_dc=0;}
-          ukaz_zap_dc=ukaz_zap_dc++;
+					ukaz_zap_dc=ukaz_zap_dc++;
           if(ukaz_zap_dc>SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
           break;
-        }
+				}
       }
       outportb(BAZ_ADR2+1,3);
       outportb(BAZ_ADR2,0);
@@ -1882,7 +1985,7 @@ int est_com_dc()
       for(i=0;i<6;i++)REG_OT[tums][i]=0;//очистить регистр ответа
       return(-1);
     }
-  }
+	}
   return(0);
 }
 *********************/
@@ -1904,7 +2007,7 @@ int est_com_ARM(int tums)
       for(i=0;i<6;i++)REG_OT[tums][i]=0;//сбросить ответ
       t_com[tums]=0l;//сбросить метку времени
       N_RAZ[tums]=0;//сбросить счетчик количества повторов
-      return(0);
+			return(0);
     }
 		else
     {
@@ -1926,10 +2029,10 @@ analiz_ot_dc()
   {
     if(REG_OT_DC[4]=='P')
     {
-      if(REG_OT_DC[3]>=KOL_SOO1)st=0;
+			if(REG_OT_DC[3]>=KOL_SOO1)st=0;
       else st=0;
       if(est_inf_dc(ij)==0)//если информация передавалась в ДЦ
-      {
+			{
         if(st==0)REG_OT_DC[3]=REG_OT_DC[3]-KOL_SOO1;
         for(i=0;i<6;i++)//переслать побайтно весь ответ
         {
@@ -1948,7 +2051,7 @@ analiz_ot_dc()
           }
           otkaz_tu_dc=0;
         }
-        if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//определить указатель записи
+				if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;//определить указатель записи
         dc_not_plus=0;
         otkaz_tu_dc=0;otkaz_ts_dc=0;sboy_ts_dc=0;
 metka_out:
@@ -1992,15 +2095,15 @@ int est_inf_dc(int n_reg_ot)
 //        t_inf_dc[ij]=0l;//сбросить метку времени
         return(0);
       }
-      else
-      {
-        for(i=0;i<6;i++)REG_OT_DC[i]=0;
-        return(-1);
-      }
-    }
-  }
-  for(i=0;i<6;i++)REG_OT_DC[i]=0;
-  return(-1);
+			else
+			{
+				for(i=0;i<6;i++)REG_OT_DC[i]=0;
+				return(-1);
+			}
+		}
+	}
+	for(i=0;i<6;i++)REG_OT_DC[i]=0;
+	return(-1);
 }********/
 //**********************************************
 //процедура обработки команд, принятых из ДЦ
@@ -2011,140 +2114,145 @@ void COM_FROM_DC()
 {
 	int ij,st,i,N_obekt;
 
+	return; // BAZ_ADR*2
+
 	nom_func("27");
 #endif
-  if(ukaz_com_dc==0)return;//если не было команд
-  ukaz_com_dc=10;//считаем, что во всех регистрах есть команда
-  for(ij=0;ij<10;ij++)//пройти по всем регистрам команд ДЦ
-  {
-    if((REG_COM_DC[0]=='(')&&
-    (REG_COM_DC[10]==')'))
-    {
-      if((BAZ_ADR2!=0)&&(DU==1))//если диспетчерское управление
-      {
-        st=analiz_com_dc(ij);//провести анализ команды
-        if(st!=-1)//если команда допустима
-        {
-          goto metka_a;
-        }
-        else goto metka_b;
-      }
-      else//если не диспетчерское управление
-      {
+	if(ukaz_com_dc==0)return;//если не было команд
+	ukaz_com_dc=10;//считаем, что во всех регистрах есть команда
+	for(ij=0;ij<10;ij++)//пройти по всем регистрам команд ДЦ
+	{
+		if((REG_COM_DC[0]=='(')&&
+		(REG_COM_DC[10]==')'))
+		{
+			/*
+			if((BAZ_ADR*2!=0)&&(DU==1))//если диспетчерское управление
+			{
+				st=analiz_com_dc(ij);//провести анализ команды
+				if(st!=-1)//если команда допустима
+				{
+					goto metka_a;
+				}
+				else goto metka_b;
+			}
+			else//если не диспетчерское управление
+			{
 #ifdef SEZ_UPR
-        if(SEZON==1)
-        {
-          N_obekt=poisk_obekt(REG_COM_DC[ij]);
-          if((N_obekt!=ROCH1)&&(N_obekt!=RON1)
+				if(SEZON==1)
+				{
+					N_obekt=poisk_obekt(REG_COM_DC[ij]);
+					if((N_obekt!=ROCH1)&&(N_obekt!=RON1)
 #ifdef KOL_SOO2
-          &&(N_obekt!=ROCH2)&&(N_obekt!=RON2)
+					&&(N_obekt!=ROCH2)&&(N_obekt!=RON2)
 #endif
-          )
-          {
-            goto metka_b;
+					)
+					{
+						goto metka_b;
 					}
-        }
-        else
+				}
+				else
 #endif
 				goto metka_a;
-      }
-    }
-    else
-    {
-      ukaz_com_dc--;
-      goto konec_cikl;
-    }
+			}
+			*/
+		}
+		else
+		{
+			ukaz_com_dc--;
+			goto konec_cikl;
+		}
 metka_a:
-    for(i=0;i<11;i++)
-    {
-      if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
-      if(BUF_OUT[st][ukaz_zap[st]]==0)//если ячейка буфера свободна
-      {
-        BUF_OUT[st][ukaz_zap[st]]=REG_COM_DC[i];
-        ukaz_zap[st]++;
-      }
-      else//если писать некуда
-      {
-        ukaz_zap[st]=ukaz_zap[st]++;
-        if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
-        goto mt;
-      }
-    }
-    if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
+		for(i=0;i<11;i++)
+		{
+			if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
+			if(BUF_OUT[st][ukaz_zap[st]]==0)//если ячейка буфера свободна
+			{
+				BUF_OUT[st][ukaz_zap[st]]=REG_COM_DC[i];
+				ukaz_zap[st]++;
+			}
+			else//если писать некуда
+			{
+				ukaz_zap[st]=ukaz_zap[st]++;
+				if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
+				goto mt;
+			}
+		}
+		if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
 //    t_com_dc[ij]=biostime(0,0l);
  mt:
-    ukaz_com_dc--;
-    if(st==0)
-    {
-      outportb(BAZ_ADR1+1,3);
+		ukaz_com_dc--;
+		if(st==0)
+		{
+			outportb(BAZ_ADR1+1,3);
 			outportb(BAZ_ADR1,0);
-    }
-    if(st==1)
-    {
-      outportb(BAZ_ADR11+1,3);
-      outportb(BAZ_ADR11,0);
-    }
-    goto konec_cikl;
+		}
+		//if(st==1)
+		//{
+		//  outportb(BAZ_ADR*11+1,3);
+		//  outportb(BAZ_ADR*11,0);
+		//}
+
+		goto konec_cikl;
 metka_b:
-    fix_bad_com(ij);
-    for(i=0;i<11;i++)REG_COM_DC[i]=0;
-    ukaz_com_dc--;
+		fix_bad_com(ij);
+		for(i=0;i<11;i++)REG_COM_DC[i]=0;
+		ukaz_com_dc--;
 konec_cikl:
-  }
+	}
 }
 //-------------------------------------------------------
 int poisk_obekt(unsigned char buf[11])
 {
-  int i,j,ij,k,st,N_pod;
-  
+	int i,j,ij,k,st,N_pod;
+
 	nom_func("230");
-         
-  if((buf[1]&3)==0x1)st=0;
-  else
-    if((buf[1]&3)==0x2)st=1;
-    else return(-1);
-  N_pod=buf[3]-0x30;
-  switch(st)
-  {
-    case 0: if(N_pod<STR1)goto strelka;
-            else if(N_pod<(STR1+SIG1))
-                 {N_pod=N_pod-STR1;goto signal;}
-                 else if(N_pod<(STR1+SIG1+UCH1))
-                      {N_pod=N_pod-STR1-SIG1;goto razdel;}
-                      else if(N_pod<(STR1+SIG1+UCH1+PUT1))return(-1);
-                           else if(N_pod<(STR1+SIG1+UCH1+PUT1+UPR1))
-                                {N_pod=N_pod-STR1-SIG1-UCH1-PUT1;goto kontr;}
-                                else return(-1);
-            break;
 
-    case 1: if(N_pod<STR2)goto strelka;
-            else if(N_pod<(STR2+SIG2))
-                 {N_pod=N_pod-STR2;goto signal;}
-                 else if(N_pod<(STR2+SIG2+UCH2))
-                      {N_pod=N_pod-STR2-SIG2;goto razdel;}
-                      else if(N_pod<(STR2+SIG2+UCH2+PUT2))return(-1);
-                           else if(N_pod<(STR2+SIG2+UCH2+PUT2+UPR2))
-                                {N_pod=N_pod-STR2-SIG2-UCH2-PUT2;goto kontr;}
-                                else return(-1);
-            break;
+	if((buf[1]&3)==0x1)st=0;
+	else
+		if((buf[1]&3)==0x2)st=1;
+		else return(-1);
+	N_pod=buf[3]-0x30;
+	switch(st)
+	{
+		case 0: if(N_pod<STR1)goto strelka;
+						else if(N_pod<(STR1+SIG1))
+								 {N_pod=N_pod-STR1;goto signal;}
+								 else if(N_pod<(STR1+SIG1+UCH1))
+											{N_pod=N_pod-STR1-SIG1;goto razdel;}
+											else if(N_pod<(STR1+SIG1+UCH1+PUT1))return(-1);
+													 else if(N_pod<(STR1+SIG1+UCH1+PUT1+UPR1))
+																{N_pod=N_pod-STR1-SIG1-UCH1-PUT1;goto kontr;}
+																else return(-1);
+						break;
 
-    default:  return(-1);
-  }
+		case 1: if(N_pod<STR2)goto strelka;
+						else if(N_pod<(STR2+SIG2))
+								 {N_pod=N_pod-STR2;goto signal;}
+								 else if(N_pod<(STR2+SIG2+UCH2))
+											{N_pod=N_pod-STR2-SIG2;goto razdel;}
+											else if(N_pod<(STR2+SIG2+UCH2+PUT2))return(-1);
+													 else if(N_pod<(STR2+SIG2+UCH2+PUT2+UPR2))
+																{N_pod=N_pod-STR2-SIG2-UCH2-PUT2;goto kontr;}
+																else return(-1);
+						break;
+
+		default:  return(-1);
+	}
 strelka:
-  if(buf[2]!='C')return(-1);
-  if(st==1)N_pod=N_pod+STR1;
-  for(i=0;i<5;i++)if(buf[4+i]!=124)break;
-  if(i==5)return(-1);
-  return(spstr[N_pod][i]);
+	if(buf[2]!='C')return(-1);
+	if(st==1)N_pod=N_pod+STR1;
+	for(i=0;i<5;i++)if(buf[4+i]!=124)break;
+	if(i==5)return(-1);
+	return(spstr[N_pod][i]);
 signal:
-  if((buf[2]=='a')||(buf[2]=='b')||(buf[2]=='d'))goto marsh;
-  if(buf[2]!='E')return(-1);
+	if((buf[2]=='a')||(buf[2]=='b')||(buf[2]=='d'))goto marsh;
+	if(buf[2]!='E')return(-1);
    if(st==1)N_pod=N_pod+SIG1;
   for(i=0;i<5;i++)if(buf[4+i]!=124)break;
-  if(i==5)return(-1);
+	if(i==5)return(-1);
   return(spsig[N_pod][i]);
 razdel:
-  if(buf[2]!='F')return(-1);
+	if(buf[2]!='F')return(-1);
   if(st==1)N_pod=N_pod+UCH1;
   for(i=0;i<5;i++)if(buf[4+i]!=124)break;
   if(i==5)return(-1);
@@ -2185,7 +2293,7 @@ marsh:
 
       case 1: if(N_pod<(STR2+SIG2)){N_pod=N_pod-STR2;goto sig;}
               else if(N_pod<(STR2+SIG2+UCH2)){N_pod=N_pod-STR2-SIG2;goto sp;}
-                   else return(-1);
+									 else return(-1);
       default:  return(-1);
     }
 sp: i=buf[8]&0xBF;
@@ -2229,10 +2337,10 @@ test_podt_arm()
             }
             else
             { ukaz_zap[st]++;
-              if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
+							if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
               break;
             }
-          }            
+					}
           otkaz_tu[st]=0;
           if(st==0){outportb(BAZ_ADR1+1,3);outportb(BAZ_ADR1,0);}
           if(st==1){outportb(BAZ_ADR11+1,3);outportb(BAZ_ADR11,0);}
@@ -2273,10 +2381,10 @@ int byla_com(unsigned char REG_[11])//проверка наличия команды,для полученной кв
 //      setcolor(2);outtextxy(1,1,"+");
       return(0);
     }
-    else
+		else
     {
 //      setcolor(4);outtextxy(1,1,"-");
-      return(-1);
+			return(-1);
     }
   }
 //  setcolor(14);outtextxy(1,1,"*");
@@ -2317,10 +2425,10 @@ int pishu_soob(int tums)//запись сообщения для ДЦ,анализ потери
       else
         if(((REG_INF_DC[soob][11]&0x30)==0)&&( novizna==0))
         {
-          novizna=1;
+					novizna=1;
           fix_poter(1,soob);//если не квитировано
         }
-      REG_INF_DC[soob][i]=REG_[i];//перезапись сообщения
+			REG_INF_DC[soob][i]=REG_[i];//перезапись сообщения
       REG_INF_DC[soob][11]=0xC0;//признак "новизна"
       if((REG_INF_DC[soob][1]!='I')&&(REG_INF_DC[soob][1]!='J'))
       tos=0;
@@ -2342,24 +2450,26 @@ int pishu_podt(int tums)//запись подтверждения для ДЦ,анализ потери
 {
   int tos=0,soob,i;
   char text[3]={0,0,0};
-  unsigned char REG_[6];
+	unsigned char REG_[6];
+
+	return; // BAZ_ADR*2
 
 	nom_func("441");
 
 #ifdef DISPETCHER
-  if((STATUS!=1)||(DU==0))return(-1);
-  for(i=0;i<6;i++)REG_[i]=REG_INFO[tums][i];
-  if(tums==1)soob=REG_[3]-48+KOL_SOO1;
-  else soob=REG_[3]-48;
-  REG_[3]=soob+48;
-  REG_[4]='P';
-  for(i=0;i<6;i++)
-  {
-  	if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
-    BUF_OUT_DC[ukaz_zap_dc++]=REG_[i];
-  }
-  outportb(BAZ_ADR2+1,3);
-  outportb(BAZ_ADR2,0);
+	if((STATUS!=1)||(DU==0))return(-1);
+	for(i=0;i<6;i++)REG_[i]=REG_INFO[tums][i];
+	if(tums==1)soob=REG_[3]-48+KOL_SOO1;
+	else soob=REG_[3]-48;
+	REG_[3]=soob+48;
+	REG_[4]='P';
+	for(i=0;i<6;i++)
+	{
+		if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+		BUF_OUT_DC[ukaz_zap_dc++]=REG_[i];
+	}
+	//outportb(BAZ_ADR*2+1,3);
+	//outportb(BAZ_ADR*2,0);
 #endif
 	return(0);
 }
@@ -2378,68 +2488,70 @@ void fix_poter(int pot,int sob)
 void OUT_DC()
 {
 #ifdef DISPETCHER
-  int i,j;
+	int i,j;
+
+	return; // BAZ_ADR*2
 
 	nom_func("210");
 
-  if(STATUS!=1)return;
-  if(OB_PRER>=KOL_SOO)OB_PRER=0;
-  if(SIZE_BUF_OUT_DC-ukaz_zap_dc<11)return;
-  for(i=OB_PRER;i<KOL_SOO;i++)//пройти по всем донесениям с поиском новизны
-  { if(dc_not_plus==1)REG_INF_DC[i][10]=')';
-    if(dc_not_plus==2)REG_INF_DC[i][10]=='-';
-    if(REG_INF_DC[i][11]==0xC0)//если по сообщению новизна
-    { if(REG_INF_DC[i][0]!=0)//если не пустое сообщение нет квитанции
-      { for(j=0;j<11;j++)
-        { if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
-          BUF_OUT_DC[ukaz_zap_dc++]=REG_INF_DC[i][j];
-        }
-        if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
-        REG_INF_DC[i][11]=REG_INF_DC[i][11]|0x3;//признак "выдано"
-        OB_PRER=i+1;
-        if(OB_PRER==KOL_SOO)OB_PRER=0;
-      }
-      else{ OB_PRER=i;STOP_BBKP=1;}
-      outportb(BAZ_ADR2+1,3);//открыть передачу в ДЦ
-      outportb(BAZ_ADR2,0);
-      return;
-    }
-  }
-  for(i=OB_PRER;i<KOL_SOO;i++)//пройти по всем донесениям с поиском неквитирования
-  { if((REG_INF_DC[i][11]&0x3)==3)//если по сообщению нет квитанции
-    { if(REG_INF_DC[i][0]!=0)//если не пустое сообщение нет квитанции
-      { for(j=0;j<11;j++)
-        { if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
-          BUF_OUT_DC[ukaz_zap_dc++]=REG_INF_DC[i][j];
-        }
-        if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+	if(STATUS!=1)return;
+	if(OB_PRER>=KOL_SOO)OB_PRER=0;
+	if(SIZE_BUF_OUT_DC-ukaz_zap_dc<11)return;
+	for(i=OB_PRER;i<KOL_SOO;i++)//пройти по всем донесениям с поиском новизны
+	{ if(dc_not_plus==1)REG_INF_DC[i][10]=')';
+		if(dc_not_plus==2)REG_INF_DC[i][10]=='-';
+		if(REG_INF_DC[i][11]==0xC0)//если по сообщению новизна
+		{ if(REG_INF_DC[i][0]!=0)//если не пустое сообщение нет квитанции
+			{ for(j=0;j<11;j++)
+				{ if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+					BUF_OUT_DC[ukaz_zap_dc++]=REG_INF_DC[i][j];
+				}
+				if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+				REG_INF_DC[i][11]=REG_INF_DC[i][11]|0x3;//признак "выдано"
+				OB_PRER=i+1;
+				if(OB_PRER==KOL_SOO)OB_PRER=0;
+			}
+			else{ OB_PRER=i;STOP_BBKP=1;}
+			//outportb(BAZ_ADR*2+1,3);//открыть передачу в ДЦ
+			//outportb(BAZ_ADR*2,0);
+			return;
+		}
+	}
+	for(i=OB_PRER;i<KOL_SOO;i++)//пройти по всем донесениям с поиском неквитирования
+	{ if((REG_INF_DC[i][11]&0x3)==3)//если по сообщению нет квитанции
+		{ if(REG_INF_DC[i][0]!=0)//если не пустое сообщение нет квитанции
+			{ for(j=0;j<11;j++)
+				{ if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+					BUF_OUT_DC[ukaz_zap_dc++]=REG_INF_DC[i][j];
+				}
+				if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
         REG_INF_DC[i][11]=REG_INF_DC[i][11]|0x3;//признак "выдано"
         OB_PRER=i+1;
         if(OB_PRER==KOL_SOO)OB_PRER=0;
       }
       else {OB_PRER=i;STOP_BBKP=1;}
-      outportb(BAZ_ADR2+1,3);//открыть передачу в ДЦ
-      outportb(BAZ_ADR2,0);
-      return;
-    }
-  }
-  for(i=OB_PRER;i<KOL_SOO;i++)//пройти по всем донесениям с поиском неквитирования
-  { if(REG_INF_DC[i][0]!=0)//если не пустое сообщение нет квитанции
-    { for(j=0;j<11;j++)
-      { if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
-        BUF_OUT_DC[ukaz_zap_dc++]=REG_INF_DC[i][j];
-      }
-      if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
-      REG_INF_DC[i][11]=REG_INF_DC[i][11]|0x3;//признак "выдано"
-      OB_PRER=i+1;
-      if(OB_PRER==KOL_SOO)OB_PRER=0;
-      else {OB_PRER=i;STOP_BBKP=1;}
-      outportb(BAZ_ADR2+1,3);//открыть передачу в ДЦ
-      outportb(BAZ_ADR2,0);
-      return;
-    }
-  }
-  OB_PRER=0;return;
+			//outportb(BAZ_ADR*2+1,3);//открыть передачу в ДЦ
+			//outportb(BAZ_ADR*2,0);
+			return;
+		}
+	}
+	for(i=OB_PRER;i<KOL_SOO;i++)//пройти по всем донесениям с поиском неквитирования
+	{ if(REG_INF_DC[i][0]!=0)//если не пустое сообщение нет квитанции
+		{ for(j=0;j<11;j++)
+			{ if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+				BUF_OUT_DC[ukaz_zap_dc++]=REG_INF_DC[i][j];
+			}
+			if(ukaz_zap_dc>=SIZE_BUF_OUT_DC)ukaz_zap_dc=0;
+			REG_INF_DC[i][11]=REG_INF_DC[i][11]|0x3;//признак "выдано"
+			OB_PRER=i+1;
+			if(OB_PRER==KOL_SOO)OB_PRER=0;
+			else {OB_PRER=i;STOP_BBKP=1;}
+			//outportb(BAZ_ADR*2+1,3);//открыть передачу в ДЦ
+			//outportb(BAZ_ADR*2,0);
+			return;
+		}
+	}
+	OB_PRER=0;return;
 #endif
 }
 //-------------------------------------------------
@@ -2580,7 +2692,7 @@ snova:
 		if(handle>0)close(handle);
 		handle=0;
     return;
-  }
+	}
   //если не найдена команда
   if(((nom_kom==kol_kom)&&(vverh==0))||(vverh==vniz))
   {
@@ -2624,7 +2736,7 @@ int byla_inf_dc(unsigned char REG_[11])
 void ANALIZ_KOM_TUMS()
 {
   int st,i;
-  unsigned long int t_tek;
+	unsigned long int t_tek;
   
 	nom_func("8");
   
@@ -2665,10 +2777,10 @@ void in_port_BBKP(unsigned int adr)
 //---------------------------------------------------------
 void ANALIZ_BBKP()
 {
-  int i,ij,podt_inf_dc,k;
+	int i,ij,podt_inf_dc,k;
   
   nom_func("6");
-  
+
   if(DISK!=0)return;  
 #ifdef DISPETCHER
 povtor:

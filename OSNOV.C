@@ -1,5 +1,3 @@
-// Release 2020-09-22 STO
-
 #include "bla.h"
 #include <stdlib.h>
 #include <stdio.h>

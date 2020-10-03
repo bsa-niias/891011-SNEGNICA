@@ -4,12 +4,12 @@
 #include <dos.h>
 //--------------------------------------
 unsigned long int BAZ_ADR1,
-BAZ_ADR11,
-BAZ_ADR2,
+//BAZ_ADR*11,
+//BAZ_ADR*2,
 BAZ_ADR3,
-BAZ_ADR4,
+//BAZ_ADR*4,
 BAZ_ADR5,
-BAZ_ADR6,
+//BAZ_ADR6,
 to_chislo,
 tormoz;
 long FIR_time,

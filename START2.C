@@ -502,11 +502,15 @@ int read_int(int hnd)
 /*******************************************/
 void formula(int fu)
 {
-
+//$local_var
 	long hh;
 	int KUP=0,ind=0,in=0,inn=0,NB=0;
 	unsigned int speed,speed11,speed_pvm,speed_bbkp;
+	unsigned long int BAZ_ADR11; // see DAT1.C
+	unsigned long int BAZ_ADR2;  // see DAT1.C
+	unsigned long int BAZ_ADR4;  // see DAT1.C
 
+//$code
 	nom_func("87");
 
 	setcolor(8);
@@ -528,7 +532,7 @@ void formula(int fu)
 	BAZ_ADR4 = read_int(fu);//считывание адреса для обмена ПЭВМ
 	speed_pvm = read_int(fu);//считывание скорости для обмена ПЭВМ
 	BAZ_ADR5 = read_int(fu);//считывание адреса переключателя ОСН/РЕЗ
-  NB = read_int(fu);//считывание вектора прерывания
+	NB = read_int(fu);//считывание вектора прерывания
 	TEST_N = read_int(fu);//считывание признака фиксации ЛС/ЗС
 	MODE_KN = read_int(fu);//считывание флага способа включения кнопки ОК
 	PROV_SCB = read_int(fu);//считывание флага проверки СЦБ

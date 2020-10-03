@@ -1882,7 +1882,12 @@ void dr()
 fin:
 	perekluch=0;pusto=0;
 	if(otkaz_ts[0]==0){outportb(BAZ_ADR1+1,3);outportb(BAZ_ADR1,0);}
-	if(otkaz_ts[1]==0){outportb(BAZ_ADR11+1,3);outportb(BAZ_ADR11,0);}
+
+	//if(otkaz_ts[1]==0)
+	//{
+	//	 outportb(BAZ_ADR*11+1,3);
+	//	 outportb(BAZ_ADR*11,0);
+	//}
 }
 /***********************************************/
 void kvv(int nom,int bit_)
