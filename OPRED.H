@@ -10,7 +10,7 @@
 	#define	CHA	100
 	#define	CHACHA 4  /* Номер в markery для вкл/выкл четного автодействия*/
 	#define CHET 1
-	#define DISPETCHER 0
+	//#define DISPETCHER 0
 	//#define DISP_UPR 1//признак наличия диспетчерского управления
 	#define	GRI 63
 	#define	GRUP 35

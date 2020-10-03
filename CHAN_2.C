@@ -38,7 +38,7 @@ void consentr()
 //первичная обработка принятых данных
 if(DISK!=0)goto m01;
 #ifdef WORK
-  ANALIZ_TUMS();//просмотр буфера приема ТУМСов выделение ответов и сообщений
+	ANALIZ_TUMS();//просмотр буфера приема ТУМСов выделение ответов и сообщений
 	//if(STOP_BBKP==0)OUT_DC();
 	//else
 	//{
@@ -58,7 +58,7 @@ m01:
 		{ text1[0]='█';text1[1]=0;
       setcolor(7);outtextxy(i*8+8,200,text1);
       text1[0]=REG_INFO[0][i];text1[1]=0;
-      if(text1[0]!=0)
+			if(text1[0]!=0)
       {
         setcolor(1);outtextxy(i*8+8,200,text1);
       }
@@ -78,7 +78,7 @@ m01:
       if(text1[0]!=0)
       {
         setcolor(2);outtextxy(i*8+8,240,text1);
-      }
+			}
       text1[0]='█'; text1[1]=0;
       setcolor(7);outtextxy(i*8+8,260,text1);
       text1[0]=BUF_OUT[1][i]; text1[1]=0;
@@ -98,7 +98,7 @@ m01:
       text1[0]='█'; text1[1]=0;
       setcolor(7);outtextxy(i*8+8,300,text1);
       text1[0]=BUF_IN_DC[i];text1[1]=0;
-      if(text1[0]!=0)
+			if(text1[0]!=0)
 			{
         setcolor(4);outtextxy(i*8+8,300,text1);
       }
@@ -178,7 +178,7 @@ vs:     fin_kom();return;
         if(st==0);outtext(" 1");//вывести номер канала
         if(st==1);outtext(" 2");
         fin_kom();
-        return;
+				return;
 			}
 
       else//если управление не запрещено
@@ -198,7 +198,7 @@ ag:       for(i_C=0;i_C<=8;i_C++)bu[st][i_C]=buf_ko[i_C];//команду в буфер
           if(flagoutmsg==10)// если сквозной маршрут
           {
 						est_kom(st);//установить признак наличия команды
-            for(i_C=0;i_C<9;i_C++)buf_ko[i_C]=buf_ko_mm[i_C];//взять в буфер
+						for(i_C=0;i_C<9;i_C++)buf_ko[i_C]=buf_ko_mm[i_C];//взять в буфер
             if(flagoutmsg==10)// если сквозной маршрут ?????
               {flagoutmsg=1;  goto agm;}
             else  // если обычный сквозной маршрут
@@ -238,7 +238,7 @@ void FORM_BUF_PVM_OUT()
   else
   { if((TELEUP==0)&&(hoz_poezd[0]==0)&&(hoz_poezd[1]==0)&&(ZAGRUZKA==0))
     { if(okno_otkaz==0)t(0);
-      TELEUP=1;
+			TELEUP=1;
     }
   }
 	if((MY_FR4==0)&&( MY_COM==0)&&( MY_INF==0)&&
@@ -258,7 +258,7 @@ void FORM_BUF_PVM_OUT()
     }
   }
   else// если надо что-то передать
-  { if(KVIT_COM==1)
+	{ if(KVIT_COM==1)
     { test++;
       for(i=0;i<3;i++)
       { BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_KVIT_COM[i];
@@ -278,12 +278,12 @@ void FORM_BUF_PVM_OUT()
 				REG_KVIT_FR4[i]=0;
       }
 			KVIT_FR4=0;
-    }
+		}
     if(KVIT_INF==1)
     { test++;
       for(i=0;i<3;i++)
       { BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_KVIT_INF[i];
-        REG_KVIT_INF[i]=0;
+				REG_KVIT_INF[i]=0;
         if(UKAZ_ZAP_OUT==(MAX_SIZE_OUT-1))UKAZ_ZAP_OUT=0;
 				else UKAZ_ZAP_OUT++;
       }
@@ -298,12 +298,12 @@ void FORM_BUF_PVM_OUT()
         { BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_INF[i];
           if(UKAZ_ZAP_OUT==(MAX_SIZE_OUT-1))UKAZ_ZAP_OUT=0;
           else UKAZ_ZAP_OUT++;
-        }
+				}
         MY_INF=0;
         POVTOR_INF++;
       }
     }
-    if((STATUS==0)||(STATUS==2))// если не основная
+		if((STATUS==0)||(STATUS==2))// если не основная
     { if(test==0)// если нет неосновной передачи
 			{ MY_FR4=0;
 				MY_COM=0;
@@ -318,12 +318,12 @@ void FORM_BUF_PVM_OUT()
 
 			if(MY_FR4==1)//если есть новое для FR4 или нужен повтор
 			{ if(POVTOR_FR4>3) sbros_obmen_pvm();
-        else
+				else
 				{ test++;
           for(i=0;i<6;i++)
 					{ BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_FR4[i];
             if(UKAZ_ZAP_OUT==(MAX_SIZE_OUT-1))UKAZ_ZAP_OUT=0;
-            else UKAZ_ZAP_OUT++;
+						else UKAZ_ZAP_OUT++;
           }
 					MY_FR4=0;
 					POVTOR_FR4++;
@@ -338,7 +338,7 @@ void FORM_BUF_PVM_OUT()
             if(UKAZ_ZAP_OUT==MAX_SIZE_OUT-1)UKAZ_ZAP_OUT=0;
             else UKAZ_ZAP_OUT++;
           }
-          MY_COM=0;
+					MY_COM=0;
           POVTOR_COM++;
         }
       }
@@ -386,8 +386,8 @@ form_otv(int st)
 //  if(sboy_tu[st]>5)sboy_tu[st]=6;
 //  if(REG_INFO[st][10]==')')sboy_tu[st]--;
 //  if(sboy_tu[st]<0)sboy_tu[st]=0;
-  for(jj=0;jj<6;jj++)
-  {
+	for(jj=0;jj<6;jj++)
+	{
 		if(ukaz_zap[st]>=SIZE_BUF_OUT)ukaz_zap[st]=0;
 		BUF_OUT[st][ukaz_zap[st]]=REG_OT[st][jj];
 		text[jj]=REG_OT[st][jj];
@@ -409,6 +409,7 @@ form_otv(int st)
 	if (ch1_receive_not_answer_byte > 20)
 	{
 		 //receive up 20 byte, but zero byte transfer - bad;
+
 		 disable ();
 		 outportb(BAZ_ADR1+1,0x00);
 		 outportb(BAZ_ADR1+3,0x80);
@@ -418,6 +419,7 @@ form_otv(int st)
 		 outportb(BAZ_ADR1+4,0x0b);
 		 outportb(BAZ_ADR1+1,0x03);
 		 enable ();
+
 		 setcolor(4); outtextxy(1,31,"█");
 	}
 	else
@@ -440,6 +442,7 @@ vidacha_pvm(int adre)
 {
 
 	nom_func("391");
+	return;
 
 	if(UKAZ_ZAP_OUT==UKAZ_VYVOD)// передано все?
 	{
@@ -487,19 +490,42 @@ void ochistka()
 	}
 }
 //*******************************************************************
-void in_port(unsigned int adr)
-{
-	int st,i;
+unsigned int exchange_flag = 0;
 
-	nom_func("104");
+unsigned char b = '!';
+void get_ts_byte ()
+{
+ int st;
+
+	//nom_func("104");
+	b = inportb (BAZ_ADR1);
+	//outportb(BAZ_ADR1,b);
+
+	//return;
 
 	//if(adr==BAZ_ADR1)st=0;
 	//else
 	//	if(adr==BAZ_ADR*11)st=1;
 	//	else return;
-
+	//return;
 	st=0;
-	SYMBOL[st]=inportb(adr)&127;
+	SYMBOL[st]=inportb(BAZ_ADR1)&127;
+
+	/*
+	if (exchange_flag == 0)
+	{
+		 exchange_flag = 1;
+		 //setcolor(10); outtextxy(2,31,"█");
+	}
+	else if (exchange_flag == 1)
+	{
+		 exchange_flag = 0;
+		 //setcolor(13); outtextxy(2,31,"█");
+	}
+	else exchange_flag = 0;
+	*/
+	//return;
+
 	if(SYMBOL[st]==0)return;
 	t_pust[st]=0;
 	if((SYMBOL[st]==')')||(SYMBOL[st]=='+'))
@@ -511,6 +537,7 @@ void in_port(unsigned int adr)
 	}
 	BUF_IN[st][ukaz_priem[st]++]=SYMBOL[st];
 	if(ukaz_priem[st]>=SIZE_BUF_PRIEM)ukaz_priem[st]=0;
+
 	return;
  }
 /*******************************************************************
@@ -553,7 +580,7 @@ void init()
 	outportb(BAZ_ADR1+3,0x0e);//N бит
 	outportb(BAZ_ADR1+1,0x0); // запретить прерывания COM
 	outportb(BAZ_ADR1+4,0x0b); // упр модемом
-	//outportb(BAZ_ADR1,0);
+	outportb(BAZ_ADR1,0);
 	//**********************
 	// if(BAZ_ADR*11!=0)
 	// {
@@ -626,7 +653,7 @@ void get_int_vect()
 //**********************************************************
 void set_int_vect()
 {
-  
+
 	nom_func("298");
         
  if(DISK!=0)return;
@@ -635,11 +662,11 @@ void set_int_vect()
 //*********************************************************
 void reset_int_vect()
 {
-  
+
 	nom_func("279");
-        
-  if(DISK!=0)return;
-  disable();
+
+	if(DISK!=0)return;
+	disable();
 	//if(BAZ_ADR*2!=0) outportb(BAZ_ADR*2+4,0);
 	//if(BAZ_ADR*11!=0) outportb(BAZ_ADR*11+4,0);
 	//if(BAZ_ADR*4!=0) outportb(BAZ_ADR*4+4,0);
@@ -655,13 +682,13 @@ void reset_int_vect()
 	enable();
 }
 //**************************************************************//
+//unsigned char int_b = '*';
 void interrupt far reading_char()
 {
-	int de1=0,/*de11=0,*//*de2=0,*//*de4=0,*/d5=0,test;
+	int de1=0,/*de11=0,*//*de2=0,*//*de4=0,*/d5=0;//,test;
 	if(DISK!=0)return;
 
 	//outportb(0x20,0x20);
-
 a:
 	de1=inportb(BAZ_ADR1+2); //читать прерывания 1-го ТУМС
 
@@ -672,7 +699,7 @@ a:
 	}
 	else if (d5 == 0x04)
 	{
-		 in_port (BAZ_ADR1); // get byte
+		 get_ts_byte (); // get byte
 		 ch1_receive_not_answer_byte++;
 	}
 	else if (d5 == 0x02) // if mast send byte
@@ -691,9 +718,14 @@ a:
 	if (d5 == 0x01) // no interrupt
 	{
 		 outportb (0x20, 0x20);
-		 return;
 	}
-	else goto a;
+	else
+	{
+		 //outportb (0x20, 0x20);
+		 goto a;
+	}
+
+	return;
 
 	//de1=inportb(BAZ_ADR1+2);//читать прерывания 1-го ТУМС
 	//if(BAZ_ADR*11!=0)
@@ -871,9 +903,9 @@ void proverka_svyazi()
           add(0,'C'|(32*st));//записать в архив
           if(st==0)w(172,999," 1 УВК");
           else w(172,999," 2 УВК");
-          zvuk_vkl(3,0);//включить сигнал
+					zvuk_vkl(3,0);//включить сигнал
 				}
-      }
+			}
     }
     //работа со сбоями ТУ
     if(sboy_tu[st]>2)
@@ -893,7 +925,7 @@ void proverka_svyazi()
   }
 	ic=0;
   for(st=0;st<skoko_stoek;st++)//пройти по всем стойкам
-  { //работа со сбоями ТС
+	{ //работа со сбоями ТС
     if(sboy_ts[st]==0)//если по ТС нет сбоя
     {
       if(otkaz_ts[st]!=0)
@@ -911,9 +943,9 @@ void proverka_svyazi()
         //восстановление ТУ
         slom_interf(7060+st);//записать в журнал
         add(0,'F'|(32*st));//записать в архив
-        OBMEN_PVM=OBMEN_PVM&(~(4<<st));
+				OBMEN_PVM=OBMEN_PVM&(~(4<<st));
         if(st==0)w(174,999," 1 УВК");
-        else w(174,999," 2 УВК");
+				else w(174,999," 2 УВК");
         zvuk_vkl(2,0);//включить сигнал
       }
 			if(zapret[st]!=0)//если был запрет
@@ -973,7 +1005,7 @@ void start_port(int a)
 	nom_func("318");
 
   if(DISK!=0)return;
-  ochistka();
+	ochistka();
   outportb(BAZ_ADR3+1,0x00); // запрет прерывания COM
   outportb(BAZ_ADR3+4,0x01); // упр модемом
   ss=inportb(0x21);
@@ -991,9 +1023,9 @@ void test_deshifr(int k_ot,int bit_)
   //if(STATUS!=1)
   return;
   st=fr1[k_ot][13]-1;//определить индекс стойки
-  strcpy(ST," УВК-");
+	strcpy(ST," УВК-");
   ST[5]=st+49;ST[6]=0;
-  if(fr3[k_ot][bit_]==1) // если по данному биту 1 - сработало реле
+	if(fr3[k_ot][bit_]==1) // если по данному биту 1 - сработало реле
 	{ //если выполняется работа с маршрутом
     if(MAR_GOT[st]==0x40)return;
     //если выдавалась команда менее, чем за 20 сек
@@ -1013,7 +1045,7 @@ void test_deshifr(int k_ot,int bit_)
  else
  { fr3[k_ot][bit_+9]=0;
    if((zapret[st]&0xfff)==0) return;
-   k_ot=zapret[st]&0x7fff;
+	 k_ot=zapret[st]&0x7fff;
    if(test_sost_(k_ot)==1) return;
 	 zapret[st]=zapret[st]&0x8000;
    if((otkaz_tu[st]==0)&&(zapret[st]==0))
@@ -1053,7 +1085,7 @@ void test_otvetstv()
 	}
 	else
   {
-    cl=cll&0x20;
+		cl=cll&0x20;
     if(cl==0x20)
     {
       if((otv_kom==0)&&(hudo==0))return;
@@ -1173,7 +1205,7 @@ void test_mo()
 			//{
 			//  outportb(BAZ_ADR*11+4,0xa);
 			//}
-      tii=tiiq; //переопределить время
+			tii=tiiq; //переопределить время
     }
     if((tiiq-tii)>9) //если от пуск прошло более 2 минут
     {
@@ -1213,7 +1245,7 @@ int what_symb(unsigned char BO)
       { add(0,'U'|(32*it));
         slom_interf(7150+it);
         fix_ts_sos[it]=0;
-      }
+			}
 		}
     if(((4<<it)&BO)!=0)
     { otkaz_tu_sos[it]=1;
@@ -1829,15 +1861,16 @@ void vidacha(int adr)
 {
 	int st;
 
-	nom_func("389");
-      
+	//nom_func("389");
+
 	if(DISK!=0)return;
 
-	if(adr==BAZ_ADR1)st=0;
-	else return;
+	//if(adr==BAZ_ADR1)st=0;
+	//else return;
 	//else
 	//	if(adr==BAZ_ADR*11)st=1;
 	//	else return;
+	st = 0;
 
 	if((ukaz_vyd[st]==ukaz_zap[st])||(BUF_OUT[st][ukaz_vyd[st]]==0))
 	{
@@ -2117,7 +2150,7 @@ void COM_FROM_DC()
 	return; // BAZ_ADR*2
 
 	nom_func("27");
-#endif
+
 	if(ukaz_com_dc==0)return;//если не было команд
 	ukaz_com_dc=10;//считаем, что во всех регистрах есть команда
 	for(ij=0;ij<10;ij++)//пройти по всем регистрам команд ДЦ
@@ -2200,6 +2233,7 @@ metka_b:
 konec_cikl:
 	}
 }
+#endif
 //-------------------------------------------------------
 int poisk_obekt(unsigned char buf[11])
 {
@@ -2605,7 +2639,8 @@ void ANALIZ_TUMS()
 //-------------
 int pishu_com_dc(unsigned char REG_[11])
 {
-  int handle,nom_kom,i,ost,vverh,vniz,shag,shag0,st,kol_kom,strt,fin,iv,
+/*
+	int handle,nom_kom,i,ost,vverh,vniz,shag,shag0,st,kol_kom,strt,fin,iv,
   obk,obkt,il,in,im,kop;
   long len_f;
   unsigned char buf_[11];
@@ -2625,7 +2660,7 @@ int pishu_com_dc(unsigned char REG_[11])
   shag=nom_kom/2;ost=nom_kom%2;//найти половину
   if(ost!=0)shag++;nom_kom=shag;
 snova:
-  lseek(handle,(nom_kom-1)*13,0);//выйти на команду
+	lseek(handle,(nom_kom-1)*13,0);//выйти на команду
   read(handle,buf_,11);
   vverh=0;vniz=0;
   for(i=0;i<11;i++)
@@ -2705,9 +2740,10 @@ snova:
   else shag=shag0;
   if(vverh==1)nom_kom=nom_kom-shag;
   if(vniz==1)nom_kom=nom_kom+shag;
-  if(nom_kom<0)nom_kom=1;
-  if(nom_kom>kol_kom)nom_kom=kol_kom;
-  goto snova;
+	if(nom_kom<0)nom_kom=1;
+	if(nom_kom>kol_kom)nom_kom=kol_kom;
+	goto snova;
+*/
 }
 //--------------------
 form_otv_dc(unsigned char REG_[11])
@@ -2758,21 +2794,22 @@ void ANALIZ_KOM_TUMS()
 //---------------------------------------------------------
 void in_port_BBKP(unsigned int adr)
 {
-  int i;
-  unsigned char SYM_DC;
-  
-	nom_func("105");
-        
-  SYM_DC=inportb(adr)&127;
-  if(SYM_DC==0)return;
-  t_pust_dc=0;
-  if(SYM_DC==')')
-  ANALIZ_DC++;
-  BUF_IN_DC[ukaz_priem_dc++]=SYM_DC;
-  konec_dc=ukaz_priem_dc;
-  if(ukaz_priem_dc>=SIZE_BUF_PRIEM_DC)ukaz_priem_dc=0;
-  return;
+/*
+	int i;
+	unsigned char SYM_DC;
 
+	nom_func("105");
+
+	SYM_DC=inportb(adr)&127;
+	if(SYM_DC==0)return;
+	t_pust_dc=0;
+	if(SYM_DC==')')
+	ANALIZ_DC++;
+	BUF_IN_DC[ukaz_priem_dc++]=SYM_DC;
+	konec_dc=ukaz_priem_dc;
+	if(ukaz_priem_dc>=SIZE_BUF_PRIEM_DC)ukaz_priem_dc=0;
+	return;
+*/
 }
 //---------------------------------------------------------
 void ANALIZ_BBKP()

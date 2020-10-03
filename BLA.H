@@ -98,7 +98,7 @@ void gri_razd(int	a);                 //определена в station.c
 void h(void);                         //определена в helper.c
 void home(int	a);                     //определена в keyb.c
 void imena(int	a);                   //определена в start2.c
-void in_port(unsigned int a);         //определена в chan_2.c
+void in_port(void /*unsigned int a*/);         //определена в chan_2.c
 void in_port_BBKP(unsigned int	a);   //определена в chan_2.c
 void init(void);                     //определена в chan_2.c
 void init_markery(int	a);           //определена в start2.c

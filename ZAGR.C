@@ -102,7 +102,7 @@ void ZZagruzka()
 			kom_v_bufer_pvm(0,OBMEN_PVM);//запрос в основной машине данных по fr4
 			OBMEN_PVM=0;
 			OBMEN_PVM_OLD=OBMEN_PVM;
-			FORM_BUF_PVM_OUT();
+			//FORM_BUF_PVM_OUT();
 			//outportb(BAZ_ADR*4+1,3);//разрешение передачи
 			zjj=0;
 			setcolor(8);line(10,110,630,110);line(10,120,630,120);
@@ -113,6 +113,9 @@ void ZZagruzka()
 			zjj=0;
 			while(PRIEM_FR4==1)
 			{
+				NEISPRAVEN=1;
+				break;
+
 				what_is_new();
 				if(N_OGR>0){setcolor(1);moveto(10*(N_OGR)+1,111),outtext("█");}
 				SEC_time=biostime(0,0L);
@@ -179,31 +182,36 @@ void ZZagruzka()
 #ifdef KOL_SOO2
   Init_TEST_SOOB(1);
 #endif
-  outportb(BAZ_ADR1+1,1);
+	setcolor(0);
+
+	outportb(BAZ_ADR1+1,0x03);
 	//outportb(BAZ_ADR*11+1,1);
-  pusto=0;
-  zj=0;
-  FIR_time=biostime(0,0L);
-  SEC_time=FIR_time;
-  while(ZAGRUZKA==1)
-  {
-    if(TEST_SUM_SOOB()==0)ZAGRUZKA=0;
-    Ntu=test_time1(18L);
-    if(Ntu>0)
-    {
-      if(otkaz_ts[0]==1){setcolor(12);moveto(250,Zy1);outtext("Отказ I канала ТС");}
-      if(otkaz_ts[1]==1){setcolor(12);moveto(250,Zy2);outtext("Отказ II канала ТС");}
-      zj++;
-      FIR_time=SEC_time;
-      if(zj>20)break;
-    }
-    consentr();
-    proverka_svyazi();
-  }
-  ZAGRUZKA=0;
-  jj=0;
-  t_pust[0]=0;t_pust[1]=0;
-  return;
+	pusto=0;
+	zj=0;
+	FIR_time=biostime(0,0L);
+	SEC_time=FIR_time;
+	nom_func("+440");
+	while(ZAGRUZKA==1)
+	{
+		if(TEST_SUM_SOOB()==0)ZAGRUZKA=0;
+		Ntu=test_time1(18L);
+		if(Ntu>0)
+		{
+			if(otkaz_ts[0]==1){setcolor(12);moveto(250,Zy1);outtext("Отказ I канала ТС");}
+			if(otkaz_ts[1]==1){setcolor(12);moveto(250,Zy2);outtext("Отказ II канала ТС");}
+			zj++;
+			FIR_time=SEC_time;
+			if(zj>20)break;
+		}
+		consentr();
+		proverka_svyazi();
+	}
+	ZAGRUZKA=0;
+	jj=0;
+	t_pust[0]=0;t_pust[1]=0;
+	//nom_func("-440");
+	//outportb(BAZ_ADR1+1,0x03);
+	return;
 }
 /************************************************************/
 #include<stdio.h>

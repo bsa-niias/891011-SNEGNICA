@@ -9,6 +9,9 @@
 #include <io.h>
 #include <fcntl.h>
 #include <sys\stat.h>
+
+extern unsigned _stklen = 10*1024;
+
 main()
 {
 	int a,b,iNt,ohp,ohoho,fp,i_close,ic,errorcode,ii,fl,test_tmp;
@@ -246,7 +249,7 @@ met0://---------------------начало основного цикла
 		if((klo==0)&&(nikuda==0)&&(help==0))what_is_new();//проверка наличия принятых данных из соседней ПЭВМ
 	}
 	//инициализация таймера-стророжа на выдержку 3 сек
-	outportb(0x443,3);
+	//outportb(0x443,3);
 	pauza++;
   if((pauza<2)||(menu_N!=0))goto mtk;
   pauza=0;
@@ -892,7 +895,7 @@ void tst_zvuk()
 
 	if(STATUS!=1)
   {
-    nosound;
+		nosound();
     return;
   }
   switch(zvuk_sig.tip)

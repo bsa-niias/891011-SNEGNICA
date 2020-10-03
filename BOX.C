@@ -8,6 +8,9 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <bios.h>
+
+extern unsigned _stklen;
+
 void add(int kk,unsigned char ob)
 {
 	unsigned char ZAPIS[35],nom[5];
@@ -227,6 +230,14 @@ void zvuk_vkl(int tip1,int dlit1)
 //--------------------------------------------------
 void nom_func(char *txt)
 {
+/*
+	FILE* hDFile;
+	hDFile = fopen ("func.dbg", "a");
+	fprintf (hDFile, "%s\n",txt);
+	fclose (hDFile);
+	return;
+*/
+
 #ifdef NALAD
 	setcolor(7);
 	if(Y_txt>0)outtextxy(25,Y_txt-10,"Û");
