@@ -337,7 +337,7 @@ void FORM_BUF_PVM_OUT()
 					{ BUF_OUT_PVM[UKAZ_ZAP_OUT]=REG_COM[i];
             if(UKAZ_ZAP_OUT==MAX_SIZE_OUT-1)UKAZ_ZAP_OUT=0;
             else UKAZ_ZAP_OUT++;
-          }
+					}
 					MY_COM=0;
           POVTOR_COM++;
         }
@@ -369,7 +369,9 @@ form_otv(int st)
 
 	nom_func("84");
 
+	if (DSP_SHN == 0) return; // для АРМ ШН не формируем ответ
 	if(DISK!=0)return;
+
 	//определить стойку по заголовку
 	gas1=(REG_INFO[st][1]&3)-1;
 	if(ZAGRUZKA==1)
@@ -1117,6 +1119,14 @@ void test_port_pvm()
 	int cl=0,cll=0,kol_poo,x=12,y=53,ij;
 	char q1[6],AAq[2]="";
 	nom_func("347");
+	//2020-10-09
+	if (DSP_SHN == 0)
+	{
+		 STATUS=0;
+     return;
+	}
+	else;
+
 	if(BAZ_ADR5 == 0) return;
 	if(DISK!=0)return;
 	if(new_day==1)return;
