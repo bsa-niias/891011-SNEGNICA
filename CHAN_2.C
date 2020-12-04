@@ -422,7 +422,7 @@ form_otv(int st)
 		 outportb(BAZ_ADR1+1,0x03);
 		 enable ();
 
-		 setcolor(4); outtextxy(1,31,"Û");
+		 setcolor(8); outtextxy(1,31,"þ"); //Û");
 	}
 	else
 	{
